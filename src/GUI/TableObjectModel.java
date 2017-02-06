@@ -6,15 +6,15 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableObjectModel extends AbstractTableModel {
-    private List<ITableObject> _items = new ArrayList<>();
+public class TableObjectModel<TItem extends ITableObject> extends AbstractTableModel {
+    private List<TItem> _items = new ArrayList<>();
     private String[] _columns;
 
     public TableObjectModel(String[] columns) {
         _columns = columns;
     }
 
-    public void setItems(ArrayList<ITableObject> items) {
+    public void setItems(ArrayList<TItem> items) {
         _items = items;
     }
 
@@ -43,5 +43,9 @@ public class TableObjectModel extends AbstractTableModel {
             default:
                 return "Mistakes were made";
         }
+    }
+
+    public TItem getObject(int row) {
+        return _items.get(row);
     }
 }
