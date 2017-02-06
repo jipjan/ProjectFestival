@@ -17,7 +17,7 @@ public class Import {
             fileIn.close();
         }catch(IOException i) {
             i.printStackTrace();
-        }catch(ClassNotFoundException c) {
+        } catch(ClassNotFoundException c) {
             c.printStackTrace();
         }
         return e;
