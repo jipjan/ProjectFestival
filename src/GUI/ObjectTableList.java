@@ -1,6 +1,5 @@
 package GUI;
 
-import AI.TableObjectModel;
 import javax.swing.*;
 
 public class ObjectTableList<ITableObject> extends JTable {

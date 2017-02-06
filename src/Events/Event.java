@@ -2,7 +2,9 @@ package Events;
 
 import java.io.Serializable;
 
-public class Event implements Serializable {
+
+
+public class Event implements GUI.ITableObject, Serializable {
     short _popularity;
     String _performer;
     String _name;

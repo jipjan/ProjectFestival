@@ -1,4 +1,4 @@
-package AI;
+package GUI;
 
 import GUI.ITableObject;
 
@@ -14,6 +14,10 @@ public class TableObjectModel extends AbstractTableModel {
         _columns = columns;
     }
 
+    public void setItems(ArrayList<ITableObject> items) {
+        _items = items;
+    }
+
     @Override
     public int getRowCount() {
         return _items.size();
@@ -22,6 +26,10 @@ public class TableObjectModel extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         return _columns.length;
+    }
+
+    public String getColumnName(int col) {
+        return _columns[col];
     }
 
     @Override
