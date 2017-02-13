@@ -5,7 +5,7 @@ import GUI.ITableObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Events<T extends Event> extends ArrayList<T> implements Serializable {
+public class Events extends ArrayList<Event> implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Events) {
