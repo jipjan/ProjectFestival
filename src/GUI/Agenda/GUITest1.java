@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Date;
 
-
 public class GUITest1 {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Hello Java2D");

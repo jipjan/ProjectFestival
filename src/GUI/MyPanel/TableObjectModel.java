@@ -10,7 +10,7 @@ public class TableObjectModel<TItem extends ITableObject> extends AbstractTableM
     private List<TItem> _items = new ArrayList<>();
     private String[] _columns;
 
-    public TableObjectModel(String[] columns) {
+    public TableObjectModel(String... columns) {
         _columns = columns;
     }
 
