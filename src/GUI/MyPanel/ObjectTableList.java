@@ -1,8 +1,8 @@
-package GUI;
+package GUI.MyPanel;
 
 import javax.swing.*;
 
-public class ObjectTableList<ITableObject> extends JTable {
+public class ObjectTableList extends JTable {
     public ObjectTableList(TableObjectModel model) {
         setModel(model);
     }

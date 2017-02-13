@@ -1,4 +1,6 @@
-package GUI;
+package GUI.MyPanel;
+
+import GUI.MyPanel.ITableObject;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;

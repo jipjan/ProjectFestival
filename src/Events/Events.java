@@ -1,7 +1,5 @@
 package Events;
 
-import GUI.ITableObject;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
