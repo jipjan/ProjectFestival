@@ -1,4 +1,4 @@
-package GUI;
+package GUI.MyPanel;
 
 public interface ITableObject {
     String getName();

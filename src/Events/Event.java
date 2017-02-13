@@ -1,10 +1,12 @@
 package Events;
 
+import GUI.MyPanel.ITableObject;
+
 import java.io.Serializable;
 
 
 
-public class Event implements GUI.ITableObject, Serializable {
+public class Event implements ITableObject, Serializable {
     short _popularity;
     String _performer;
     String _name;
