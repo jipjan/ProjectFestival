@@ -1,5 +1,7 @@
 package GUI;
 
+import GUI.Agenda.AgendaTabPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +14,7 @@ public class MainFrame extends JFrame{
         new MainFrame();
     }
 
-    MainFrame()
+    public MainFrame()
     {
         super("festival planner");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -37,7 +39,7 @@ public class MainFrame extends JFrame{
         setContentPane(tabbedPane);
         tabbedPane.setMinimumSize(new Dimension(700, 490));
 
-        JPanel agenda = new JPanel();
+        JPanel agenda = new AgendaTabPanel();
         agenda.setName("Agenda");
         agenda.setMinimumSize(new Dimension( 700, 490));
         tabbedPane.add(agenda);

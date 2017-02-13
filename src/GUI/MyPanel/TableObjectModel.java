@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TableObjectModel<TItem extends ITableObject> extends AbstractTableModel {
-    private List<TItem> _items = new ArrayList<>();
+    private List<TItem> _items;
     private String[] _columns;
 
-    public TableObjectModel(String... columns) {
+    public TableObjectModel(ArrayList<TItem> items, String... columns) {
+        _items = items;
         _columns = columns;
     }
 
@@ -39,13 +40,15 @@ public class TableObjectModel<TItem extends ITableObject> extends AbstractTableM
             case 0:
                 return obj.getName();
             case 1:
+                return obj.getDuration();
+            case 2:
                 return obj.getPopularity();
             default:
                 return "Mistakes were made";
         }
     }
 
-    public TItem getObject(int row) {
+    public TItem getItem(int row) {
         return _items.get(row);
     }
 }

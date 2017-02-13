@@ -9,7 +9,7 @@ import java.awt.*;
 public class AgendaTabPanel extends JPanel {
 
     public AgendaTabPanel() {
-        add(new AgendaTable(), BorderLayout.WEST);
+        add(new JScrollPane(new AgendaTable()), BorderLayout.WEST);
         //add(new )
     }
 

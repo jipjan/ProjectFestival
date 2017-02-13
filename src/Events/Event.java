@@ -18,6 +18,11 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
         return _popularity;
     }
 
+    @Override
+    public long getDuration() {
+        return _time.getDurationInMinutes();
+    }
+
     public String getPerformer() {
         return _performer;
     }

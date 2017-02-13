@@ -8,8 +8,7 @@ import javax.swing.*;
 
 public class AgendaTable extends JTable {
     public AgendaTable() {
-        TableObjectModel<Event> m = new TableObjectModel<>("Entertainer", "Tijd", "Populariteit");
-        m.setItems(CurrentSetup.Events);
+        TableObjectModel<Event> m = new TableObjectModel<>(CurrentSetup.Events, "Entertainer", "Tijd (in minuten)", "Populariteit");
         setModel(m);
     }
 }
