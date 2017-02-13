@@ -1,6 +1,6 @@
-package GUI;
+package GUI.MyPanel;
 
-import GUI.ITableObject;
+import GUI.MyPanel.ITableObject;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ public class TableObjectModel<TItem extends ITableObject> extends AbstractTableM
     private List<TItem> _items = new ArrayList<>();
     private String[] _columns;
 
-    public TableObjectModel(String[] columns) {
+    public TableObjectModel(String... columns) {
         _columns = columns;
     }
 
