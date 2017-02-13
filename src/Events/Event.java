@@ -1,8 +1,5 @@
 package Events;
-
 import java.io.Serializable;
-
-
 
 public class Event implements GUI.ITableObject, Serializable {
     short _popularity;
