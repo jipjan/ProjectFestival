@@ -44,7 +44,7 @@ public class TableObjectModel<TItem extends ITableObject> extends AbstractTableM
             case 2:
                 return obj.getPopularity();
             default:
-                return "Mistakes were made";
+                return "Mistakes were made, very sad :(";
         }
     }
 

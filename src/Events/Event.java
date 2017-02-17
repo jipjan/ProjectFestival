@@ -3,10 +3,17 @@ import java.io.Serializable;
 
 public class Event implements GUI.MyPanel.ITableObject, Serializable {
     short _popularity;
-
     String _performer;
     String _name;
     Time _time;
+
+
+    /** constructor for an event planned or not
+     * @param name        the name of the event
+     * @param performer   the name of the performer
+     * @param popularity  unidentified scale for popularity of the event
+     * @param time        the begin and end date of the event in a Time object
+     */
     public Event(String name, String performer, short popularity, Time time) {
         _name = name;
         _popularity = popularity;
