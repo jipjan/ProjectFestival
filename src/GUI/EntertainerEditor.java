@@ -10,12 +10,12 @@ import java.awt.event.*;
  */
 
 
-public class entertainerEditor extends JPanel
+public class EntertainerEditor extends JPanel
 {
 
     public static void main(String[] args)
     {
-        entertainerEditor editor = new entertainerEditor();
+        EntertainerEditor editor = new EntertainerEditor();
 
         JFrame testFrame = new JFrame();
         testFrame.setTitle("testFrame");
@@ -28,7 +28,7 @@ public class entertainerEditor extends JPanel
         testFrame.setVisible(true);
     }
 
-    entertainerEditor()
+    EntertainerEditor()
     {
         super(new GridLayout(7,1));
         JPanel name = new JPanel(new FlowLayout());

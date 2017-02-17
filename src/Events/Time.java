@@ -13,6 +13,22 @@ public class Time implements Serializable {
         _endDate = end;
     }
 
+
+    /**
+     * constructor for Time for a Event that is not yet planned in
+     *
+     * @param minutes the minutes of how long the event takes Canot be longer than a day (glitch will occur)
+     */
+    public Time(int minutes)
+    {
+        int beginYear = 0, beginMounth = 0, beginDate = 0, beginHour =0, beginminute = 0; //the standard time of not yet planned Event
+        _beginDate = new Date(beginYear ,beginMounth,beginDate,beginHour, beginminute);
+
+        int endMinute=+ minutes % 60;
+        int endHour = minutes/60;
+        _endDate = new Date(beginYear, beginMounth, beginDate, endHour, endMinute);
+    }
+
     public Date getBeginDate() {
         return _beginDate;
     }
