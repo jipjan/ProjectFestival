@@ -16,7 +16,7 @@ public class GUITest1 {
         frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         JPanel p = new JPanel();
         Events.Events e = new Events.Events();
-        e.add(new Events.Event("Test", "K3", (short) 5, new Time(new Date(), new Date())));
+        e.add(new Events.Event("Test", (short) 5, new Time(new Date(), new Date())));
         TableObjectModel m = new TableObjectModel(e, new String[] { "Podium 1", "Podium 2", "Podium 3"});
         ObjectTableList list = new ObjectTableList(m);
         list.setSize(new Dimension(250, 250));
