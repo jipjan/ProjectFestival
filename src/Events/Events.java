@@ -2,8 +2,13 @@ package Events;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Events extends ArrayList<Event> implements Serializable {
+    public Events(List<Event> events) {
+        super(events);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Events) {
