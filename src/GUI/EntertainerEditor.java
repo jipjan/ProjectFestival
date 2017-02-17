@@ -21,7 +21,7 @@ public class EntertainerEditor extends JPanel
 
     public static void main(String[] args)
     {
-        String testName = "TestName";
+        String testName = "Test artiest";
         short popularity = 5;
         Time time = new Time(10);
         EntertainerEditor editor = new EntertainerEditor(new Event(testName,popularity,time));
@@ -104,6 +104,7 @@ public class EntertainerEditor extends JPanel
                     System.out.println(event.getName());
                     System.out.println(event.getPopularity());
                     System.out.println(event.getTime().getDurationInMinutes());
+                    System.out.println(event.getTime().getEndDate());
                 }
             }
         });

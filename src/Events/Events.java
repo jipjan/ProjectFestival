@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Events extends ArrayList<Event> implements Serializable {
+    public final String saveLocation = "";
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Events) {
@@ -16,5 +18,10 @@ public class Events extends ArrayList<Event> implements Serializable {
             }
         }
         return false;
+    }
+
+    public void save()
+    {
+
     }
 }
