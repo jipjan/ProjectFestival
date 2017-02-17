@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class GUITest1 {
     public static void main(String[] args) {
+        /*
         JFrame frame = new JFrame("Hello Java2D");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(800, 600));
@@ -23,5 +24,6 @@ public class GUITest1 {
         p.add(new JScrollPane(list));
         frame.setContentPane(p);
         frame.setVisible(true);
+        */
     }
 }
