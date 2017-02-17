@@ -10,17 +10,17 @@ import java.awt.event.*;
  */
 
 
-public class entertainerEditor extends JFrame
+public class EntertainerEditor extends JFrame
 {
     public static void main(String[] args)
     {
-        entertainerEditor editor = new entertainerEditor();
+        EntertainerEditor editor = new EntertainerEditor();
     }
 
 
-    public entertainerEditor()
+    public EntertainerEditor()
     {
-        super("Super simple rekenmachine");
+        super("Entertainer Editor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel editor = new JPanel(new GridLayout(7,1));
 
