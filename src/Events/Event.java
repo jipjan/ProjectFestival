@@ -3,10 +3,10 @@ import java.io.Serializable;
 
 public class Event implements GUI.MyPanel.ITableObject, Serializable {
     short _popularity;
+
     String _performer;
     String _name;
     Time _time;
-
     public Event(String name, String performer, short popularity, Time time) {
         _name = name;
         _popularity = popularity;
@@ -33,6 +33,22 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
 
     public Time getTime() {
         return _time;
+    }
+
+    public void set_popularity(short _popularity) {
+        this._popularity = _popularity;
+    }
+
+    public void set_performer(String _performer) {
+        this._performer = _performer;
+    }
+
+    public void set_name(String _name) {
+        this._name = _name;
+    }
+
+    public void set_time(Time _time) {
+        this._time = _time;
     }
 
     @Override
