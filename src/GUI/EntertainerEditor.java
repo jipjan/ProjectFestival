@@ -33,16 +33,15 @@ public class EntertainerEditor extends JPanel
         testFrame.add(editor);
 
         //testFrame.setContentPane(editor);
-        testFrame.setSize(300, 400);
         testFrame.setVisible(true);
 
     }
 
-    EntertainerEditor(Events.Event event)
+    public void updateEvent(Events.Event event)
     {
-
-        super(new GridLayout(7,1));
+        setBackground(Color.pink);
         JPanel name = new JPanel(new FlowLayout());
+        name.setBackground(Color.pink);
         add(name);
         JLabel nameLbl = new JLabel("name:", SwingConstants.LEFT);
         name.add(nameLbl);
@@ -50,9 +49,8 @@ public class EntertainerEditor extends JPanel
         name.add(nameText);
 
         boolean testing = true;
-
-
         JPanel time = new JPanel(new FlowLayout());
+        time.setBackground(Color.pink);
         add(time);
         JLabel timeLbl = new JLabel("entertain time:", SwingConstants.LEFT);
         time.add(timeLbl);
@@ -108,8 +106,11 @@ public class EntertainerEditor extends JPanel
             }
         });
         save.add(saveBut);
+    }
 
-
-
+    EntertainerEditor(Events.Event event)
+    {
+        super(new GridLayout(7,1));
+        updateEvent( event);
     }
 }
