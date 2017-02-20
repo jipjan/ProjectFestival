@@ -8,5 +8,5 @@ import java.util.Date;
 
 public class CurrentSetup {
     public static Events Events = new Events(
-        Arrays.asList(new Event("Test", "K3", (short) 5, new Time(new Date(), new Date()),1), new Event("Test", "Test", (short) 2, new Time(new Date(), new Date()), 2)));
+        Arrays.asList(new Event("K3 Festival", "K3", (short) 5, new Time(new Date(), new Date()),1), new Event("Test", "Test", (short) 2, new Time(new Date(), new Date()), 2)));
 }

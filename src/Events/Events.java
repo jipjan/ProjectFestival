@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Events extends ArrayList<Event> implements Serializable {
+    public Events() {
+        super();
+    }
+
     public Events(List<Event> events) {
         super(events);
     }
