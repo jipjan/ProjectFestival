@@ -58,14 +58,13 @@ public class Agenda extends JPanel {
         for (i = 0; i <= 24; i++) {
             dataRow1 = "";
             rowTime = i + ":00";
-            System.out.println("1");
             try {
                 d = time.parse(String.valueOf(i));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             for (Events.Event e : CurrentSetup.Events)
-            { System.out.println("2");
+            {
                 switch (e.getPodium()) {
                     case 1:
                         if(duration1 !=0){
@@ -77,22 +76,21 @@ public class Agenda extends JPanel {
                             dataRow1 = dataRow1+e.getName();
                         oldname1=dataRow1;
                         duration1=e.getDuration();
-                        System.out.println(dataRow1);
+                        System.out.println("else if case 1");
                         break;
                     case 2:
                         if(duration2 !=0){
-                            dataRow1=oldname2;
-                            dataRow1 = dataRow1+e.getName();
+                            dataRow2=oldname2;
+                            dataRow2 = dataRow2+e.getName();
                             duration2--;
                         }
                         else if(timeCompare(d, e.getTime()))
                             dataRow2 = dataRow2+e.getName();
                         oldname2=dataRow2;
                         duration2=e.getDuration();
-                        System.out.println(dataRow2);
+                        System.out.println("else if case 2");
                         break;
                     case 3:
-
                         if(duration3 !=0){
                             dataRow3=oldname3;
                             dataRow3 = dataRow3+e.getName();
@@ -102,7 +100,7 @@ public class Agenda extends JPanel {
                             dataRow3 = dataRow3+e.getName();
                         oldname3=dataRow3;
                         duration3=e.getDuration();
-                        System.out.println(dataRow3);
+                        System.out.println("else if case 3");
                         break;
                 }
             }
