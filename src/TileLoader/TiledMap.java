@@ -3,10 +3,7 @@ package TileLoader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,18 +13,18 @@ import javax.json.JsonArray;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
 
-/**
- * Created by thijs_000 on 20-Feb-17.
+/*
+ * Created by Thijs on 20-Feb-17.
  */
 public class TiledMap
 {
     private ArrayList<TiledLayer>layers = new ArrayList<>();
-    //private ArrayList<BufferedImage> tiles = new ArrayList<>();
-    private ArrayList<TiledMap>tilemaps = new ArrayList<>();
+    private ArrayList<BufferedImage> tiles = new ArrayList<>();
+    //private ArrayList<TiledMap>tilemaps = new ArrayList<>();
 
     public static void main(String[] args)
     {
-        TiledMap tilemap = new TiledMap();
+            TiledMap tilemap = new TiledMap();
     }
 
     public TiledMap()
@@ -35,9 +32,16 @@ public class TiledMap
         JsonObject jsonObject = null;
 
 
-        InputStream is = new FileInputStream(JSON_FILE1);
+        JsonReader reader = null;
+        try
+        {
+            reader = Json.createReader(new FileReader("./MappieV2.json"));
+        } catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        JsonObject rootObject = (JsonObject)reader.read();
 
-        JsonReader jsonReader = Json.createReader(is);
 
 
 
