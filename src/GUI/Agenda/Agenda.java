@@ -16,8 +16,6 @@ public class Agenda extends JPanel {
 
     public Agenda() {
 
-        //Event moet later vanuit andere klasse komen
-
         String[] header = {"Time:", "Podium 1", "Podium 2", "Podium 3"};
         String[][] data = {{"uWotM9"}};
 
@@ -83,6 +81,7 @@ public class Agenda extends JPanel {
                             dataRow2=oldname2;
                             dataRow2 = dataRow2+e.getName();
                             duration2--;
+                            System.out.println("Herhaling case 2");
                         }
                         else if(timeCompare(d, e.getTime()))
                             dataRow2 = dataRow2+e.getName();
