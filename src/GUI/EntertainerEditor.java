@@ -108,7 +108,7 @@ public class EntertainerEditor extends JPanel
         save.add(saveBut);
     }
 
-    EntertainerEditor(Events.Event event)
+    public EntertainerEditor(Events.Event event)
     {
         super(new GridLayout(7,1));
         updateEvent( event);

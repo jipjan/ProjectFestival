@@ -19,20 +19,6 @@ public class ObjectTableList extends JPanel {
     public ObjectTableList(Events events) {
         super(new FlowLayout());
         table = new JTable();
-
-        /*
-        JButton addButton = new JButton("add");
-        JButton Remove = new JButton("remove");
-        add(addButton);
-        add(Remove);
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                table.setModel(new TableObjectModel(events , "","",""));
-
-            }
-        });
-        */
         setBackground(Color.pink);
         table.setModel(new TableObjectModel(events , "","",""));
         add(table);
