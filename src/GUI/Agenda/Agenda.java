@@ -44,7 +44,7 @@ public class Agenda extends JPanel {
         String dataRow2 = "";//new JLabel("test");
         String dataRow3 = "";//new JLabel("test");
         SimpleDateFormat f = new SimpleDateFormat("HH:00");
-        SimpleDateFormat time = new SimpleDateFormat("hh");
+        SimpleDateFormat time = new SimpleDateFormat("HH");
         Date d = null;
         long duration1 = 0;
         long duration2 = 0;
@@ -53,8 +53,12 @@ public class Agenda extends JPanel {
         String oldname2="";
         String oldname3="";
 
+
+
         for (i = 0; i <= 24; i++) {
             dataRow1 = "";
+            dataRow2 = "";
+            dataRow3 = "";
             rowTime = i + ":00";
             try {
                 d = time.parse(String.valueOf(i));
@@ -64,43 +68,43 @@ public class Agenda extends JPanel {
             for (Events.Event e : CurrentSetup.Events)
             {
                 switch (e.getPodium()) {
-                    case 1:
-                        if(duration1 !=0){
-                            dataRow1=oldname1;
-                            dataRow1 = dataRow1+e.getName();
+                    case 1: {
+                        if (duration1 != 0) {
+                            dataRow1 = oldname1;
+                            dataRow1 = dataRow1 + e.getName();
                             duration1--;
-                    }
-                        else if(timeCompare(d, e.getTime()))
-                            dataRow1 = dataRow1+e.getName();
-                        oldname1=dataRow1;
-                        duration1=e.getDuration();
+                        } else if (timeCompare(d, e.getTime()))
+                            dataRow1 = dataRow1 + e.getName();
+                        oldname1 = dataRow1;
+                        duration1 = e.getDuration();
                         System.out.println("else if case 1");
                         break;
-                    case 2:
-                        if(duration2 !=0){
-                            dataRow2=oldname2;
-                            dataRow2 = dataRow2+e.getName();
+                    }
+                    case 2: {
+                        if (duration2 != 0) {
+                            dataRow2 = oldname2;
+                            dataRow2 = dataRow2 + e.getName();
                             duration2--;
                             System.out.println("Herhaling case 2");
-                        }
-                        else if(timeCompare(d, e.getTime()))
-                            dataRow2 = dataRow2+e.getName();
-                        oldname2=dataRow2;
-                        duration2=e.getDuration();
+                        } else if (timeCompare(d, e.getTime()))
+                            dataRow2 = dataRow2 + e.getName();
+                        oldname2 = dataRow2;
+                        duration2 = e.getDuration();
                         System.out.println("else if case 2");
                         break;
-                    case 3:
-                        if(duration3 !=0){
-                            dataRow3=oldname3;
-                            dataRow3 = dataRow3+e.getName();
+                    }
+                    case 3: {
+                        if (duration3 != 0) {
+                            dataRow3 = oldname3;
+                            dataRow3 = dataRow3 + e.getName();
                             duration3--;
-                        }
-                        else if(timeCompare(d, e.getTime()))
-                            dataRow3 = dataRow3+e.getName();
-                        oldname3=dataRow3;
-                        duration3=e.getDuration();
+                        } else if (timeCompare(d, e.getTime()))
+                            dataRow3 = dataRow3 + e.getName();
+                        oldname3 = dataRow3;
+                        duration3 = e.getDuration();
                         System.out.println("else if case 3");
                         break;
+                    }
                 }
             }
             model.addRow(new Object[]{rowTime, dataRow1, dataRow2, dataRow3});
@@ -153,4 +157,3 @@ public class Agenda extends JPanel {
     }
 
 }
-
