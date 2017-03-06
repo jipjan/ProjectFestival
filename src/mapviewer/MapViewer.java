@@ -39,7 +39,7 @@ public class MapViewer extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         this.drawGrid(g2d);
-        this.drawCrosshair(g2d);
+        //this.drawCrosshair(g2d);
 
 
         // KEEP THIS ORDER - DO NOT EDIT UNLESS FUCKERY IS WANTED
@@ -55,7 +55,7 @@ public class MapViewer extends JPanel {
         // YOU CAN EDIT BEYOND THIS POINT AGAIN!
 
         this.drawStats(g2d);
-
+/*
         g2d.setColor(Color.blue);
 
         // Top Vertical line
@@ -69,10 +69,11 @@ public class MapViewer extends JPanel {
 
         // Right Horizontal line
         g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
+        */
     }
 
     private void drawStats(Graphics2D g2d)
-    {
+    {/*
         int statCount = 12;
         int statHeight = 14;
 
@@ -84,7 +85,7 @@ public class MapViewer extends JPanel {
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         g2d.fillRect(0, 0, 350, statCount * statHeight);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-        g2d.setColor(Color.white);/*
+        g2d.setColor(Color.white);
         g2d.translate(0, statHeight);
         g2d.drawString("Zoom Factor: " + this.camera.getZoom(), 0, 0);
         g2d.translate(0, statHeight);
