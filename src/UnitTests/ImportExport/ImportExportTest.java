@@ -16,7 +16,7 @@ public class ImportExportTest {
     public void testExportImport()
     {
         Events a = new Events();
-        a.add(new Event("Test", (short) 5, new Time(new Date(), new Date())));
+        a.add(new Event("Test", "K3", (short) 5, new Time(new Date(), new Date()), 1));
         ExportFile("test", a);
         Events b = ImportObject("test");
         assertEquals(a, b);
