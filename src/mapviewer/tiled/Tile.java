@@ -2,7 +2,7 @@ package mapviewer.tiled;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by Michel on 20-2-2017.
+ * Created by Thijs on 20-2-2017.
  */
 public class Tile {
     private int width;

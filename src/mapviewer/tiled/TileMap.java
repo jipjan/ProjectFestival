@@ -17,7 +17,7 @@ import java.nio.Buffer;
 import java.util.ArrayList;
 
 /**
- * Created by Michel on 20-2-2017.
+ * Created by Thijs on 20-2-2017.
  */
 public class TileMap {
 
