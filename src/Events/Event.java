@@ -43,11 +43,6 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
     public boolean equals(Object obj) {
         if (obj instanceof Event) {
             Event other = (Event) obj;
-            boolean pop = getPopularity() == other.getPopularity();
-            boolean perf = getPerformer().equals(other.getPerformer());
-            boolean name = getName().equals(other.getName());
-            boolean time = getTime().equals(other.getTime());
-
             return (getPopularity() == other.getPopularity()
                     && getPerformer().equals(other.getPerformer())
                     && getName().equals(other.getName())
