@@ -1,9 +1,8 @@
 package ImportExport;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import com.google.gson.Gson;
+
+import java.io.*;
 
 public class Import {
     public static <T extends Serializable> T ImportObject(String fileLocation)
@@ -19,6 +18,17 @@ public class Import {
             i.printStackTrace();
         } catch(ClassNotFoundException c) {
             c.printStackTrace();
+        }
+        return e;
+    }
+
+    public static <T> T ImportJsonObject(String fileLocation, Class<T> typeClass) {
+        Gson obj = new Gson();
+        T e = null;
+        try {
+            e = obj.fromJson(new FileReader(fileLocation), typeClass);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
         return e;
     }
