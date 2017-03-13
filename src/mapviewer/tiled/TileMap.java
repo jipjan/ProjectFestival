@@ -102,6 +102,7 @@ public class TileMap {
             // TODO: Add comments regarding what this code does
             JsonArray jsonLayers = o.getJsonArray("layers");
             for (int i = 0; i < jsonLayers.size(); i++) {
+                //add if statement here so if it's an object layer it actually makes an object layer.
                 TileLayer layer = new TileLayer(jsonLayers.getJsonObject(i), this);
                 if(jsonLayers.getJsonObject(i).getString("name").equals("Path"))
                     continue;
