@@ -1,40 +1,15 @@
 package GUI.Agenda.Planning;
 
-
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceEvent;
-import java.awt.dnd.DragSourceListener;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
+import java.awt.dnd.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TooManyListenersException;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JSplitPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -45,13 +20,9 @@ import de.jaret.util.date.JaretDate;
 import de.jaret.util.misc.Pair;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.mod.DefaultIntervalModificator;
-import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
-import de.jaret.util.ui.timebars.model.TimeBarRow;
-import de.jaret.util.ui.timebars.model.TimeBarSelectionListener;
-import de.jaret.util.ui.timebars.model.TimeBarSelectionModel;
+import de.jaret.util.ui.timebars.model.*;
 import de.jaret.util.ui.timebars.swing.TimeBarViewer;
 import de.jaret.util.ui.timebars.swing.renderer.BoxTimeScaleRenderer;
-import de.jaret.util.ui.timebars.swing.renderer.ITitleRenderer;
 
 public class SchedulingPanel extends JPanel {
 
