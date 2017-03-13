@@ -30,8 +30,13 @@ public class Time implements Serializable {
     public boolean equals(Object obj) {
         if (obj instanceof Time) {
             Time other = (Time) obj;
-            return other.getBeginDate().equals(getBeginDate()) && other.getEndDate().equals(getEndDate());
+            return inRange(getBeginDate(), other.getBeginDate(), 5000)
+                    && inRange(getEndDate(), other.getEndDate(), 5000);
         }
         return false;
+    }
+
+    private boolean inRange(Date d1, Date d2, int range) {
+        return d1.getTime() >= d2.getTime() - range && d1.getTime() <= d2.getTime() + range;
     }
 }
