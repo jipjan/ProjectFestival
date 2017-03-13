@@ -23,5 +23,7 @@
     <orderEntry type="library" name="timebars-1.49" level="project" />
     <orderEntry type="library" name="gson-2.8.0 (2)" level="project" />
     <orderEntry type="library" name="javax.json-1.0.4 (2)" level="project" />
+    <orderEntry type="library" name="gson-2.8.0 (2)" level="project" />
+    <orderEntry type="library" name="jaretutil-0.32" level="project" />
   </component>
 </module>
