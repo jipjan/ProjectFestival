@@ -1,39 +1,45 @@
 package GUI;
 
-import GUI.CustomTabbedPaneUI;
+import GUI.MyPanel.ObjectTableList;
+import GUI.entertainerEditor.EntertainerEditorPanel;
 
 import java.awt.*;
 import javax.swing.*;
-
-public class TabbedPane extends JPanel {
+public class TabbedPane extends ColoredJPanel {
 
     private static final long serialVersionUID = 1L;
 
     public TabbedPane() {
+        Events.Events eventList = new Events.Events();
+
         setLayout(new BorderLayout());
-        JPanel jp = new JPanel();
+        JPanel jp = new ColoredJPanel();
         jp.setLayout(new BorderLayout());
         JTabbedPane tb = new JTabbedPane();
         tb.setUI(new CustomTabbedPaneUI());
+        //setup tests------------------------------------------------------------------------
 
-        JPanel agenda = new JPanel();
+        eventList.add(new Events.Event("empty", "empty",(short) 0,new Events.Time(60),0));
+        //---------------------------------------------------------------------------------
+
+        JPanel agenda = new ColoredJPanel(new FlowLayout());
         agenda.setName("Agenda");
-        agenda.setBackground(Color.pink);
+        ObjectTableList agendaObjectTable = new ObjectTableList(eventList);
+        agenda.add(agendaObjectTable);
         tb.add(agenda);
 
-        JPanel eventEditor = new JPanel();
-        eventEditor.setName("Event editor");
-        eventEditor.setBackground(Color.pink);
+        //___________________________________________________________________________________
+        JPanel eventEditor = new EntertainerEditorPanel(eventList); //new JPanel(new FlowLayout());
         tb.add(eventEditor);
 
-        JPanel simulation = new JPanel();
+        //___________________________________________________________________________________
+        JPanel simulation = new ColoredJPanel(new FlowLayout());
         simulation.setName("Simulation");
-        simulation.setBackground(Color.pink);
         tb.add(simulation);
 
-        JPanel mapEditor = new JPanel();
+        //'__________________________________________________________________________________
+        JPanel mapEditor = new ColoredJPanel(new FlowLayout());
         mapEditor.setName("Map editor");
-        mapEditor.setBackground(Color.pink);
         tb.add(mapEditor);
 
 
@@ -47,6 +53,7 @@ public class TabbedPane extends JPanel {
         frame.getContentPane().add(new TabbedPane());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 500);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }

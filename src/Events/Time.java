@@ -8,6 +8,15 @@ public class Time implements Serializable {
     Date _beginDate;
     Date _endDate;
 
+    public Time(int time) {
+        Date beginDate = new Date();
+        Date endDate = new Date();
+        _beginDate = beginDate;
+        endDate.setTime(_beginDate.getTime() + time * 60 *1000);
+        _endDate = endDate;
+
+    }
+
     public Time(Date begin, Date end) {
         _beginDate = begin;
         _endDate = end;

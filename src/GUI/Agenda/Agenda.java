@@ -1,6 +1,7 @@
 package GUI.Agenda;
 
 import Events.Time;
+import GUI.ColoredJPanel;
 import GUI.CurrentSetup;
 
 import javax.swing.*;
@@ -11,10 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Agenda extends JPanel {
+public class Agenda extends ColoredJPanel {
     JTable table;
 
     public Agenda() {
+        super();
 
         String[] header = {"Time:", "Podium 1", "Podium 2", "Podium 3"};
         String[][] data = {{"uWotM9"}};
