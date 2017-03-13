@@ -1,7 +1,10 @@
 package Events;
+import de.jaret.util.date.Interval;
+import de.jaret.util.date.IntervalImpl;
+
 import java.io.Serializable;
 
-public class Event implements GUI.MyPanel.ITableObject, Serializable {
+public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Serializable, Interval {
     short _popularity;
     String _performer;
     String _name;
@@ -38,6 +41,10 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
     }
 
     public int getPodium() {return _podium;}
+
+    public int getSeconds() {
+        return (int) (_time.getBeginDate().getTime() - _time.getEndDate().getTime()) / 1000;
+    }
 
     @Override
     public boolean equals(Object obj) {

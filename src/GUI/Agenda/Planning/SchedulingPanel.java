@@ -38,6 +38,8 @@ import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Events.Event;
+import GUI.CurrentSetup;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.misc.Pair;
@@ -53,14 +55,14 @@ import de.jaret.util.ui.timebars.swing.renderer.ITitleRenderer;
 
 public class SchedulingPanel extends JPanel {
 
-    JTable _jobTable;
-    JobTableModel _jobTableModel;
+    JTable _EventTable;
+    EventTableModel _EventTableModel;
 
     TimeBarViewer _tbv;
     ScheduleTimeBarModel _model;
 
-    protected List<Job> _draggedJobs;
-    protected List<Integer> _draggedJobsOffsets;
+    protected List<Event> _draggedEvents;
+    protected List<Integer> _draggedEventsOffsets;
 
     protected JaretDate _tbvDragOrigBegin;
     protected JaretDate _tbvDragOrigEnd;
@@ -90,22 +92,22 @@ public class SchedulingPanel extends JPanel {
         _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
 
         // register the renderer
-        _tbv.registerTimeBarRenderer(Job.class, new JobRenderer());
+        _tbv.registerTimeBarRenderer(Event.class, new EventRenderer());
 
         setUpDND(_tbv);
 
         createActions(_tbv);
 
         // table
-        _jobTableModel = createJobTableModel();
-        _jobTable = new JTable(_jobTableModel);
-        JScrollPane scroll = new JScrollPane(_jobTable);
+        _EventTableModel = new EventTableModel(CurrentSetup.Events);
+        _EventTable = new JTable(_EventTableModel);
+        JScrollPane scroll = new JScrollPane(_EventTable);
         splitPane.setBottomComponent(scroll);
 
         // add dnd support
         DragSource dragSource = DragSource.getDefaultDragSource();
-        DragGestureListener dgl = new JobTableDragGestureListener();
-        DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(_jobTable, DnDConstants.ACTION_MOVE,
+        DragGestureListener dgl = new EventTableDragGestureListener();
+        DragGestureRecognizer dgr = dragSource.createDefaultDragGestureRecognizer(_EventTable, DnDConstants.ACTION_MOVE,
                 dgl);
 
         // controls at the bottom
@@ -113,10 +115,6 @@ public class SchedulingPanel extends JPanel {
         add(controlPanel, BorderLayout.SOUTH);
 
 
-        // setup title renderer
-        // use the component directly
-        ITitleRenderer trenderer = new ScheduleingTitleRenderer();
-        _tbv.setTitleRenderer(trenderer);
         _tbv.setUseTitleRendererComponentInPlace(true);
 
     }
@@ -161,7 +159,7 @@ public class SchedulingPanel extends JPanel {
 
         };
         pop.add(action);
-        _tbv.registerPopupMenu(Job.class, pop);
+        _tbv.registerPopupMenu(Event.class, pop);
     }
 
     private void unscheduleSelected() {
@@ -169,14 +167,14 @@ public class SchedulingPanel extends JPanel {
         for (Interval interval : intervals) {
             TimeBarRow row = _model.getRowForInterval(interval);
             ((DefaultTimeBarRowModel)row).remInterval(interval);
-            _jobTableModel.addJob((Job)interval);
+            _EventTableModel.addEvent((Event)interval);
         }
     }
     private void clearRow(TimeBarRow row) {
         List<Interval> intervals = new ArrayList<Interval>(row.getIntervals());
         for (Interval interval : intervals) {
             ((DefaultTimeBarRowModel)row).remInterval(interval);
-            _jobTableModel.addJob((Job)interval);
+            _EventTableModel.addEvent((Event)interval);
         }
     }
 
@@ -200,12 +198,12 @@ public class SchedulingPanel extends JPanel {
                 }
 
                 public void drop(DropTargetDropEvent evt) {
-                    if (_draggedJobs != null) {
+                    if (_draggedEvents != null) {
                         TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                         if (overRow != null) {
-                            for (Job job : _draggedJobs) {
-                                ((DefaultTimeBarRowModel) overRow).addInterval(job);
-                                _jobTableModel.removeJob(job);
+                            for (Event Event : _draggedEvents) {
+                                ((DefaultTimeBarRowModel) overRow).addInterval(Event);
+                                _EventTableModel.removeEvent(Event);
                             }
                             tbv.setGhostIntervals(null, null);
                             evt.dropComplete(true);
@@ -224,12 +222,12 @@ public class SchedulingPanel extends JPanel {
                         tbv.highlightRow(overRow);
 
                         JaretDate curDate = tbv.dateForXY(evt.getLocation().x, evt.getLocation().y);
-                        correctAndScheduleJobs(_draggedJobs, curDate);
+                        correctAndScheduleEvents(_draggedEvents, curDate);
 
                         // tell the timebar viewer
-                        tbv.setGhostIntervals(_draggedJobs, _draggedJobsOffsets);
+                        tbv.setGhostIntervals(_draggedEvents, _draggedEventsOffsets);
                         tbv.setGhostOrigin(evt.getLocation().x, evt.getLocation().y);
-                        if (dropAllowed(_draggedJobs, overRow)) {
+                        if (dropAllowed(_draggedEvents, overRow)) {
                             evt.acceptDrag(DnDConstants.ACTION_MOVE);
                         } else {
                             evt.rejectDrag();
@@ -285,10 +283,10 @@ public class SchedulingPanel extends JPanel {
             public void dragDropEnd(DragSourceDropEvent dsde) {
                 if (!dsde.getDropSuccess() && _tbvDragOrigRow != null) {
                     // drag did not suceed -> restore original position
-                    Job job = _draggedJobs.get(0);
-                    job.setBegin(_tbvDragOrigBegin);
-                    job.setEnd(_tbvDragOrigEnd);
-                    _tbvDragOrigRow.addInterval(job);
+                    Event Event = _draggedEvents.get(0);
+                    Event.setBegin(_tbvDragOrigBegin);
+                    Event.setEnd(_tbvDragOrigEnd);
+                    _tbvDragOrigRow.addInterval(Event);
                     _tbvDragOrigRow = null;
                 }
                 _tbv.setGhostIntervals(null, null);
@@ -312,11 +310,11 @@ public class SchedulingPanel extends JPanel {
             List<Interval> intervals = _tbv.getDelegate().getIntervalsAt(e.getDragOrigin().x, e.getDragOrigin().y);
             if (intervals.size() > 0 && e.getTriggerEvent().isAltDown()) {
                 Interval interval = intervals.get(0);
-                e.startDrag(null, new StringSelection("Drag " + ((Job) interval).getName()));
-                _draggedJobs = new ArrayList<Job>();
-                _draggedJobs.add((Job)interval);
-                _draggedJobsOffsets = new ArrayList<Integer>();
-                _draggedJobsOffsets.add(0);
+                e.startDrag(null, new StringSelection("Drag " + ((Event) interval).getName()));
+                _draggedEvents = new ArrayList<Event>();
+                _draggedEvents.add((Event)interval);
+                _draggedEventsOffsets = new ArrayList<Integer>();
+                _draggedEventsOffsets.add(0);
                 TimeBarRow row = _model.getRowForInterval(interval);
                 ((DefaultTimeBarRowModel)row).remInterval(interval);
 
@@ -341,14 +339,14 @@ public class SchedulingPanel extends JPanel {
 
 
     /**
-     * Correct the dates of the dragged jobs and do a simple forward scheduling.
+     * Correct the dates of the dragged Events and do a simple forward scheduling.
      *
-     * @param draggedJobs
+     * @param draggedEvents
      * @param curDate
      */
-    private void correctAndScheduleJobs(List<Job> draggedJobs, JaretDate curDate) {
-        for (int i = 0; i < draggedJobs.size(); i++) {
-            Interval interval = draggedJobs.get(i);
+    private void correctAndScheduleEvents(List<Event> draggedEvents, JaretDate curDate) {
+        for (int i = 0; i < draggedEvents.size(); i++) {
+            Interval interval = draggedEvents.get(i);
             int secs = interval.getSeconds();
             interval.setBegin(curDate.copy());
             interval.setEnd(curDate.copy().advanceSeconds(secs));
@@ -357,16 +355,16 @@ public class SchedulingPanel extends JPanel {
     }
 
     /**
-     * Check that none of the dragged jobs overlaps with another interval in the row. Brute force approach.
+     * Check that none of the dragged Events overlaps with another interval in the row. Brute force approach.
      *
-     * @param draggedJobs
+     * @param draggedEvents
      * @param row
      * @return
      */
-    private boolean dropAllowed(List<Job> draggedJobs, TimeBarRow row) {
-        for (Job job : draggedJobs) {
+    private boolean dropAllowed(List<Event> draggedEvents, TimeBarRow row) {
+        for (Event Event : draggedEvents) {
             for (Interval interval : row.getIntervals()) {
-                if (job.intersects(interval)) {
+                if (Event.intersects(interval)) {
                     return false;
                 }
             }
@@ -375,19 +373,19 @@ public class SchedulingPanel extends JPanel {
         return true;
     }
 
-    class JobTableDragGestureListener implements DragGestureListener {
+    class EventTableDragGestureListener implements DragGestureListener {
         public void dragGestureRecognized(DragGestureEvent e) {
             Component c = e.getComponent();
             System.out.println("component " + c);
             System.out.println(e.getDragOrigin());
 
-            _draggedJobs = new ArrayList<Job>();
-            _draggedJobsOffsets = new ArrayList<Integer>();
-            int[] indizes = _jobTable.getSelectedRows();
+            _draggedEvents = new ArrayList<Event>();
+            _draggedEventsOffsets = new ArrayList<Integer>();
+            int[] indizes = _EventTable.getSelectedRows();
             if (indizes.length > 0) {
                 for (int i : indizes) {
-                    _draggedJobs.add(_jobTableModel.getJob(i));
-                    _draggedJobsOffsets.add(0);
+                    _draggedEvents.add(_EventTableModel.getEvent(i));
+                    _draggedEventsOffsets.add(0);
                 }
                 e.startDrag(null, new StringSelection("Drag " + indizes.length + " intervals"));
             }
@@ -472,26 +470,6 @@ public class SchedulingPanel extends JPanel {
         }
 
         return model;
-    }
-
-    protected JobTableModel createJobTableModel() {
-        JobTableModel model = new JobTableModel();
-
-        for (int i = 0; i < 200; i++) {
-            Job job = createRandomJob("Job #" + i);
-            model.addJob(job);
-        }
-
-        return model;
-    }
-
-    protected Job createRandomJob(String name) {
-        JaretDate startDate = new JaretDate();
-        startDate.advanceMinutes(Math.random() * 24 * 60 * 10); // 10 days range
-        int duration = (int) ((Math.random() * 7 + 1) * 60); // min 1h max 8h duration
-        int priority = (int) (Math.random() * 4);
-        Job job = new Job(name, startDate, duration, priority);
-        return job;
     }
 
     private class PreventOverlapIntervalModificator extends DefaultIntervalModificator {

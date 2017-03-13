@@ -7,12 +7,13 @@ import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import Events.Event;
 import de.jaret.util.date.Interval;
 import de.jaret.util.ui.timebars.TimeBarViewerDelegate;
 import de.jaret.util.ui.timebars.swing.TimeBarViewer;
 import de.jaret.util.ui.timebars.swing.renderer.TimeBarRenderer;
 
-public class JobRenderer implements TimeBarRenderer {
+public class EventRenderer implements TimeBarRenderer {
     /** component used for rendering. */
     protected JButton _component = new JButton();
 
@@ -26,24 +27,7 @@ public class JobRenderer implements TimeBarRenderer {
         _component.setText(value.toString());
         _component.setToolTipText(value.toString());
 
-        Job job = (Job)value;
-        switch (job.getPriority()) {
-            case 0:
-                _component.setBackground(Color.RED);
-                break;
-            case 1:
-                _component.setBackground(Color.ORANGE);
-                break;
-            case 2:
-                _component.setBackground(Color.YELLOW);
-                break;
-            case 3:
-                _component.setBackground(Color.LIGHT_GRAY);
-                break;
-
-            default:
-                break;
-        }
+        Event ev = (Event)value;
 
         if (isSelected) {
             _component.setBackground(Color.BLUE);
