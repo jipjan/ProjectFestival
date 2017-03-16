@@ -112,7 +112,7 @@ public class TileMap {
                         layer = new TileLayer(jsonObject, this);
                         break;
                     case "objectgroup":
-                        //layer = new ObjectLayer(jsonObject, this);
+                        layer = new ObjectLayer(jsonObject, this);
                         break;
                     case "imagelayer":
                         //layer = new ImageLayer(jsonObject, this);
