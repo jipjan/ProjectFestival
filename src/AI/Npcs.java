@@ -7,10 +7,10 @@ public class Npcs extends Hashtable<Long, Npc> {
     long _id = 0;
 
     public Npc createNpc() {
-        Npc n = new Npc();
-        put(_id, n);
-        _id++;
-        return n;
+     //   Npc n = new Npc();
+      //  put(_id, n);
+      //  _id++;
+        return new Npc(null);
     }
 
     public void createNpcs(int amount) {
