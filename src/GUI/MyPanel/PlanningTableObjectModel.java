@@ -75,11 +75,11 @@ public class PlanningTableObjectModel<TItem extends ITableObject> extends Abstra
         int hours = cal.get(Calendar.HOUR_OF_DAY);
         int minutes = cal.get(Calendar.MINUTE);
 
-        cal.setTime(t.getBeginDate());
+        cal.setTime(t.getBeginDate().getDate());
         int hourt1 = cal.get(Calendar.HOUR_OF_DAY);
         int minutes1 = cal.get(Calendar.MINUTE);
 
-        cal.setTime(t.getEndDate());
+        cal.setTime(t.getEndDate().getDate());
         int hourt2 = cal.get(Calendar.HOUR_OF_DAY);
         int minutes2 = cal.get(Calendar.MINUTE);
         // t1 < d < t2

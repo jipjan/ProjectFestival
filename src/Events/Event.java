@@ -12,6 +12,7 @@ public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Ser
     Time _time;
 
     public Event(String name, String performer, short popularity, Time time, int podium) {
+        super(time.getBeginDate(), time.getEndDate());
         _name = name;
         _popularity = popularity;
         _performer = performer;
@@ -43,7 +44,7 @@ public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Ser
     public int getPodium() {return _podium;}
 
     public int getSeconds() {
-        return (int) (_time.getBeginDate().getTime() - _time.getEndDate().getTime()) / 1000;
+        return (int) (_time.getDurationInMinutes() * 60);
     }
 
     @Override
