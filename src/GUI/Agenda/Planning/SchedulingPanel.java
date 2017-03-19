@@ -436,9 +436,9 @@ public class SchedulingPanel extends JPanel {
     protected ScheduleTimeBarModel createTBVModel() {
         ScheduleTimeBarModel model = new ScheduleTimeBarModel();
 
-        for (int i = 0; i < 20; i++) {
-            model.addRow("WorkCenter #" + i);
-        }
+        model.addRow("Podium 1");
+        model.addRow("Podium 2");
+        model.addRow("Podium 3");
 
         return model;
     }
