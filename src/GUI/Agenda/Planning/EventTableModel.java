@@ -22,11 +22,15 @@ public class EventTableModel extends AbstractTableModel{
     }
 
     public void removeEvent(Event ev) {
-        _events.remove(ev);
+        int index = _events.indexOf(ev);
+        if (index != -1) {
+            _events.remove(ev);
+            fireTableRowsDeleted(index, index);
+        }
     }
 
     public int getColumnCount() {
-        return 5;
+        return 4;
     }
 
     public int getRowCount() {
