@@ -22,6 +22,7 @@ public class EntertainerEditorTabPanel extends ColoredJPanel {
         AgendaTableObjectModel m = new AgendaTableObjectModel(CurrentSetup.Events);
         JTable table = new JTable(m);
 
+
         EntertainerEditorPanel p = new EntertainerEditorPanel(table);
 
         table.getSelectionModel().addListSelectionListener((e) ->
@@ -31,7 +32,7 @@ public class EntertainerEditorTabPanel extends ColoredJPanel {
                 }
         );
 
-        splitPane.setTopComponent(table);
+        splitPane.setTopComponent(new JScrollPane(table));
         splitPane.setBottomComponent(p);
     }
 }
