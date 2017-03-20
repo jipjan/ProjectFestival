@@ -7,7 +7,8 @@ import java.util.ArrayList;
 /**
  * Created by jacco on 20/03/2017.
  */
-public class DistanceGrid {
+public class DistanceGrid
+{
     public ArrayList<ArrayList<Double>> distanceGrid;
     private TileMap map;
 
@@ -27,11 +28,11 @@ public class DistanceGrid {
 
     private int getMapSizeX()
     {
-        return 3;
+        return map.getWidth();
     }
 
     private int getMapSizeY()
     {
-        return 3;
+        return map.getHeight();
     }
 }
