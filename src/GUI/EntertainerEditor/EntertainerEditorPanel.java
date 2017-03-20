@@ -16,21 +16,45 @@ public class EntertainerEditorPanel extends ColoredJPanel{
     private JSlider _populariteit;
 
     public EntertainerEditorPanel(JTable t) {
-        super(new GridLayout(0, 2));
+        setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
         _linkedTable = t;
 
-        add(new JLabel("Naam"));
-        add(_name = new JTextField());
+        JLabel name = new JLabel("Naam");
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = 0;
+        c.gridy = 0;
+        add(name, c);
 
-        add(new JLabel("Duur"));
-        add(_duur = new JSlider());
-        add(new JLabel("Populariteit"));
-        add(_populariteit = new JSlider());
+        _name = new JTextField();
+        c.gridx = 1;
+        add(_name, c);
+
+        JLabel duur = new JLabel("Duur");
+        c.gridx = 0;
+        c.gridy = 1;
+        add(duur, c);
+
+        _duur = new JSlider();
+        c.gridx = 1;
+        add(_duur, c);
+
+        JLabel pop = new JLabel("Populariteit");
+        c.gridx = 0;
+        c.gridy = 2;
+        add(pop, c);
+
+        _populariteit = new JSlider();
+        c.gridx = 1;
+        add(_populariteit, c);
 
         JButton save = new JButton("Save");
         save.addActionListener((o) -> updateEvent());
-        add(save);
+
+        c.gridx = 1;
+        c.gridy = 3;
+        add(save, c);
     }
 
     private void updateEvent() {

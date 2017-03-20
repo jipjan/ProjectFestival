@@ -10,10 +10,14 @@ import java.awt.*;
 
 public class EntertainerEditorTabPanel extends ColoredJPanel {
     public EntertainerEditorTabPanel() {
-        super(new GridLayout(2, 1));
+        super(new BorderLayout());
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setResizeWeight(0.85);
+        splitPane.setEnabled(false);
+        add(splitPane, BorderLayout.CENTER);
+
         setName("Entertainer Editor");
-
-
 
         AgendaTableObjectModel m = new AgendaTableObjectModel(CurrentSetup.Events);
         JTable table = new JTable(m);
@@ -27,7 +31,7 @@ public class EntertainerEditorTabPanel extends ColoredJPanel {
                 }
         );
 
-        add(new JScrollPane(table));
-        add(p);
+        splitPane.setTopComponent(table);
+        splitPane.setBottomComponent(p);
     }
 }

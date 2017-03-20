@@ -44,6 +44,7 @@ public class SchedulingPanel extends JPanel {
         // split pane for tbv/table
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setResizeWeight(0.85);
+        splitPane.setEnabled(false);
         add(splitPane, BorderLayout.CENTER);
 
         // TBV

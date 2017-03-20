@@ -36,8 +36,8 @@ public class MainFrame extends ColoredJPanel {
         JFrame frame = new JFrame();
         frame.getContentPane().add(new MainFrame());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 500);
-        frame.setLocationRelativeTo(null);
+        frame.setSize(1040, 800);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 }
