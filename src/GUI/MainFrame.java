@@ -1,27 +1,25 @@
 package GUI;
 
 import GUI.Agenda.AgendaTabPanel;
-import GUI.MyPanel.ObjectTableList;
-import GUI.entertainerEditor.EntertainerEditorPanel;
+import GUI.EntertainerEditor.EntertainerEditorPanel;
+import ImportExport.CurrentSetup;
 import mapviewer.MapViewer;
-import org.omg.CORBA.Current;
-
 import java.awt.*;
 import javax.swing.*;
+
 public class MainFrame extends ColoredJPanel {
 
     private static final long serialVersionUID = 1L;
 
     public MainFrame() {
-
         setLayout(new BorderLayout());
-        JPanel jp = new ColoredJPanel();
-        jp.setLayout(new BorderLayout());
+
         JTabbedPane tb = new JTabbedPane();
         tb.setUI(new CustomTabbedPaneUI());
+
         tb.add(new AgendaTabPanel());
 
-        JPanel eventEditor = new EntertainerEditorPanel(CurrentSetup.Events); //new JPanel(new FlowLayout());
+        JPanel eventEditor = new EntertainerEditorPanel(CurrentSetup.Events);
         tb.add(eventEditor);
 
         JPanel simulation = new ColoredJPanel(new BorderLayout());
@@ -29,9 +27,10 @@ public class MainFrame extends ColoredJPanel {
         simulation.add(new MapViewer());
         tb.add(simulation);
 
+        JPanel jp = new ColoredJPanel();
+        jp.setLayout(new BorderLayout());
         jp.add(tb, BorderLayout.CENTER);
         add(jp, BorderLayout.CENTER);
-
     }
 
     public static void main(String[] args) {

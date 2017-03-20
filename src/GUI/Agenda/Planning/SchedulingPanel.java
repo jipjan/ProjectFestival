@@ -8,16 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.TooManyListenersException;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import Events.Event;
-import GUI.CurrentSetup;
+import ImportExport.CurrentSetup;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.misc.Pair;
@@ -60,13 +57,8 @@ public class SchedulingPanel extends JPanel {
         _tbv.setYAxisWidth(150);
         _tbv.setTimeScaleRenderer(new BoxTimeScaleRenderer());
         _tbv.setTimeScalePosition(TimeBarViewerInterface.TIMESCALE_POSITION_TOP);
-        JaretDate startDate = new JaretDate().setTime(0, 0, 0, 0);
-        _tbv.setInitialDisplayRange(startDate, 24 * 60 * 60);
-        _tbv.setMinDate(startDate);
-        _tbv.setMaxDate(new JaretDate().setTime(23, 59, 59, 0));
-        _tbv.setStartDate(startDate);
-        _tbv.setStrictClipTimeCheck(true);
-/*
+        _tbv.setInitialDisplayRange(new JaretDate().setTime(0, 0, 0, 0), 24 * 60 * 60);
+
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -88,7 +80,7 @@ public class SchedulingPanel extends JPanel {
 
             }
         });
-*/
+
         // Interval modificator preventing intervals from beeing overlapped by shifting or sizing
         _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
 
@@ -147,18 +139,6 @@ public class SchedulingPanel extends JPanel {
             }
         };
         pop = new JPopupMenu("Operations");
-        pop.add(action);
-        action = new AbstractAction("Push back") {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("run " + getValue(NAME));
-                Pair<TimeBarRow, JaretDate> info = _tbv.getPopUpInformation();
-                List<Interval> intervals = info.getLeft().getIntervals(info.getRight());
-                if (intervals.size() == 1) {
-                    System.out.println("pushback on "+intervals.get(0));
-                }
-            }
-
-        };
         pop.add(action);
         _tbv.registerPopupMenu(Event.class, pop);
     }

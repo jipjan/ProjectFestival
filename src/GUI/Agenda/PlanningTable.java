@@ -1,11 +1,5 @@
 package GUI.Agenda;
 
-import Events.Event;
-import GUI.CurrentSetup;
-import GUI.MyPanel.PlanningCellRenderer;
-import GUI.MyPanel.PlanningTableObject;
-import GUI.MyPanel.PlanningTableObjectModel;
-
 import javax.swing.*;
 
 public class PlanningTable extends JTable {

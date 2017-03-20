@@ -1,4 +1,4 @@
-package GUI;
+package GUI.EntertainerEditor;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 import Events.Event;
 import Events.Time;
+import GUI.ColoredJPanel;
 
 
 /**
@@ -16,7 +17,7 @@ import Events.Time;
  */
 
 
-public class EntertainerEditor extends ColoredJPanel
+public class EntertainerEditorIets extends ColoredJPanel
 {
 
     public static void main(String[] args)
@@ -24,7 +25,7 @@ public class EntertainerEditor extends ColoredJPanel
         String testName = "TestName";
         short popularity = 5;
         Time time = new Time(10);
-        EntertainerEditor editor = new EntertainerEditor(new Event(testName,"test performer", popularity,time, 1));
+        EntertainerEditorIets editor = new EntertainerEditorIets(new Event(testName,"test performer", popularity,time, 1));
 
         JFrame testFrame = new JFrame();
         testFrame.setTitle("testFrame");
@@ -38,7 +39,7 @@ public class EntertainerEditor extends ColoredJPanel
 
     }
 
-    public EntertainerEditor(Events.Event event)
+    public EntertainerEditorIets(Events.Event event)
     {
 
         super(new GridLayout(7,1));

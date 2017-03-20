@@ -1,8 +1,6 @@
-package GUI.entertainerEditor;
+package GUI.EntertainerEditor;
 
 import GUI.ColoredJPanel;
-import GUI.CurrentSetup;
-import GUI.EntertainerEditor;
 import GUI.MyPanel.ObjectTableList;
 
 import javax.swing.*;
@@ -57,7 +55,7 @@ public class EntertainerEditorPanel extends ColoredJPanel{
     {
         removeAll();
         add(buttonSelectorPanel);
-        add(new GUI.EntertainerEditor(selectedEvent));
+        add(new EntertainerEditorIets(selectedEvent));
         buttonSelectorPanel.add(eventEditotorObjectTable);
         buttonSelectorPanel.add(buttonPanel);
     }

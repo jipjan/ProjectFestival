@@ -1,6 +1,6 @@
 package GUI.Agenda;
 
-import GUI.CurrentSetup;
+import ImportExport.CurrentSetup;
 import Events.*;
 import GUI.MyPanel.AgendaTableObjectModel;
 
