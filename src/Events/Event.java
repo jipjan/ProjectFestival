@@ -33,6 +33,10 @@ public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Ser
         return _time.getDurationInMinutes();
     }
 
+    public void setDuration(long duration) {
+        setTime(new Time(_time.getBeginDate(), _time.getBeginDate().advanceMinutes(duration)));
+    }
+
     public String getPerformer() {
         return _performer;
     }

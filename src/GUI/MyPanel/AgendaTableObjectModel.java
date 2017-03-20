@@ -1,21 +1,14 @@
 package GUI.MyPanel;
 
-import GUI.MyPanel.ITableObject;
-
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
-import java.util.List;
+import Events.Events;
+import Events.Event;
 
-public class AgendaTableObjectModel<TItem extends ITableObject> extends AbstractTableModel {
-    private List<TItem> _items;
-    private String[] _columns;
+public class AgendaTableObjectModel extends AbstractTableModel {
+    private Events _items;
+    private String[] _columns = new String[] { "Naam", "Duur", "Populariteit"};
 
-    public AgendaTableObjectModel(ArrayList<TItem> items, String... columns) {
-        _items = items;
-        _columns = columns;
-    }
-
-    public void setItems(ArrayList<TItem> items) {
+    public AgendaTableObjectModel(Events items) {
         _items = items;
     }
 
@@ -48,7 +41,7 @@ public class AgendaTableObjectModel<TItem extends ITableObject> extends Abstract
         }
     }
 
-    public TItem getItem(int row) {
+    public Event getItem(int row) {
         return _items.get(row);
     }
 }

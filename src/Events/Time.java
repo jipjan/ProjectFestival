@@ -17,9 +17,9 @@ public class Time implements Serializable {
 
     }
 
-    public Time(Date begin, Date end) {
-        _beginDate = new JaretDate(begin);
-        _endDate = new JaretDate(end);
+    public Time(JaretDate begin, JaretDate end) {
+        _beginDate = begin;
+        _endDate = end;
     }
 
     public JaretDate getBeginDate() {
