@@ -1,14 +1,18 @@
 package Events;
+import de.jaret.util.date.Interval;
+import de.jaret.util.date.IntervalImpl;
+
 import java.io.Serializable;
 
-public class Event implements GUI.MyPanel.ITableObject, Serializable {
+public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Serializable, Interval {
     short _popularity;
-
     String _performer;
     String _name;
     int _podium;
     Time _time;
+
     public Event(String name, String performer, short popularity, Time time, int podium) {
+        super(time.getBeginDate(), time.getEndDate());
         _name = name;
         _popularity = popularity;
         _performer = performer;
@@ -18,6 +22,10 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
 
     public short getPopularity() {
         return _popularity;
+    }
+
+    public void setPopularity(short popularity) {
+        _popularity = popularity;
     }
 
     @Override
@@ -33,30 +41,22 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
         return _name;
     }
 
+    public void setName(String name) {
+        _name = name;
+    }
+
     public Time getTime() {
         return _time;
     }
 
+    public void setTime(Time time) {
+        _time = time;
+    }
+
     public int getPodium() {return _podium;}
 
-    public void set_popularity(short _popularity) {
-        this._popularity = _popularity;
-    }
-
-    public void set_performer(String performer) {
-        this._performer = performer;
-    }
-
-    public void set_name(String name) {
-        this._name = name;
-    }
-
-    public void set_podium(int podium) {
-        this._podium = podium;
-    }
-
-    public void set_time(Time time) {
-        this._time = time;
+    public int getSeconds() {
+        return (int) (_time.getDurationInMinutes() * 60);
     }
 
     @Override

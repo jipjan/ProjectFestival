@@ -21,7 +21,7 @@ public class ObjectTableList extends ColoredJPanel {
         super(new FlowLayout());
         table = new JTable();
         setBackground(Color.pink);
-        table.setModel(new TableObjectModel(events , "","",""));
+        table.setModel(new AgendaTableObjectModel<>(events, "","",""));
         add(table);
     }
 

@@ -1,62 +1,52 @@
 package GUI;
 
 import GUI.Agenda.AgendaTabPanel;
+import GUI.MyPanel.ObjectTableList;
+import GUI.entertainerEditor.EntertainerEditorPanel;
+import mapviewer.MapViewer;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+public class MainFrame extends ColoredJPanel {
 
-/**
- * Created by Lois Gussenhoven, 2118259 on 6-2-2017.
- */
-public class MainFrame extends JFrame{
-    public static void main(String[] blah)
-    {
-        new MainFrame();
+    private static final long serialVersionUID = 1L;
+
+    public MainFrame() {
+        Events.Events eventList = new Events.Events();
+
+        setLayout(new BorderLayout());
+        JPanel jp = new ColoredJPanel();
+        jp.setLayout(new BorderLayout());
+        JTabbedPane tb = new JTabbedPane();
+        tb.setUI(new CustomTabbedPaneUI());
+        //setup tests------------------------------------------------------------------------
+
+        eventList.add(new Events.Event("empty", "empty",(short) 0,new Events.Time(60),0));
+        //---------------------------------------------------------------------------------
+
+        tb.add(new AgendaTabPanel());
+
+        //___________________________________________________________________________________
+        JPanel eventEditor = new EntertainerEditorPanel(eventList); //new JPanel(new FlowLayout());
+        tb.add(eventEditor);
+
+        //___________________________________________________________________________________
+        JPanel simulation = new ColoredJPanel(new BorderLayout());
+        simulation.setName("Simulation");
+        simulation.add(new MapViewer());
+        tb.add(simulation);
+
+        jp.add(tb, BorderLayout.CENTER);
+        add(jp, BorderLayout.CENTER);
+
     }
 
-    public MainFrame()
-    {
-        super("festival planner");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setMinimumSize(new Dimension(700, 500));
-
-
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-
-        UIManager uiManager = new UIManager();
-        JTabbedPane tabbedPane = new JTabbedPane();
-
-        setContentPane(tabbedPane);
-        tabbedPane.setMinimumSize(new Dimension(700, 490));
-
-        JPanel agenda = new AgendaTabPanel();
-        agenda.setName("Agenda");
-        agenda.setMinimumSize(new Dimension( 700, 490));
-        tabbedPane.add(agenda);
-
-        JPanel eventEditor = new JPanel();
-        eventEditor.setName("Event editor");
-        tabbedPane.add(eventEditor);
-
-        JPanel simulation = new JPanel();
-        simulation.setName("Simulation");
-        tabbedPane.add(simulation);
-
-        JPanel mapEditor = new JPanel();
-        mapEditor.setName("Map editor");
-        tabbedPane.add(mapEditor);
-
-        setVisible(true);
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.getContentPane().add(new MainFrame());
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 500);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

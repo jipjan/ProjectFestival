@@ -157,37 +157,6 @@ public class CustomTabbedPaneUI extends BasicTabbedPaneUI{
             }
       //  }
     }
-    /*protected void paintText(Graphics g, int tabPlacement, Font font, FontMetrics metrics, int tabIndex, String title, Rectangle textRect, boolean isSelected) {
-    g.setFont(font);
-    View v = getTextViewForTab(tabIndex);
-    if (v != null) {
-    // html
-    v.paint(g, textRect);
-    } else {
-    // plain text
-    int mnemIndex = tabPane.getDisplayedMnemonicIndexAt(tabIndex);
-
-    if (tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
-    Color fg = tabPane.getForegroundAt(tabIndex);
-    if (isSelected && (fg instanceof UIResource)) {
-    Color selectedFG = UIManager.getColor("TabbedPane.selectedForeground");
-    if (selectedFG != null) {
-    fg = selectedFG;
-    }
-    }
-    g.setColor(fg);
-    SwingUtilities2.drawStringUnderlineCharAt(tabPane, g, title, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
-
-    } else { // tab disabled
-    //PAY ATTENTION TO HERE
-    g.setColor(tabPane.getBackgroundAt(tabIndex).brighter());
-    SwingUtilities2.drawStringUnderlineCharAt(tabPane, g, title, mnemIndex, textRect.x, textRect.y + metrics.getAscent());
-    g.setColor(tabPane.getBackgroundAt(tabIndex).darker());
-    SwingUtilities2.drawStringUnderlineCharAt(tabPane, g, title, mnemIndex,
-    textRect.x - 1, textRect.y + metrics.getAscent() - 1);
-    }
-    }
-    }*/
 
     @Override
     protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {

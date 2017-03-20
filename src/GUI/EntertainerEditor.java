@@ -86,9 +86,9 @@ public class EntertainerEditor extends ColoredJPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                event.set_name(nameText.getText());
-                event.set_popularity((short) popSlider.getValue());
-                event.set_time(new Time(Integer.valueOf(timeText.getText())));
+                event.setName(nameText.getText());
+                event.setPopularity((short) popSlider.getValue());
+                event.setTime(new Time(Integer.valueOf(timeText.getText())));
                 if(testing == true)
                 {
                     System.out.println(event.getName());

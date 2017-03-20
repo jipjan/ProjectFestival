@@ -1,18 +1,16 @@
 package GUI.Agenda;
 
-import GUI.ColoredJPanel;
+import GUI.Agenda.Planning.SchedulingPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by jaapj on 13-2-2017.
- */
-public class AgendaTabPanel extends ColoredJPanel {
+public class AgendaTabPanel extends JPanel {
 
     public AgendaTabPanel() {
-        add(new JScrollPane(new AgendaTable()), BorderLayout.WEST);
-        //add(new )
+        super(new GridLayout(1,0));
+        setName("Agenda");
+        add(new JScrollPane(new SchedulingPanel()));
     }
 
 }

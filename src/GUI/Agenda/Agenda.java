@@ -149,10 +149,10 @@ public class Agenda extends ColoredJPanel {
         cal.setTime(d);
         int hours = cal.get(Calendar.HOUR_OF_DAY);
 
-        cal.setTime(t.getBeginDate());
+        cal.setTime(t.getBeginDate().getDate());
         int hourt1 = cal.get(Calendar.HOUR_OF_DAY);
 
-        cal.setTime(t.getEndDate());
+        cal.setTime(t.getEndDate().getDate());
         int hourt2 = cal.get(Calendar.HOUR_OF_DAY);
         // t1 < d < t2
         return (hours >= hourt1 && hours <= hourt2);
