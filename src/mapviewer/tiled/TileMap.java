@@ -119,8 +119,8 @@ public class TileMap {
                         break;
                 }
 
-                if(layer != null)
-                    this.layers.add((TileLayer) layer);
+                //if(layer != null)
+                    //this.layers.add((TileLayer) layer);
             }
 
         } catch (IOException e) {
