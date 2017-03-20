@@ -119,9 +119,16 @@ public class TileMap {
                         break;
                 }
 
-                if(layer != null)
+                if(layer != null){
+                    if(layer instanceof TileLayer)
                     this.layers.add((TileLayer) layer);
-            }
+                    else if (layer instanceof ObjectLayer){
+                    //this.layers.add((ObjectLayer) layer);
+                    //Moet er nog wat met de ObjectLayer
+                    }
+                    else
+                        System.out.println("Deze layer is aids");
+            }}
 
         } catch (IOException e) {
             e.printStackTrace();
