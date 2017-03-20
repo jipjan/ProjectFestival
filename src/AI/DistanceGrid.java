@@ -2,6 +2,7 @@ package AI;
 
 import mapviewer.tiled.TileMap;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -11,11 +12,15 @@ public class DistanceGrid
 {
     public ArrayList<ArrayList<Double>> distanceGrid;
     private TileMap map;
+    private BufferedImage[] images;
 
     DistanceGrid(TileMap map)
     {
         this.map = map;
     }
+
+
+
 
     private boolean isAccesable(int x, int y)
     {
