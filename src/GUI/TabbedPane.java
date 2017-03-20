@@ -2,6 +2,7 @@ package GUI;
 
 import GUI.MyPanel.ObjectTableList;
 import GUI.entertainerEditor.EntertainerEditorPanel;
+import mapviewer.MapViewer;
 
 import java.awt.*;
 import javax.swing.*;
@@ -33,15 +34,10 @@ public class TabbedPane extends ColoredJPanel {
         tb.add(eventEditor);
 
         //___________________________________________________________________________________
-        JPanel simulation = new ColoredJPanel(new FlowLayout());
+        JPanel simulation = new ColoredJPanel(new BorderLayout());
         simulation.setName("Simulation");
+        simulation.add(new MapViewer());
         tb.add(simulation);
-
-        //'__________________________________________________________________________________
-        JPanel mapEditor = new ColoredJPanel(new FlowLayout());
-        mapEditor.setName("Map editor");
-        tb.add(mapEditor);
-
 
         jp.add(tb, BorderLayout.CENTER);
         add(jp, BorderLayout.CENTER);
