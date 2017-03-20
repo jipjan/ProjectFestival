@@ -29,6 +29,8 @@ public class MainFrame extends ColoredJPanel {
         JPanel jp = new ColoredJPanel();
         jp.setLayout(new BorderLayout());
         jp.add(tb, BorderLayout.CENTER);
+
+        add(new TopBar(), BorderLayout.NORTH);
         add(jp, BorderLayout.CENTER);
     }
 
