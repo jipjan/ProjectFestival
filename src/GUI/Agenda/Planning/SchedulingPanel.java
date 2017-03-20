@@ -5,7 +5,10 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.dnd.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TooManyListenersException;
 
@@ -57,8 +60,35 @@ public class SchedulingPanel extends JPanel {
         _tbv.setYAxisWidth(150);
         _tbv.setTimeScaleRenderer(new BoxTimeScaleRenderer());
         _tbv.setTimeScalePosition(TimeBarViewerInterface.TIMESCALE_POSITION_TOP);
-        _tbv.setInitialDisplayRange(new JaretDate(), 24 * 60 * 60);
+        JaretDate startDate = new JaretDate().setTime(0, 0, 0, 0);
+        _tbv.setInitialDisplayRange(startDate, 24 * 60 * 60);
+        _tbv.setMinDate(startDate);
+        _tbv.setMaxDate(new JaretDate().setTime(23, 59, 59, 0));
+        _tbv.setStartDate(startDate);
+        _tbv.setStrictClipTimeCheck(true);
+/*
+        addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                _tbv.setInitialDisplayRange(new JaretDate().setTime(0, 0, 0, 0), 24 * 60 * 60);
+            }
 
+            @Override
+            public void componentMoved(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+        });
+*/
         // Interval modificator preventing intervals from beeing overlapped by shifting or sizing
         _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
 
@@ -392,32 +422,6 @@ public class SchedulingPanel extends JPanel {
             }
         });
         panel.add(unscheduleButton);
-
-
-        /// scaling slider
-        final double min = 1; // minimum value for seconds displayed
-        final double max = 3 * 365 * 24 * 60 * 60; // max nummber of seconds displayed (3 years in seconds)
-        final double slidermax = 1000; // slider maximum (does not really matter)
-        final JSlider _timeScaleSlider = new JSlider(0, (int) slidermax);
-
-        _timeScaleSlider.setPreferredSize(new Dimension(_timeScaleSlider.getPreferredSize().width * 4, _timeScaleSlider
-                .getPreferredSize().height));
-        panel.add(_timeScaleSlider);
-
-        final double b = 1.0 / 100.0; // additional factor to reduce the absolut values in the exponent
-        final double faktor = (min - max) / (1 - Math.pow(2, slidermax * b)); // factor for the exp function
-        final double c = (min - faktor);
-
-        int initialSliderVal = calcInitialSliderVal(c, b, faktor, initialSeconds);
-        _timeScaleSlider.setValue((int) (slidermax-initialSliderVal));
-
-        _timeScaleSlider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                final double x = slidermax - (double) _timeScaleSlider.getValue(); // reverse x
-                double seconds = c + faktor * Math.pow(2, x * b); // calculate the seconds to display
-                _tbv.setSecondsDisplayed((int) seconds, true);
-            }
-        });
 
         return panel;
     }

@@ -19,6 +19,7 @@ public class EventTableModel extends AbstractTableModel{
 
     public void addEvent(Event ev) {
         _events.add(ev);
+        fireTableDataChanged();
     }
 
     public void removeEvent(Event ev) {
