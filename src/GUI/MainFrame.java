@@ -18,6 +18,7 @@ public class MainFrame extends JFrame{
     {
         super("festival planner");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(700, 500));
 
 

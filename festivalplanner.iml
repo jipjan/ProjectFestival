@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/UnitTests/Events" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/UnitTests/GUI" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/UnitTests/ImportExport" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
