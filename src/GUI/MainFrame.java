@@ -4,6 +4,7 @@ import GUI.Agenda.AgendaTabPanel;
 import GUI.MyPanel.ObjectTableList;
 import GUI.entertainerEditor.EntertainerEditorPanel;
 import mapviewer.MapViewer;
+import org.omg.CORBA.Current;
 
 import java.awt.*;
 import javax.swing.*;
@@ -12,25 +13,17 @@ public class MainFrame extends ColoredJPanel {
     private static final long serialVersionUID = 1L;
 
     public MainFrame() {
-        Events.Events eventList = new Events.Events();
 
         setLayout(new BorderLayout());
         JPanel jp = new ColoredJPanel();
         jp.setLayout(new BorderLayout());
         JTabbedPane tb = new JTabbedPane();
         tb.setUI(new CustomTabbedPaneUI());
-        //setup tests------------------------------------------------------------------------
-
-        eventList.add(new Events.Event("empty", "empty",(short) 0,new Events.Time(60),0));
-        //---------------------------------------------------------------------------------
-
         tb.add(new AgendaTabPanel());
 
-        //___________________________________________________________________________________
-        JPanel eventEditor = new EntertainerEditorPanel(eventList); //new JPanel(new FlowLayout());
+        JPanel eventEditor = new EntertainerEditorPanel(CurrentSetup.Events); //new JPanel(new FlowLayout());
         tb.add(eventEditor);
 
-        //___________________________________________________________________________________
         JPanel simulation = new ColoredJPanel(new BorderLayout());
         simulation.setName("Simulation");
         simulation.add(new MapViewer());
