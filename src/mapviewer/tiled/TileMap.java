@@ -102,11 +102,34 @@ public class TileMap {
             // TODO: Add comments regarding what this code does
             JsonArray jsonLayers = o.getJsonArray("layers");
             for (int i = 0; i < jsonLayers.size(); i++) {
-                TileLayer layer = new TileLayer(jsonLayers.getJsonObject(i), this);
-                if(jsonLayers.getJsonObject(i).getString("name").equals("Path"))
-                    continue;
-                this.layers.add(layer);
-            }
+                Layer layer = null;
+
+                JsonObject jsonObject = jsonLayers.getJsonObject(i);
+                String type = jsonObject.getString("type");
+                switch(type)
+                {
+                    case "tilelayer":
+                        layer = new TileLayer(jsonObject, this);
+                        break;
+                    case "objectgroup":
+                        layer = new ObjectLayer(jsonObject, this);
+                        break;
+                    case "imagelayer":
+                        //layer = new ImageLayer(jsonObject, this);
+                        break;
+                }
+
+                if(layer != null){
+                    if(layer instanceof TileLayer)
+                    this.layers.add((TileLayer) layer);
+                    else if (layer instanceof ObjectLayer){
+                    //this.layers.add((ObjectLayer) layer);
+                    //Moet er nog wat met de ObjectLayer
+                    }
+                    else
+                        System.out.println("Deze layer is aids");
+            }}
+
         } catch (IOException e) {
             e.printStackTrace();
         }

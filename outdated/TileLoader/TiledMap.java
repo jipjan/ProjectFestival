@@ -35,7 +35,7 @@ public class TiledMap
         JsonReader reader = null;
         try
         {
-            reader = Json.createReader(new FileReader(String.valueOf(getClass().getResource("./MappieV2.json"))));
+            reader = Json.createReader(new FileReader("MappieV2.json"));
         } catch (FileNotFoundException e)
         {
             e.printStackTrace();
