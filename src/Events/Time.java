@@ -4,7 +4,6 @@ import de.jaret.util.date.JaretDate;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class Time implements Serializable {
     JaretDate _beginDate;
@@ -32,9 +31,5 @@ public class Time implements Serializable {
             return _beginDate.diffMinutes(other.getBeginDate()) < 1 && _endDate.diffMinutes(other.getEndDate()) < 1;
         }
         return false;
-    }
-
-    private boolean inRange(Date d1, Date d2, int range) {
-        return d1.getTime() >= d2.getTime() - range && d1.getTime() <= d2.getTime() + range;
     }
 }

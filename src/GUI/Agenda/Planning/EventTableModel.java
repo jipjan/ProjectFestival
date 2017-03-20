@@ -46,9 +46,9 @@ public class EventTableModel extends AbstractTableModel{
             case 1:
                 return ev.getPerformer();
             case 2:
-                return ev.getTime().getBeginDate();
+                return ev.getTime().getBeginDate().toDisplayStringTime();
             case 3:
-                return ev.getTime().getEndDate();
+                return ev.getTime().getEndDate().toDisplayStringTime();
             default:
                 return null;
         }
