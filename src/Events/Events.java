@@ -2,9 +2,16 @@ package Events;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Events extends ArrayList<Event> implements Serializable {
-    public final String saveLocation = "";
+    public Events() {
+        super();
+    }
+
+    public Events(List<Event> events) {
+        super(events);
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -18,10 +25,5 @@ public class Events extends ArrayList<Event> implements Serializable {
             }
         }
         return false;
-    }
-
-    public void save()
-    {
-
     }
 }

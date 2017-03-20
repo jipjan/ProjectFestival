@@ -1,25 +1,31 @@
 package Events;
+import de.jaret.util.date.Interval;
+import de.jaret.util.date.IntervalImpl;
+
 import java.io.Serializable;
 
-public class Event implements GUI.MyPanel.ITableObject, Serializable {
+public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Serializable, Interval {
     short _popularity;
+    String _performer;
     String _name;
+    int _podium;
     Time _time;
 
-
-    /** constructor for an event planned or not
-     * @param name        the name of the event
-     * @param popularity  unidentified scale for popularity of the event
-     * @param time        the begin and end date of the event in a Time object
-     */
-    public Event(String name, short popularity, Time time) {
+    public Event(String name, String performer, short popularity, Time time, int podium) {
+        super(time.getBeginDate(), time.getEndDate());
         _name = name;
         _popularity = popularity;
+        _performer = performer;
         _time = time;
+        _podium = podium;
     }
 
     public short getPopularity() {
         return _popularity;
+    }
+
+    public void setPopularity(short popularity) {
+        _popularity = popularity;
     }
 
     @Override
@@ -27,25 +33,30 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
         return _time.getDurationInMinutes();
     }
 
+    public String getPerformer() {
+        return _performer;
+    }
 
     public String getName() {
         return _name;
+    }
+
+    public void setName(String name) {
+        _name = name;
     }
 
     public Time getTime() {
         return _time;
     }
 
-    public void set_popularity(short _popularity) {
-        this._popularity = _popularity;
+    public void setTime(Time time) {
+        _time = time;
     }
 
-    public void set_name(String _name) {
-        this._name = _name;
-    }
+    public int getPodium() {return _podium;}
 
-    public void set_time(Time _time) {
-        this._time = _time;
+    public int getSeconds() {
+        return (int) (_time.getDurationInMinutes() * 60);
     }
 
     @Override
@@ -53,6 +64,7 @@ public class Event implements GUI.MyPanel.ITableObject, Serializable {
         if (obj instanceof Event) {
             Event other = (Event) obj;
             return (getPopularity() == other.getPopularity()
+                    && getPerformer().equals(other.getPerformer())
                     && getName().equals(other.getName())
                     && getTime().equals(other.getTime())
             );

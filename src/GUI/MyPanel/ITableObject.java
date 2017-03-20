@@ -1,10 +1,11 @@
 package GUI.MyPanel;
 
-/**
- *  an interface for The fields that can be displayed on the ITable
- */
+import Events.Time;
+
 public interface ITableObject {
     String getName();
     short getPopularity();
     long getDuration();
+    Time getTime();
+    int getPodium();
 }

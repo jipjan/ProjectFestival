@@ -16,15 +16,15 @@ import Events.Time;
  */
 
 
-public class EntertainerEditor extends JPanel
+public class EntertainerEditor extends ColoredJPanel
 {
 
     public static void main(String[] args)
     {
-        String testName = "Test artiest";
+        String testName = "TestName";
         short popularity = 5;
         Time time = new Time(10);
-        EntertainerEditor editor = new EntertainerEditor(new Event(testName,popularity,time));
+        EntertainerEditor editor = new EntertainerEditor(new Event(testName,"test performer", popularity,time, 1));
 
         JFrame testFrame = new JFrame();
         testFrame.setTitle("testFrame");
@@ -38,11 +38,11 @@ public class EntertainerEditor extends JPanel
 
     }
 
-    EntertainerEditor(Events.Event event)
+    public EntertainerEditor(Events.Event event)
     {
 
         super(new GridLayout(7,1));
-        JPanel name = new JPanel(new FlowLayout());
+        JPanel name = new ColoredJPanel(new FlowLayout());
         add(name);
         JLabel nameLbl = new JLabel("name:", SwingConstants.LEFT);
         name.add(nameLbl);
@@ -52,7 +52,7 @@ public class EntertainerEditor extends JPanel
         boolean testing = true;
 
 
-        JPanel time = new JPanel(new FlowLayout());
+        JPanel time = new ColoredJPanel(new FlowLayout());
         add(time);
         JLabel timeLbl = new JLabel("entertain time:", SwingConstants.LEFT);
         time.add(timeLbl);
@@ -60,7 +60,7 @@ public class EntertainerEditor extends JPanel
         time.add(timeText);
 
 
-        JPanel popularity = new JPanel(new FlowLayout());
+        JPanel popularity = new ColoredJPanel(new FlowLayout());
         add(popularity);
         JLabel popLbl = new JLabel("popularity:", SwingConstants.LEFT);
         popularity.add(popLbl);
@@ -78,17 +78,7 @@ public class EntertainerEditor extends JPanel
             }
         });
 
-
-        JPanel empty1 = new JPanel(new FlowLayout());
-        add(empty1);
-
-        JPanel empty2 = new JPanel(new FlowLayout());
-        add(empty2);
-
-        JPanel empty3 = new JPanel(new FlowLayout());
-        add(empty3);
-
-        JPanel save = new JPanel(new FlowLayout());
+        JPanel save = new ColoredJPanel(new FlowLayout());
         add(save);
         JButton saveBut = new JButton("save");
         saveBut.addActionListener(new ActionListener()
@@ -96,15 +86,14 @@ public class EntertainerEditor extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                event.set_name(nameText.getText());
-                event.set_popularity((short) popSlider.getValue());
-                event.set_time(new Time(Integer.valueOf(timeText.getText())));
+                event.setName(nameText.getText());
+                event.setPopularity((short) popSlider.getValue());
+                event.setTime(new Time(Integer.valueOf(timeText.getText())));
                 if(testing == true)
                 {
                     System.out.println(event.getName());
                     System.out.println(event.getPopularity());
                     System.out.println(event.getTime().getDurationInMinutes());
-                    System.out.println(event.getTime().getEndDate());
                 }
             }
         });

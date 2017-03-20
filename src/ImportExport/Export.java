@@ -1,9 +1,8 @@
 package ImportExport;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import com.google.gson.Gson;
+
+import java.io.*;
 
 public class Export {
     public static void ExportFile(String fileLocation, Serializable object) {
@@ -17,6 +16,18 @@ public class Export {
             System.out.println("Serialized data is saved in " + fileLocation);
         } catch (IOException i) {
             i.printStackTrace();
+        }
+    }
+
+    public static void ExportJsonFile(String fileLocation, Object obj) {
+        Gson gson = new Gson();
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileLocation));
+            writer.write(gson.toJson(obj));
+            writer.close();
+            System.out.println("Json data is saved in " + fileLocation);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

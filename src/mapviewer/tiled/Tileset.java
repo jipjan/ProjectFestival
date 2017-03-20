@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Created by Thijs on 20-2-2017.
+ * info for every single (to be used in a arraylist)
  */
 public class Tileset {
     private int columns;

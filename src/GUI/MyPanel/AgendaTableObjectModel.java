@@ -6,11 +6,11 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableObjectModel<TItem extends ITableObject> extends AbstractTableModel {
+public class AgendaTableObjectModel<TItem extends ITableObject> extends AbstractTableModel {
     private List<TItem> _items;
     private String[] _columns;
 
-    public TableObjectModel(ArrayList<TItem> items, String... columns) {
+    public AgendaTableObjectModel(ArrayList<TItem> items, String... columns) {
         _items = items;
         _columns = columns;
     }
@@ -44,7 +44,7 @@ public class TableObjectModel<TItem extends ITableObject> extends AbstractTableM
             case 2:
                 return obj.getPopularity();
             default:
-                return "Mistakes were made, very sad :(";
+                return "Mistakes were made";
         }
     }
 
