@@ -19,6 +19,7 @@ public class TileLayer extends Layer {
 
     public TileLayer(JsonObject layer, TileMap map, int tileWidth, int tileHeight)
     {
+        super(layer,map);
         this.map = map;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
