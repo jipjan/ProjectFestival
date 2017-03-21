@@ -55,10 +55,6 @@ public class IntervalImpl extends PropertyObservableBase implements Interval, Pr
         return this.getBegin().compareTo(interval.getBegin()) >= 0 && this.getEnd().compareTo(interval.getEnd()) >= 0;
     }
 
-    public static boolean containsStatic(Interval interval, JaretDate date) {
-        return interval.getBegin().compareTo(date) <= 0 && interval.getEnd().compareTo(date) >= 0;
-    }
-
     public int getSeconds() {
         return this.getEnd().diffSeconds(this.getBegin());
     }
@@ -69,10 +65,6 @@ public class IntervalImpl extends PropertyObservableBase implements Interval, Pr
 
     public static boolean intersect(Interval i1, Interval i2) {
         return !i1.contains(i2.getBegin()) && !i1.contains(i2.getEnd())?i2.contains(i1.getBegin()) || i2.contains(i1.getEnd()):true;
-    }
-
-    public static boolean containsNonIncluding(Interval interval, JaretDate date) {
-        return interval.getBegin().compareTo(date) < 0 && interval.getEnd().compareTo(date) > 0;
     }
 
     public void propertyChange(PropertyChangeEvent evt) {

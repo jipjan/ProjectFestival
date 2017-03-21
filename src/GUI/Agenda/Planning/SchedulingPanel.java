@@ -73,16 +73,19 @@ public class SchedulingPanel extends JPanel {
 
             }
         });
+
+        _EventTableModel = new EventTableModel(CurrentSetup.Events);
+        _EventTable = new JTable(_EventTableModel);
+
         _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
-        _tbv.registerTimeBarRenderer(Event.class, new EventRenderer());
+        _tbv.registerTimeBarRenderer(Event.class, new EventRenderer(_EventTable));
 
         setUpDND(_tbv);
 
         createActions(_tbv);
 
         // table
-        _EventTableModel = new EventTableModel(CurrentSetup.Events);
-        _EventTable = new JTable(_EventTableModel);
+
         JScrollPane scroll = new JScrollPane(_EventTable);
         splitPane.setBottomComponent(scroll);
 
