@@ -7,7 +7,7 @@ import de.jaret.util.ui.timebars.model.DefaultTimeBarRowModel;
 public class ScheduleTimeBarModel extends DefaultTimeBarModel {
 
     public DefaultTimeBarRowModel addRow(String title) {
-        DefaultTimeBarRowModel row = new DefaultTimeBarRowModel(new DefaultRowHeader(title));
+        MyTimeBarRowModel row = new MyTimeBarRowModel(new DefaultRowHeader(title));
         addRow(row);
         return row;
     }

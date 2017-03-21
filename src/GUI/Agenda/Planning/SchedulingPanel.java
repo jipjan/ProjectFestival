@@ -17,7 +17,6 @@ import Events.Event;
 import ImportExport.CurrentSetup;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
-import de.jaret.util.misc.Pair;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.mod.DefaultIntervalModificator;
 import de.jaret.util.ui.timebars.model.*;
@@ -37,7 +36,7 @@ public class SchedulingPanel extends JPanel {
 
     protected JaretDate _tbvDragOrigBegin;
     protected JaretDate _tbvDragOrigEnd;
-    protected DefaultTimeBarRowModel _tbvDragOrigRow;
+    protected MyTimeBarRowModel _tbvDragOrigRow;
 
     public SchedulingPanel() {
         setLayout(new BorderLayout());
@@ -140,13 +139,13 @@ public class SchedulingPanel extends JPanel {
         List<Interval> intervals = new ArrayList<Interval>(_tbv.getSelectionModel().getSelectedIntervals());
         for (Interval interval : intervals) {
             TimeBarRow row = _model.getRowForInterval(interval);
-            ((DefaultTimeBarRowModel)row).remInterval(interval);
+            ((MyTimeBarRowModel)row).remInterval(interval);
         }
     }
     private void clearRow(TimeBarRow row) {
         List<Interval> intervals = new ArrayList<Interval>(row.getIntervals());
         for (Interval interval : intervals) {
-            ((DefaultTimeBarRowModel)row).remInterval(interval);
+            ((MyTimeBarRowModel)row).remInterval(interval);
         }
     }
 
@@ -174,7 +173,7 @@ public class SchedulingPanel extends JPanel {
                         TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                         if (overRow != null) {
                             for (Event Event : _draggedEvents) {
-                                ((DefaultTimeBarRowModel) overRow).addInterval(Event);
+                                ((MyTimeBarRowModel) overRow).addInterval(Event);
                             }
                             tbv.setGhostIntervals(null, null);
                             evt.dropComplete(true);
@@ -184,7 +183,6 @@ public class SchedulingPanel extends JPanel {
                         }
                         tbv.deHighlightRow();
                     }
-
                 }
 
                 public void dragOver(DropTargetDragEvent evt) {
@@ -194,7 +192,7 @@ public class SchedulingPanel extends JPanel {
                             for (Interval inter : _tbv.getModel().getRow(i).getIntervals())
                                 if (inter.equals(e)) {
                                     TimeBarRow row = _model.getRowForInterval(inter);
-                                    ((DefaultTimeBarRowModel) row).remInterval(inter);
+                                    ((MyTimeBarRowModel) row).remInterval(inter);
                                     break;
                                 }
 
@@ -298,10 +296,10 @@ public class SchedulingPanel extends JPanel {
                 _draggedEventsOffsets = new ArrayList<Integer>();
                 _draggedEventsOffsets.add(0);
                 TimeBarRow row = _model.getRowForInterval(interval);
-                ((DefaultTimeBarRowModel)row).remInterval(interval);
+                ((MyTimeBarRowModel)row).remInterval(interval);
 
                 // save orig data
-                _tbvDragOrigRow = (DefaultTimeBarRowModel)row;
+                _tbvDragOrigRow = (MyTimeBarRowModel)row;
                 _tbvDragOrigBegin = interval.getBegin().copy();
                 _tbvDragOrigEnd = interval.getEnd().copy();
 

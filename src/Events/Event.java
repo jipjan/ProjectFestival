@@ -1,10 +1,14 @@
 package Events;
+import GUI.Agenda.Planning.IntervalImpl;
 import de.jaret.util.date.Interval;
-import de.jaret.util.date.IntervalImpl;
+import de.jaret.util.date.JaretDate;
+import de.jaret.util.misc.PropertyObservableBase;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 
-public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Serializable, Interval {
+public class Event extends PropertyObservableBase implements GUI.MyPanel.ITableObject, Serializable, Interval, PropertyChangeListener {
     short _popularity;
     String _performer;
     String _name;
@@ -12,11 +16,10 @@ public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Ser
     Time _time;
 
     public Event(String name, String performer, short popularity, Time time, int podium) {
-        super(time.getBeginDate(), time.getEndDate());
         _name = name;
         _popularity = popularity;
         _performer = performer;
-        _time = time;
+        setTime(time);
         _podium = podium;
     }
 
@@ -55,12 +58,67 @@ public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Ser
 
     public void setTime(Time time) {
         _time = time;
+        setBegin(_time.getBeginDate());
+        setEnd(_time.getEndDate());
     }
 
     public int getPodium() {return _podium;}
 
+    @Override
+    public void setBegin(JaretDate jaretDate) {
+        if(getBegin() != null) {
+            getBegin().removePropertyChangeListener(this);
+        }
+
+        JaretDate oldVal = getBegin();
+        _time.setBeginDate(jaretDate);
+        getBegin().addPropertyChangeListener(this);
+        this.firePropertyChange("Begin", oldVal, jaretDate);
+    }
+
+    @Override
+    public JaretDate getBegin() {
+        return _time.getBeginDate();
+    }
+
+    @Override
+    public void setEnd(JaretDate jaretDate) {
+        if(getEnd() != null) {
+            getEnd().removePropertyChangeListener(this);
+        }
+
+        JaretDate oldVal = getEnd();
+        _time.setEndDate(jaretDate);
+        getEnd().addPropertyChangeListener(this);
+        this.firePropertyChange("End", oldVal, jaretDate);
+    }
+
+    @Override
+    public JaretDate getEnd() {
+        return _time.getEndDate();
+    }
+
+    @Override
+    public boolean contains(JaretDate date) {
+        return this.getBegin().compareTo(date) <= 0 && this.getEnd().compareTo(date) >= 0;
+    }
+
+    @Override
+    public boolean contains(Interval interval) {
+        return this.getBegin().compareTo(interval.getBegin()) >= 0 && this.getEnd().compareTo(interval.getEnd()) >= 0;
+    }
+
     public int getSeconds() {
-        return (int) (_time.getDurationInMinutes() * 60);
+        return this.getEnd().diffSeconds(this.getBegin());
+    }
+
+    @Override
+    public boolean intersects(Interval interval) {
+        return intersect(this, interval);
+    }
+
+    public static boolean intersect(Interval i1, Interval i2) {
+        return !i1.contains(i2.getBegin()) && !i1.contains(i2.getEnd())?i2.contains(i1.getBegin()) || i2.contains(i1.getEnd()):true;
     }
 
     @Override
@@ -78,6 +136,15 @@ public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Ser
 
     @Override
     public String toString() {
-        return _name + ": " + _begin.toDisplayStringTime() + " - " + _end.toDisplayStringTime();
+        return _name + ": " + getBegin().toDisplayStringTime() + " - " + getEnd().toDisplayStringTime();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getSource() == getBegin()) {
+            this.firePropertyChange("Begin", evt.getOldValue(), evt.getNewValue());
+        } else if(evt.getSource() == getEnd()) {
+            this.firePropertyChange("End", evt.getOldValue(), evt.getNewValue());
+        }
     }
 }

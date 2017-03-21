@@ -26,6 +26,14 @@ public class Time implements Serializable {
         return _beginDate;
     }
 
+    public void setBeginDate(JaretDate date) {
+        _beginDate = date;
+    }
+
+    public void setEndDate(JaretDate date) {
+        _endDate = date;
+    }
+
     public JaretDate getEndDate() { return _endDate; }
 
     public long getDurationInMinutes() {
