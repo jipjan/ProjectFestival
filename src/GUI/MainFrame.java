@@ -3,6 +3,7 @@ package GUI;
 import GUI.Agenda.AgendaTabPanel;
 import GUI.EntertainerEditor.EntertainerEditorPanel;
 import GUI.EntertainerEditor.EntertainerEditorTabPanel;
+import GUI.Simulation.SimulationTabPanel;
 import ImportExport.CurrentSetup;
 import mapviewer.MapViewer;
 import java.awt.*;
@@ -20,18 +21,10 @@ public class MainFrame extends ColoredJPanel {
 
         tb.add(new AgendaTabPanel());
         tb.add(new EntertainerEditorTabPanel());
-
-        JPanel simulation = new ColoredJPanel(new BorderLayout());
-        simulation.setName("Simulation");
-        simulation.add(new MapViewer());
-        tb.add(simulation);
-
-        JPanel jp = new ColoredJPanel();
-        jp.setLayout(new BorderLayout());
-        jp.add(tb, BorderLayout.CENTER);
+        tb.add(new SimulationTabPanel());
 
         add(new TopBar(), BorderLayout.NORTH);
-        add(jp, BorderLayout.CENTER);
+        add(tb, BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
