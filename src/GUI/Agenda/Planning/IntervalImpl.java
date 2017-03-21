@@ -71,10 +71,6 @@ public class IntervalImpl extends PropertyObservableBase implements Interval, Pr
         return !i1.contains(i2.getBegin()) && !i1.contains(i2.getEnd())?i2.contains(i1.getBegin()) || i2.contains(i1.getEnd()):true;
     }
 
-    public static boolean intersectNonIncluding(Interval i1, Interval i2) {
-        return !containsNonIncluding(i1, i2.getBegin()) && !containsNonIncluding(i1, i2.getEnd())?(!containsNonIncluding(i2, i1.getBegin()) && !containsNonIncluding(i2, i1.getEnd())?i1.getBegin().equals(i2.getBegin()) && i1.getEnd().equals(i2.getEnd()):true):true;
-    }
-
     public static boolean containsNonIncluding(Interval interval, JaretDate date) {
         return interval.getBegin().compareTo(date) < 0 && interval.getEnd().compareTo(date) > 0;
     }

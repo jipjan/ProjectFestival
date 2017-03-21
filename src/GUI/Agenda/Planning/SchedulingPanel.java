@@ -3,10 +3,7 @@ package GUI.Agenda.Planning;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.dnd.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TooManyListenersException;
@@ -98,10 +95,7 @@ public class SchedulingPanel extends JPanel {
         // controls at the bottom
         JPanel controlPanel = createControlPanel(24 * 60 * 60);
         add(controlPanel, BorderLayout.SOUTH);
-
-
         _tbv.setUseTitleRendererComponentInPlace(true);
-
     }
 
     /**
@@ -186,7 +180,6 @@ public class SchedulingPanel extends JPanel {
                 }
 
                 public void dragOver(DropTargetDragEvent evt) {
-
                     for (Event e : _draggedEvents)
                         for (int i = 0; i < _tbv.getModel().getRowCount(); i++)
                             for (Interval inter : _tbv.getModel().getRow(i).getIntervals())
@@ -286,7 +279,6 @@ public class SchedulingPanel extends JPanel {
             if (markerDragging) {
                 return;
             }
-
             List<Interval> intervals = _tbv.getDelegate().getIntervalsAt(e.getDragOrigin().x, e.getDragOrigin().y);
             if (intervals.size() > 0 && e.getTriggerEvent().isAltDown()) {
                 Interval interval = intervals.get(0);
@@ -302,17 +294,8 @@ public class SchedulingPanel extends JPanel {
                 _tbvDragOrigRow = (MyTimeBarRowModel)row;
                 _tbvDragOrigBegin = interval.getBegin().copy();
                 _tbvDragOrigEnd = interval.getEnd().copy();
-
                 return;
             }
-//            Point origin = e.getDragOrigin();
-//            if (_tbv.getDelegate().getYAxisRect().contains(origin)) {
-//                TimeBarRow row = _tbv.getRowForXY(origin.x, origin.y);
-//                if (row != null) {
-//                    e.startDrag(null, new StringSelection("Drag ROW " + row));
-//                }
-//            }
-
         }
     }
 
