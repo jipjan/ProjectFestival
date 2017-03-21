@@ -19,7 +19,10 @@ public class EventRenderer implements TimeBarRenderer {
                                                   boolean overlapping) {
         _component.setText(value.toString());
         _component.setToolTipText(value.toString());
-        if (isSelected) _component.setBackground(Color.BLUE);
+        if (isSelected)
+            _component.setBackground(Color.CYAN);
+        else
+            _component.setBackground(Color.WHITE);
         return _component;
     }
 

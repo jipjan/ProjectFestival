@@ -149,14 +149,12 @@ public class SchedulingPanel extends JPanel {
         for (Interval interval : intervals) {
             TimeBarRow row = _model.getRowForInterval(interval);
             ((DefaultTimeBarRowModel)row).remInterval(interval);
-            _EventTableModel.addEvent((Event)interval);
         }
     }
     private void clearRow(TimeBarRow row) {
         List<Interval> intervals = new ArrayList<Interval>(row.getIntervals());
         for (Interval interval : intervals) {
             ((DefaultTimeBarRowModel)row).remInterval(interval);
-            _EventTableModel.addEvent((Event)interval);
         }
     }
 
@@ -184,8 +182,17 @@ public class SchedulingPanel extends JPanel {
                         TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                         if (overRow != null) {
                             for (Event Event : _draggedEvents) {
-                                ((DefaultTimeBarRowModel) overRow).addInterval(Event);
-                                _EventTableModel.removeEvent(Event);
+                                boolean contains = false;
+                                for (int i = 0; i < _tbv.getModel().getRowCount(); i++) {
+                                    if (_tbv.getModel().getRow(i).getIntervals().contains(Event)) {
+                                        contains = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!contains)
+                                    ((DefaultTimeBarRowModel) overRow).addInterval(Event);
+                                //_EventTableModel.removeEvent(Event);
                             }
                             tbv.setGhostIntervals(null, null);
                             evt.dropComplete(true);
@@ -397,7 +404,6 @@ public class SchedulingPanel extends JPanel {
             }
         });
         unscheduleButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent arg0) {
                 unscheduleSelected();
             }
