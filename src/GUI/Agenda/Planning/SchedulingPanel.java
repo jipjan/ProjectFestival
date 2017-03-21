@@ -41,7 +41,7 @@ public class SchedulingPanel extends JPanel {
 
     public SchedulingPanel() {
         setLayout(new BorderLayout());
-        // split pane for tbv/table
+
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setResizeWeight(0.85);
         splitPane.setEnabled(false);
@@ -59,33 +59,25 @@ public class SchedulingPanel extends JPanel {
         _tbv.setTimeScaleRenderer(new BoxTimeScaleRenderer());
         _tbv.setTimeScalePosition(TimeBarViewerInterface.TIMESCALE_POSITION_TOP);
         _tbv.setInitialDisplayRange(new JaretDate().setTime(0, 0, 0, 0), 24 * 60 * 60);
-
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
                 _tbv.setInitialDisplayRange(new JaretDate().setTime(0, 0, 0, 0), 24 * 60 * 60);
             }
-
             @Override
             public void componentMoved(ComponentEvent e) {
 
             }
-
             @Override
             public void componentShown(ComponentEvent e) {
 
             }
-
             @Override
             public void componentHidden(ComponentEvent e) {
 
             }
         });
-
-        // Interval modificator preventing intervals from beeing overlapped by shifting or sizing
         _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
-
-        // register the renderer
         _tbv.registerTimeBarRenderer(Event.class, new EventRenderer());
 
         setUpDND(_tbv);
@@ -182,17 +174,7 @@ public class SchedulingPanel extends JPanel {
                         TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                         if (overRow != null) {
                             for (Event Event : _draggedEvents) {
-                                boolean contains = false;
-                                for (int i = 0; i < _tbv.getModel().getRowCount(); i++) {
-                                    if (_tbv.getModel().getRow(i).getIntervals().contains(Event)) {
-                                        contains = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!contains)
-                                    ((DefaultTimeBarRowModel) overRow).addInterval(Event);
-                                //_EventTableModel.removeEvent(Event);
+                                ((DefaultTimeBarRowModel) overRow).addInterval(Event);
                             }
                             tbv.setGhostIntervals(null, null);
                             evt.dropComplete(true);
@@ -206,6 +188,19 @@ public class SchedulingPanel extends JPanel {
                 }
 
                 public void dragOver(DropTargetDragEvent evt) {
+
+                    for (Event e : _draggedEvents) {
+                        for (int i = 0; i < _tbv.getModel().getRowCount(); i++) {
+                            for (Interval inter : _tbv.getModel().getRow(i).getIntervals()) {
+                                if (inter.equals(e)) {
+                                    TimeBarRow row = _model.getRowForInterval(inter);
+                                    ((DefaultTimeBarRowModel) row).remInterval(inter);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                     if (overRow != null) {
                         tbv.highlightRow(overRow);
@@ -426,11 +421,8 @@ public class SchedulingPanel extends JPanel {
 
     protected ScheduleTimeBarModel createTBVModel() {
         ScheduleTimeBarModel model = new ScheduleTimeBarModel();
-
-        model.addRow("Podium 1");
-        model.addRow("Podium 2");
-        model.addRow("Podium 3");
-
+        for (int i = 1; i <= CurrentSetup.Podia; i++)
+            model.addRow("Podium " + i);
         return model;
     }
 
