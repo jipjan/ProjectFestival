@@ -189,17 +189,15 @@ public class SchedulingPanel extends JPanel {
 
                 public void dragOver(DropTargetDragEvent evt) {
 
-                    for (Event e : _draggedEvents) {
-                        for (int i = 0; i < _tbv.getModel().getRowCount(); i++) {
-                            for (Interval inter : _tbv.getModel().getRow(i).getIntervals()) {
+                    for (Event e : _draggedEvents)
+                        for (int i = 0; i < _tbv.getModel().getRowCount(); i++)
+                            for (Interval inter : _tbv.getModel().getRow(i).getIntervals())
                                 if (inter.equals(e)) {
                                     TimeBarRow row = _model.getRowForInterval(inter);
                                     ((DefaultTimeBarRowModel) row).remInterval(inter);
                                     break;
                                 }
-                            }
-                        }
-                    }
+
 
                     TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                     if (overRow != null) {
