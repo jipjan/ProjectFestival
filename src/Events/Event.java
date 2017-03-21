@@ -19,7 +19,7 @@ public class Event extends PropertyObservableBase implements GUI.MyPanel.ITableO
         _name = name;
         _popularity = popularity;
         _performer = performer;
-        setTime(time);
+        _time = time;
         _podium = podium;
     }
 

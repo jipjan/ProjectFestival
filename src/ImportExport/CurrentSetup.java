@@ -12,4 +12,9 @@ public class CurrentSetup {
         Arrays.asList(new Event("K3 Festival", "K3", (short) 5, new Time(new JaretDate(), new JaretDate().advanceMinutes(30)),2), new Event("Test", "Test", (short) 2, new Time(new JaretDate(), new JaretDate().advanceMinutes(120)), 1)));
 
     public static int Podia = 3;
+
+    public static void reset() {
+        Events.clear();
+        Podia = 0;
+    }
 }

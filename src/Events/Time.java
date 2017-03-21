@@ -1,9 +1,7 @@
 package Events;
 
 import de.jaret.util.date.JaretDate;
-
 import java.io.Serializable;
-import java.util.Date;
 
 public class Time implements Serializable {
     JaretDate _beginDate;

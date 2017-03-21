@@ -17,6 +17,8 @@ public class TopBar extends ColoredJPanel {
 
         JFileChooser f = new JFileChooser();
 
+        n.addActionListener((e) -> CurrentSetup.reset());
+
         o.addActionListener((e) -> {
             if (f.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 CurrentSetup.Events = Import.ImportJsonObject(f.getSelectedFile().getAbsolutePath(), Events.Events.class);
