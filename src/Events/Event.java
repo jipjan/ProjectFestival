@@ -75,4 +75,9 @@ public class Event extends IntervalImpl implements GUI.MyPanel.ITableObject, Ser
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return _name + ": " + _begin.toDisplayStringTime() + " - " + _end.toDisplayStringTime();
+    }
 }
