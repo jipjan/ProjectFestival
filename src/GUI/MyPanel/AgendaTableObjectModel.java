@@ -6,7 +6,7 @@ import Events.Event;
 
 public class AgendaTableObjectModel extends AbstractTableModel {
     private Events _items;
-    private String[] _columns = new String[] { "Naam", "Duur", "Populariteit"};
+    private String[] _columns = new String[] { "Naam", "Performer", "Duur", "Populariteit"};
 
     public AgendaTableObjectModel(Events items) {
         _items = items;
@@ -28,13 +28,15 @@ public class AgendaTableObjectModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ITableObject obj = _items.get(rowIndex);
+        Event obj = _items.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return obj.getName();
             case 1:
-                return obj.getDuration();
+                return obj.getPerformer();
             case 2:
+                return obj.getDuration();
+            case 3:
                 return obj.getPopularity();
             default:
                 return "Mistakes were made";
@@ -42,6 +44,9 @@ public class AgendaTableObjectModel extends AbstractTableModel {
     }
 
     public Event getItem(int row) {
-        return _items.get(row);
+        if (row != -1 && _items.size() > row)
+            return _items.get(row);
+        else
+            return null;
     }
 }

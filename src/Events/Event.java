@@ -37,11 +37,15 @@ public class Event extends PropertyObservableBase implements GUI.MyPanel.ITableO
     }
 
     public void setDuration(long duration) {
-        setTime(new Time(_time.getBeginDate(), _time.getBeginDate().advanceMinutes(duration)));
+        setTime(new Time(_time.getBeginDate(), _time.getBeginDate().copy().advanceMinutes(duration)));
     }
 
     public String getPerformer() {
         return _performer;
+    }
+
+    public void setPerformer(String name) {
+        _performer = name;
     }
 
     public String getName() {
