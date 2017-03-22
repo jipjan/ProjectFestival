@@ -170,6 +170,7 @@ public class SchedulingPanel extends JPanel {
                         TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                         if (overRow != null) {
                             for (Event Event : _draggedEvents) {
+                                Event.setPodium(_model.getIndexForRow(overRow) + 1);
                                 ((MyTimeBarRowModel) overRow).addInterval(Event);
                             }
                             tbv.setGhostIntervals(null, null);
@@ -388,17 +389,6 @@ public class SchedulingPanel extends JPanel {
         panel.add(unscheduleButton);
 
         return panel;
-    }
-
-    private int calcInitialSliderVal(double c, double b, double faktor, int seconds) {
-
-        double x = 1 / b * log2((seconds - c) / faktor);
-
-        return (int) x;
-    }
-
-    private double log2(double a) {
-        return Math.log(a) / Math.log(2);
     }
 
     protected ScheduleTimeBarModel createTBVModel() {

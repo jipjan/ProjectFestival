@@ -1,5 +1,5 @@
 package Events;
-import GUI.Agenda.Planning.IntervalImpl;
+
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.misc.PropertyObservableBase;
@@ -67,6 +67,10 @@ public class Event extends PropertyObservableBase implements GUI.MyPanel.ITableO
     }
 
     public int getPodium() {return _podium;}
+
+    public void setPodium(int pod) {
+        _podium = pod;
+    }
 
     @Override
     public void setBegin(JaretDate jaretDate) {
