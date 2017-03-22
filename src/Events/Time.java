@@ -4,8 +4,8 @@ import de.jaret.util.date.JaretDate;
 import java.io.Serializable;
 
 public class Time implements Serializable {
-    JaretDate _beginDate;
-    JaretDate _endDate;
+    private JaretDate _beginDate;
+    private JaretDate _endDate;
 
     public Time(JaretDate begin, JaretDate end) {
         _beginDate = begin;

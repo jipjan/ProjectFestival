@@ -19,7 +19,7 @@ public class EntertainerEditorTabPanel extends ColoredJPanel {
 
         setName("Entertainer Editor");
 
-        AgendaTableObjectModel m = new AgendaTableObjectModel(CurrentSetup.Events);
+        AgendaTableObjectModel m = new AgendaTableObjectModel(CurrentSetup.getEvents());
         JTable table = new JTable(m);
 
 

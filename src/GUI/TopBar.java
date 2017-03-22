@@ -21,13 +21,14 @@ public class TopBar extends ColoredJPanel {
 
         o.addActionListener((e) -> {
             if (f.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                CurrentSetup.Events = Import.ImportJsonObject(f.getSelectedFile().getAbsolutePath(), Events.Events.class);
+                CurrentSetup.setEvents(Import.ImportJsonObject(f.getSelectedFile().getAbsolutePath(), Events.Events.class));
+                ColoredJPanel.repaintAllPanels();
             }
         });
 
         s.addActionListener((e) -> {
             if (f.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                Export.ExportJsonFile(f.getSelectedFile().getAbsolutePath(), CurrentSetup.Events);
+                Export.ExportJsonFile(f.getSelectedFile().getAbsolutePath(), CurrentSetup.getEvents());
             }
         });
 

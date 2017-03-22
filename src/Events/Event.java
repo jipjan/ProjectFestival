@@ -9,18 +9,17 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 
 public class Event extends PropertyObservableBase implements GUI.MyPanel.ITableObject, Serializable, Interval, PropertyChangeListener {
-    short _popularity;
-    String _performer;
-    String _name;
-    int _podium;
-    Time _time;
+    private short _popularity;
+    private String _performer;
+    private String _name;
+    private int _podium = -1;
+    private Time _time;
 
-    public Event(String name, String performer, short popularity, Time time, int podium) {
+    public Event(String name, String performer, short popularity, Time time) {
         _name = name;
         _popularity = popularity;
         _performer = performer;
         _time = time;
-        _podium = podium;
     }
 
     public short getPopularity() {

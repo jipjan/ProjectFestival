@@ -74,7 +74,7 @@ public class SchedulingPanel extends JPanel {
             }
         });
 
-        _EventTableModel = new EventTableModel(CurrentSetup.Events);
+        _EventTableModel = new EventTableModel(CurrentSetup.getEvents());
         _EventTable = new JTable(_EventTableModel);
 
         _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
