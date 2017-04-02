@@ -72,4 +72,9 @@ public class TileLayer extends Layer {
     {
         return this.image;
     }
+
+    // FIX DIE DING -
+    public int[][] getTileData() {
+        return data;
+    }
 }

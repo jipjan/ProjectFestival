@@ -1,5 +1,6 @@
 package AI;
 
+import mapviewer.tiled.TileLayer;
 import mapviewer.tiled.TileMap;
 
 import java.util.LinkedList;
@@ -10,16 +11,16 @@ import java.util.Queue;
  */
 public class DistanceGrid {
     //             y x
-    private double[][] _distanceGrid;
-    private TileMap map;
+    private double[][] _distanceGrid; // double[y][x]
+    private TileMap _map;
     private Queue<DistanceGridCoordinate> _pointCheckQueue;
     private int _mapSizeX;
     private int _mapSizeY;
     private static double _noValue = -2d;
 
-    DistanceGrid(int zeroPointX, int zeroPointY)
+    DistanceGrid(int zeroPointX, int zeroPointY, TileMap map)
     {
-        //this.map = map;
+        _map = map;
         _mapSizeX = getMapSizeX();
         _mapSizeY = getMapSizeY();
 
@@ -72,7 +73,7 @@ public class DistanceGrid {
 
     private boolean needsNewDistance(int x, int y, double currentDistance)
     {
-        if (_distanceGrid[y][x] == -2||_distanceGrid[y][x] > currentDistance)
+        if (_distanceGrid[y][x] == -2 || _distanceGrid[y][x] > currentDistance)
             return true;
         return false;
     }
@@ -83,10 +84,14 @@ public class DistanceGrid {
         {true, false, true, false, true},
                 {true, false, false, false, true},
         {true, true, true , true, true}};
+
     private boolean isAccessible(int x, int y)
     {
+        TileLayer layer = _map.getLayer();
+
         if (x < 0 || x >= _mapSizeX + 1 || y < 0 || y >= _mapSizeY + 1)
             return false;
+
         return testArray[y][x];
     }
 
