@@ -219,4 +219,9 @@ public class TileMap {
     public int getTileHeight() {
         return tileHeight;
     }
+
+    public ArrayList getLayers()
+    {
+        return layers;
+    }
 }
