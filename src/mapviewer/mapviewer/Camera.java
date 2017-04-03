@@ -30,8 +30,8 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
         panel.addMouseMotionListener(this);
         panel.addMouseWheelListener(this);
 
-        maxZoom = 7.5f;
-        minZoom = 0.5f;
+        maxZoom = 0.25f;
+        minZoom = 2.0f;
 
         this.zoom = zoom;
         this.centerPoint = centerPoint;
@@ -80,9 +80,11 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     public void mouseWheelMoved(MouseWheelEvent e)
     {
         double z = zoom * (1.0F - e.getWheelRotation() / 25.0F);
-        if (z >= minZoom && z <= maxZoom)
+        System.out.println(z);
+        if (z <= minZoom && z >= maxZoom) {
             zoom = z;
-        repaint();
+            repaint();
+        }
     }
 
     public double getZoom()

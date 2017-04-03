@@ -1,11 +1,8 @@
 package GUI;
 
 import GUI.Agenda.AgendaTabPanel;
-import GUI.EntertainerEditor.EntertainerEditorPanel;
 import GUI.EntertainerEditor.EntertainerEditorTabPanel;
 import GUI.Simulation.SimulationTabPanel;
-import ImportExport.CurrentSetup;
-import mapviewer.MapViewer;
 import java.awt.*;
 import javax.swing.*;
 

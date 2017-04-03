@@ -30,7 +30,7 @@ public class MapViewer extends JPanel {
     }
 
     public MapViewer() {
-        this.map = new TileMap("./resources/test.json");
+        this.map = new TileMap("./resources/Festivalplanner Map V1.json");
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
     }
 
