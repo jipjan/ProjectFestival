@@ -119,6 +119,6 @@ public class DistanceGrid {
 
     public static void main(String[] arg)
     {
-        DistanceGrid d = new DistanceGrid(0,0);
+        DistanceGrid d = new DistanceGrid(0,0, null);//put map here instead of null
     }
 }
