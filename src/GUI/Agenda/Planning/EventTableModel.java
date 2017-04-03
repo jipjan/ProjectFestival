@@ -17,21 +17,8 @@ public class EventTableModel extends AbstractTableModel{
         return _events.get(index);
     }
 
-    public void addEvent(Event ev) {
-        _events.add(ev);
-        fireTableDataChanged();
-    }
-
-    public void removeEvent(Event ev) {
-        int index = _events.indexOf(ev);
-        if (index != -1) {
-            _events.remove(ev);
-            fireTableRowsDeleted(index, index);
-        }
-    }
-
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     public int getRowCount() {
@@ -50,6 +37,8 @@ public class EventTableModel extends AbstractTableModel{
                 return ev.getTime().getBeginDate().toDisplayStringTime();
             case 3:
                 return ev.getTime().getEndDate().toDisplayStringTime();
+            case 4:
+                return ev.getDuration() + " minuten";
             default:
                 return null;
         }
@@ -66,6 +55,8 @@ public class EventTableModel extends AbstractTableModel{
                 return "Begin";
             case 3:
                 return "End";
+            case 4:
+                return "Duration";
             default:
                 return null;
         }

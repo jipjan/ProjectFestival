@@ -5,6 +5,7 @@ import mapviewer.tiled.TileMap;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * Created by Thijs on 20-2-2017.
@@ -29,8 +30,8 @@ public class MapViewer extends JPanel {
     }
 
     public MapViewer() {
-        this.map = new TileMap("./resources/Festivalplanner Map V2.json");
-        this.camera = new Camera(this);
+        this.map = new TileMap("./resources/test.json");
+        this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
     }
 
     public void paintComponent(Graphics g)

@@ -30,8 +30,8 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
         panel.addMouseMotionListener(this);
         panel.addMouseWheelListener(this);
 
-        maxZoom = Double.MAX_VALUE;
-        minZoom = Double.MIN_VALUE;
+        maxZoom = 7.5f;
+        minZoom = 0.5f;
 
         this.zoom = zoom;
         this.centerPoint = centerPoint;
@@ -40,7 +40,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     public AffineTransform getTransform(int windowWidth, int windowHeight)
     {
         AffineTransform tx = new AffineTransform();
-        tx.translate(windowWidth / 2, windowHeight / 2);
+        tx.translate(windowWidth / 4, windowHeight / 4);
         tx.scale(this.zoom, this.zoom);
         tx.translate(this.centerPoint.getX(), this.centerPoint.getY());
 
@@ -79,8 +79,9 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
 
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        this.zoom *= (1.0F - e.getWheelRotation() / 25.0F);
-
+        double z = zoom * (1.0F - e.getWheelRotation() / 25.0F);
+        if (z >= minZoom && z <= maxZoom)
+            zoom = z;
         repaint();
     }
 
@@ -115,9 +116,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
         this.minZoom = minZoom;
     }
 
-    private void repaint()
-    {
-        if(this.zoom > this.minZoom && this.zoom < this.maxZoom)
-            this.panel.repaint();
+    private void repaint() {
+        this.panel.repaint();
     }
 }

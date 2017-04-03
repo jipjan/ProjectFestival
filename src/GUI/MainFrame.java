@@ -1,52 +1,38 @@
 package GUI;
 
 import GUI.Agenda.AgendaTabPanel;
-import GUI.MyPanel.ObjectTableList;
-import GUI.entertainerEditor.EntertainerEditorPanel;
+import GUI.EntertainerEditor.EntertainerEditorPanel;
+import GUI.EntertainerEditor.EntertainerEditorTabPanel;
+import GUI.Simulation.SimulationTabPanel;
+import ImportExport.CurrentSetup;
 import mapviewer.MapViewer;
-
 import java.awt.*;
 import javax.swing.*;
+
 public class MainFrame extends ColoredJPanel {
 
     private static final long serialVersionUID = 1L;
 
     public MainFrame() {
-        Events.Events eventList = new Events.Events();
-
         setLayout(new BorderLayout());
-        JPanel jp = new ColoredJPanel();
-        jp.setLayout(new BorderLayout());
+
         JTabbedPane tb = new JTabbedPane();
         tb.setUI(new CustomTabbedPaneUI());
-        //setup tests------------------------------------------------------------------------
-
-        eventList.add(new Events.Event("empty", "empty",(short) 0,new Events.Time(60),0));
-        //---------------------------------------------------------------------------------
 
         tb.add(new AgendaTabPanel());
+        tb.add(new EntertainerEditorTabPanel());
+        tb.add(new SimulationTabPanel());
 
-        //___________________________________________________________________________________
-        JPanel eventEditor = new EntertainerEditorPanel(eventList); //new JPanel(new FlowLayout());
-        tb.add(eventEditor);
-
-        //___________________________________________________________________________________
-        JPanel simulation = new ColoredJPanel(new BorderLayout());
-        simulation.setName("Simulation");
-        simulation.add(new MapViewer());
-        tb.add(simulation);
-
-        jp.add(tb, BorderLayout.CENTER);
-        add(jp, BorderLayout.CENTER);
-
+        add(new TopBar(), BorderLayout.NORTH);
+        add(tb, BorderLayout.CENTER);
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.getContentPane().add(new MainFrame());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 500);
-        frame.setLocationRelativeTo(null);
+        frame.setSize(1040, 800);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 }
