@@ -75,7 +75,15 @@ public class TileMap {
                 tileset.setTileCount(tilesetObject.getInt("tilecount"));
                 tileset.setTileHeight(tilesetObject.getInt("tileheight"));
                 tileset.setTileWidth(tilesetObject.getInt("tilewidth"));
-                tileset.setTilesetImage(ImageIO.read(this.getClass().getResourceAsStream(tileset.getImagePath())));
+
+                try
+                {
+                    tileset.setTilesetImage(ImageIO.read(this.getClass().getResourceAsStream(tileset.getImagePath())));
+                }
+                catch (Exception e)
+                {
+                    System.out.println("Er mist een image: " + tileset.getImagePath());
+                }
 
                 tilesets.add(tileset);
 
@@ -210,5 +218,10 @@ public class TileMap {
 
     public int getTileHeight() {
         return tileHeight;
+    }
+
+    public ArrayList<TileLayer> getLayers()
+    {
+        return layers;
     }
 }
