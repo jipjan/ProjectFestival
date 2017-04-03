@@ -220,7 +220,7 @@ public class TileMap {
         return tileHeight;
     }
 
-    public ArrayList getLayers()
+    public ArrayList<TileLayer> getLayers()
     {
         return layers;
     }
