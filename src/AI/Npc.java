@@ -5,24 +5,42 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+
+import AI.mood.*;
+
 public class Npc {
     private State _state;
     private Mood _mood;
     private Point2D _location;
     private Point2D _destination;
     private double _direction = 0;
+    private static int _tileSize = 32;
+    private DistanceGrid _finalDestination;
 
     public double getWidth() {
         return width;
     }
-
     private double width = 5;
 
     public Npc(Point2D _location) {
-        _state = State.Neutral;
-        _mood = Mood.Neutral;
         this._location = _location;
         _destination = _location;
+    }
+
+    public Npc(GridLocation gridLocation, Mood mood)
+    {
+        _location = gridLocation.getLocation();
+        _mood = mood;
+    }
+
+    public void SetFinalDestination(DistanceGrid finalDestination)
+    {
+        _finalDestination = finalDestination;
+    }
+
+    public DistanceGrid getFinalDestination()
+    {
+        return _finalDestination;
     }
 
     public void setMood(Mood m) {
@@ -42,10 +60,8 @@ public class Npc {
     }
 
     public void draw(Graphics2D g2d) {
-
         g2d.setPaint(Color.pink);
         g2d.fill(new Ellipse2D.Double(_location.getX(), _location.getY(), width, width));
-
     }
 
     public Point2D getLocation() {
