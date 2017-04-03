@@ -29,7 +29,7 @@ public class MapViewer extends JPanel {
     }
 
     public MapViewer() {
-        this.map = new TileMap("./resources/Festivalplanner Map V1.json");
+        this.map = new TileMap("./resources/Festivalplanner Map V2.json");
         this.camera = new Camera(this);
     }
 
