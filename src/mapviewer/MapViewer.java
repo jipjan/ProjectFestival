@@ -1,16 +1,22 @@
 package mapviewer;
 
+import AI.Npc;
 import mapviewer.mapviewer.Camera;
 import mapviewer.tiled.TileMap;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
  * Created by Thijs on 20-2-2017.
  */
-public class MapViewer extends JPanel {
+public class MapViewer extends JPanel implements ActionListener {
     private TileMap map;
     private Camera camera;
 
@@ -29,9 +35,40 @@ public class MapViewer extends JPanel {
         frame.setVisible(true);
     }
 
+    ArrayList<Npc> npcs = new ArrayList<>();
+
     public MapViewer() {
         this.map = new TileMap("./resources/Festivalplanner Map V1.json");
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
+
+            while (npcs.size() < 1000) {
+                Point2D spawnPoint = new Point2D.Double(Math.random() * 800, Math.random() * 800);
+                if (canSpawn(spawnPoint))
+                    npcs.add(new Npc(spawnPoint));
+
+            }
+            addMouseMotionListener(new MouseMotionAdapter() {
+                @Override
+                public void mouseMoved(MouseEvent e) {
+                    super.mouseMoved(e);
+
+                    for (Npc c : npcs)
+                        c.setDestination(new Point2D.Double(e.getX(), e.getY()));
+
+                }
+            });
+
+            new Timer(10, this).start();
+
+
+    }
+    public boolean canSpawn(Point2D point)
+    {
+        for (Npc c : npcs) {
+            if (c.getLocation().distance(point) < c.getWidth())
+                return false;
+        }
+        return true;
     }
 
     public void paintComponent(Graphics g)
@@ -71,6 +108,8 @@ public class MapViewer extends JPanel {
         // Right Horizontal line
         g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
         */
+        for (Npc c : npcs)
+            c.draw(g2d);
     }
 
     private void drawStats(Graphics2D g2d)
@@ -162,5 +201,14 @@ public class MapViewer extends JPanel {
 
         this.linesH = lH;
         this.linesV = lV;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for (Npc c : npcs)
+            c.update(npcs);
+
+        repaint();
+
     }
 }

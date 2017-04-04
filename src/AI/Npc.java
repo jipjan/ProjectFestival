@@ -1,12 +1,16 @@
 package AI;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
 import AI.mood.*;
+
+import javax.imageio.ImageIO;
 
 public class Npc {
     private State _state;
@@ -16,6 +20,7 @@ public class Npc {
     private double _direction = 0;
     private static int _tileSize = 32;
     private DistanceGrid _finalDestination;
+    private BufferedImage _sprite;
 
     public double getWidth() {
         return width;
@@ -25,6 +30,35 @@ public class Npc {
     public Npc(Point2D _location) {
         this._location = _location;
         _destination = _location;
+        try{
+        switch((int)Math.floor(Math.random()*10)){
+            case 0:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker1.png"));
+            break;
+            case 1:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker2.png"));
+                break;
+            case 2:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker3.png"));
+                break;
+            case 3:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker4.png"));
+                break;
+            case 4:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker5.png"));
+                break;
+            case 5:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker6.png"));
+                break;
+            case 6:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker7.png"));
+                break;
+            case 7:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker8.png"));
+                break;
+            case 8:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker9.png"));
+                break;
+            case 9:_sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker10.png"));
+                break;
+
+            default: _sprite = ImageIO.read(this.getClass().getResource("/Bezoeker/Bezoeker1.png"));
+        }}
+        catch(Exception e){
+            e.printStackTrace();
+
+        }
     }
 
     public Npc(GridLocation gridLocation, Mood mood)
@@ -60,8 +94,14 @@ public class Npc {
     }
 
     public void draw(Graphics2D g2d) {
-        g2d.setPaint(Color.pink);
-        g2d.fill(new Ellipse2D.Double(_location.getX(), _location.getY(), width, width));
+        AffineTransform t = new AffineTransform();
+        t.translate(_location.getX(),_location.getY());
+        t.rotate(_direction);
+        t.translate(-_sprite.getWidth()/ 2, -_sprite.getHeight()/2);
+
+        g2d.drawImage(_sprite,t,null);
+
+
     }
 
     public Point2D getLocation() {
