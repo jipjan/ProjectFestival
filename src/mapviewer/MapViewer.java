@@ -2,15 +2,20 @@ package mapviewer;
 
 import AI.Npc;
 import mapviewer.mapviewer.Camera;
+import mapviewer.mapviewer.ObjectStats;
+import mapviewer.tiled.ObjectLayer;
 import mapviewer.tiled.TileMap;
 
 import javax.swing.*;
 import java.awt.*;
+<<<<<<< HEAD
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Point2D;
+=======
+>>>>>>> ObjStats
 import java.util.ArrayList;
 
 /**
@@ -112,8 +117,14 @@ public class MapViewer extends JPanel implements ActionListener {
             c.draw(g2d);
     }
 
+
     private void drawStats(Graphics2D g2d)
-    {/*
+    {
+        if (map.layer==null) return;
+        ObjectStats objstats = new ObjectStats(map.layer.getObjectList());
+        objstats.counters(g2d);
+
+        /*
         int statCount = 12;
         int statHeight = 14;
 

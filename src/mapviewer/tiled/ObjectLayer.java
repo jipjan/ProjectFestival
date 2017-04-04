@@ -24,5 +24,10 @@ public class ObjectLayer extends Layer {
             objList.add(object);
         }
 
-                                                     }
+
+    }
+
+    public ArrayList getObjectList(){
+        return objList;
+    }
 }

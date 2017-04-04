@@ -26,6 +26,7 @@ public class TileMap {
     private ArrayList<Tileset> tilesets = new ArrayList<>();
     private ArrayList<TileLayer> layers = new ArrayList();
     private ArrayList<BufferedImage> tiles = new ArrayList();
+    public ObjectLayer layer;
 
     private int width;
     private int height;
