@@ -33,7 +33,7 @@ public class ObjectStats {
             double y = item.getY();
             String name = item.getName();
             int aantalNPCs = getNPCs(x,y);
-            System.out.println("AAAAAAAAAAAAAAAAAAA");
+            System.out.println("Counters()");
             g2d.drawString("Naam: "+name +" Aantal bezoekers: "+ aantalNPCs, (int) x,(int) y);
         }
     }

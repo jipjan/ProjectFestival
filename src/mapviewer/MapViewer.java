@@ -2,12 +2,9 @@ package mapviewer;
 
 import mapviewer.mapviewer.Camera;
 import mapviewer.mapviewer.ObjectStats;
-import mapviewer.tiled.ObjectLayer;
 import mapviewer.tiled.TileMap;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Created by Thijs on 20-2-2017.
@@ -57,7 +54,7 @@ public class MapViewer extends JPanel {
         // Done resetting camera transform
         // YOU CAN EDIT BEYOND THIS POINT AGAIN!
         g2d.setColor(Color.MAGENTA);
-        this.drawStats(g2d);
+        //this.drawStats(g2d);
 /*
         g2d.setColor(Color.blue);
 
@@ -78,11 +75,13 @@ public class MapViewer extends JPanel {
 
     private void drawStats(Graphics2D g2d)
     {
-        System.out.println("B");
+        /* Dit is jammer genoeg gecut ;(
+        System.out.println("MAAR WAAROM");
         if (map.layer==null) return;
+        System.out.println("drawStats behind if");
         ObjectStats objstats = new ObjectStats(map.layer.getObjectList());
         objstats.counters(g2d);
-
+        */
         /*
         int statCount = 12;
         int statHeight = 14;
