@@ -33,6 +33,11 @@ public class Npc {
         _mood = mood;
     }
 
+    public void needsUpdate()
+    {
+
+    }
+
     public void SetFinalDestination(DistanceGrid finalDestination)
     {
         _finalDestination = finalDestination;
@@ -112,7 +117,7 @@ public class Npc {
 
     }
 
-    public void setDestination(Point2D _destination) {
-        this._destination = _destination;
+    public void setDestination(Point2D destination) {
+        this._destination = destination;
     }
 }

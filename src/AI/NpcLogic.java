@@ -18,6 +18,9 @@ public class NpcLogic {
 
     public void updateNpc()
     {
+        for (Npc npc: _currentNpcs)
+        {
 
+        }
     }
 }
