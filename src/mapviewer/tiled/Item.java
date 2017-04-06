@@ -14,4 +14,16 @@ public class Item {
         x=xO;
         y=yO;
     }
+
+    public double getX(){
+        return x;
+    }
+
+    public double getY(){
+        return y;
+    }
+
+    public String getName(){
+        return name;
+    }
 }

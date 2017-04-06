@@ -1,27 +1,47 @@
 package mapviewer;
 
-import AI.Npc;
+import NewAI.MyObjectBodies;
+import NewAI.NewNpc;
+import NewAI.NewNpcs;
+import NewAI.Toilet;
 import mapviewer.mapviewer.Camera;
+import mapviewer.mapviewer.DebugDraw;
+import mapviewer.mapviewer.Draw;
+import mapviewer.mapviewer.ObjectStats;
+import mapviewer.tiled.Item;
+import mapviewer.tiled.ObjectLayer;
 import mapviewer.tiled.TileMap;
+import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Vector2;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
+
+import Sprites.*;
 
 /**
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
+    private static final int AMOUNTOFNPCS = 20;
+
+
     private TileMap map;
     private Camera camera;
-
-    private int linesV;
-    private int linesH;
+    private double lastTime = 0;
+    private World w = new World();
+    private NewNpcs npcs;
+    private MyObjectBodies _myObjectBodies;
+    private ObjectLayer objectLayer; //geen idee of dit goed is
+    private int linesH, linesV;
+    private ArrayList<Point2D> _startLocations;
+    private static Graphics2D g2d;
 
     public static void main(String[] args)
     {
@@ -35,85 +55,50 @@ public class MapViewer extends JPanel implements ActionListener {
         frame.setVisible(true);
     }
 
-    ArrayList<Npc> npcs = new ArrayList<>();
+
 
     public MapViewer() {
         this.map = new TileMap("./resources/Festivalplanner Map V1.json");
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
 
-            while (npcs.size() < 1000) {
-                Point2D spawnPoint = new Point2D.Double(Math.random() * 800, Math.random() * 800);
-                if (canSpawn(spawnPoint))
-                    npcs.add(new Npc(spawnPoint));
+        Sprites.Init();
 
-            }
-            addMouseMotionListener(new MouseMotionAdapter() {
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    super.mouseMoved(e);
+        _startLocations = new ArrayList<>();
+        _startLocations.add(new Point2D.Double(0, 300));
 
-                    for (Npc c : npcs)
-                        c.setDestination(new Point2D.Double(e.getX(), e.getY()));
+        w.setGravity(new Vector2(0, 0));
 
-                }
-            });
+        npcs = new NewNpcs(AMOUNTOFNPCS);
+        Random r = new Random();
+        for (int i = 0; i < AMOUNTOFNPCS; i++) {
+            Point2D startLoc = _startLocations.get(r.nextInt(_startLocations.size()));
 
-            new Timer(10, this).start();
-
-
-    }
-    public boolean canSpawn(Point2D point)
-    {
-        for (Npc c : npcs) {
-            if (c.getLocation().distance(point) < c.getWidth())
-                return false;
+            NewNpc npc = new NewNpc(startLoc.getX() + npcs.size()*6, startLoc.getY());
+            w.addBody(npc);
+            npcs.add(npc);
         }
-        return true;
+
+        _myObjectBodies = new MyObjectBodies();
+
+        for(Item t : map.layerobjects.getObjectList())
+        {
+            System.out.println(t.getName());
+            if (t.getName().contains("Toilet"))
+                _myObjectBodies.add(new Toilet(t.getX(),t.getY()));
+        }
+
+        new Timer(10, this).start();
     }
 
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-
-        this.drawGrid(g2d);
-        //this.drawCrosshair(g2d);
 
 
-        // KEEP THIS ORDER - DO NOT EDIT UNLESS FUCKERY IS WANTED
-        g2d.setTransform(this.camera.getTransform(getWidth(), getHeight()));
-
-        // Camera transfom is needed for the map to draw and to keep correct ratio's
-        this.map.draw(g2d);
-
-        // Reset camera transform
-        g2d.scale(1 / this.camera.getZoom() , 1 / this.camera.getZoom());
-        g2d.translate(-(this.getWidth() / 2) - this.camera.getCenterPoint().getX() * this.camera.getZoom(), -(this.getHeight() / 2) - this.camera.getCenterPoint().getY() * this.camera.getZoom());
-        // Done resetting camera transform
-        // YOU CAN EDIT BEYOND THIS POINT AGAIN!
-
-        this.drawStats(g2d);
-/*
-        g2d.setColor(Color.blue);
-
-        // Top Vertical line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth() / 2, 0);
-
-        // Down Vertical line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth() / 2, this.getHeight());
-
-        // Left Horizontal line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, 0, this.getHeight() / 2);
-
-        // Right Horizontal line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
-        */
-        for (Npc c : npcs)
-            c.draw(g2d);
-    }
 
     private void drawStats(Graphics2D g2d)
-    {/*
+    {
+        if (map.layerobjects==null) return;
+        ObjectStats objstats = new ObjectStats(map.layerobjects.getObjectList());
+        objstats.counters(g2d);
+        /*
         int statCount = 12;
         int statHeight = 14;
 
@@ -153,25 +138,6 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.translate(0, -(statCount * statHeight));*/
     }
 
-    private void drawCrosshair(Graphics2D g2d)
-    {
-        g2d.setColor(Color.red);
-        int centerX = (int) ((this.getWidth() / 2) + (this.camera.getCenterPoint().getX() * this.camera.getZoom()));
-        int centerY = (int) ((this.getHeight() / 2) + (this.camera.getCenterPoint().getY() * this.camera.getZoom()));
-
-        // Top Vertical line
-        g2d.drawLine(centerX, centerY, centerX, 0);
-
-        // Down Vertical line
-        g2d.drawLine(centerX, centerY, centerX, this.getHeight());
-
-        // Left Horizontal line
-        g2d.drawLine(centerX, centerY, 0, centerY);
-
-        // Right Horizontal line
-        g2d.drawLine(centerX, centerY, this.getWidth(), centerY);
-    }
-
     private void drawGrid(Graphics2D g2d)
     {
         int stepSize = 32;
@@ -205,10 +171,45 @@ public class MapViewer extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (Npc c : npcs)
-            c.update(npcs);
+        for (NewNpc c : npcs)
+            c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
+
+        long time = System.nanoTime();
+        double elapsedTime = (time-lastTime) / 1000000000.0;
+        lastTime = time;
+        w.update(elapsedTime);
 
         repaint();
+    }
 
+    @Override
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        g2d = (Graphics2D) g;
+
+        this.drawGrid(g2d);
+
+        // KEEP THIS ORDER - DO NOT EDIT UNLESS FUCKERY IS WANTED
+        g2d.setTransform(this.camera.getTransform(getWidth(), getHeight()));
+
+        // Camera transfom is needed for the map to draw and to keep correct ratio's
+        this.map.draw(g2d);
+
+        // Reset camera transform
+        g2d.scale(1 / this.camera.getZoom() , 1 / this.camera.getZoom());
+        g2d.translate(-(this.getWidth() / 2) - this.camera.getCenterPoint().getX() * this.camera.getZoom(), -(this.getHeight() / 2) - this.camera.getCenterPoint().getY() * this.camera.getZoom());
+        // Done resetting camera transform
+        // YOU CAN EDIT BEYOND THIS POINT AGAIN!
+
+        // this.drawStats(g2d);
+
+        // Draw NPCs
+        AffineTransform originalTransform = g2d.getTransform();
+        g2d.setTransform(camera.getTransform(getWidth(), getHeight()));
+        DebugDraw.draw(g2d, w, 1);
+        Draw.draw(g2d, _myObjectBodies, 1);
+        Draw.draw(g2d, npcs, 1);
+        g2d.setTransform(originalTransform);
     }
 }

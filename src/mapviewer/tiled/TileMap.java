@@ -26,6 +26,8 @@ public class TileMap {
     private ArrayList<Tileset> tilesets = new ArrayList<>();
     private ArrayList<TileLayer> layers = new ArrayList();
     private ArrayList<BufferedImage> tiles = new ArrayList();
+    public ObjectLayer layerobjects;
+    public TileLayer layertiled;
 
     private int width;
     private int height;
@@ -128,9 +130,12 @@ public class TileMap {
                 }
 
                 if(layer != null){
-                    if(layer instanceof TileLayer)
-                    this.layers.add((TileLayer) layer);
+                    if(layer instanceof TileLayer) {
+                        this.layers.add((TileLayer) layer);
+                        layertiled = (TileLayer) layer;
+                    }
                     else if (layer instanceof ObjectLayer){
+                        layerobjects = (ObjectLayer) layer;
                     //this.layers.add((ObjectLayer) layer);
                     //Moet er nog wat met de ObjectLayer
                     }
