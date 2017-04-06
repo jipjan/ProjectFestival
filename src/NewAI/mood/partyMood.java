@@ -2,15 +2,16 @@ package NewAI.mood;
 
 import NewAI.pathFinding.GridLocation;
 import Events.*;
+import mapviewer.tiled.TileMap;
+
 /**
  * Created by jacco on 23/03/2017.
  */
 public class partyMood implements IMood {
     public static int _likelyhood = 10;
-    Event curentEvent;
 
     @Override
-    public GridLocation giveDestination() {
+    public GridLocation giveDestination(TileMap map) {
         Events ongoingEvents = getOngoingEvents();
         int totalPopularity = 0;
         for (Event e: ongoingEvents)

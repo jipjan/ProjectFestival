@@ -3,14 +3,18 @@ package NewAI.mood;
 import Events.Events;
 import NewAI.pathFinding.GridLocation;
 import Events.Time;
+import mapviewer.tiled.TileMap;
 
 /**
  * Created by jacco on 01/04/2017.
  */
 public class moodless implements IMood {
     @Override
-    public GridLocation giveDestination() {
-        return null;
+    public GridLocation giveDestination(TileMap map) {
+        int objectAmount = map.layerobjects.getObjectList().size()-1;
+        int objectIndex = 1;//(int) Math.round( Math.random() * objectAmount);
+        return new GridLocation((int) map.layerobjects.getObjectList().get(objectIndex).getX()/32,
+                (int) map.layerobjects.getObjectList().get(objectIndex).getY()/32);
     }
 
     @Override

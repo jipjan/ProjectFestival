@@ -1,5 +1,6 @@
 package GUI.Simulation;
 
+import Events.Events;
 import GUI.ColoredJPanel;
 import mapviewer.MapViewer;
 

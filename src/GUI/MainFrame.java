@@ -17,7 +17,7 @@ public class MainFrame extends ColoredJPanel {
         tb.setUI(new CustomTabbedPaneUI());
 
         tb.add(new AgendaTabPanel());
-        //tb.add(new EntertainerEditorTabPanel());//todo
+        tb.add(new EntertainerEditorTabPanel());//todo
         tb.add(new SimulationTabPanel());
 
         add(new TopBar(), BorderLayout.NORTH);

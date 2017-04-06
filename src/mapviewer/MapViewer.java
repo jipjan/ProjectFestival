@@ -1,9 +1,9 @@
 package mapviewer;
 
-import NewAI.MyObjectBodies;
-import NewAI.NewNpc;
-import NewAI.NewNpcs;
-import NewAI.Toilet;
+import Events.Events;
+import NewAI.*;
+import NewAI.mood.moodless;
+import NewAI.pathFinding.DistanceGrid;
 import mapviewer.mapviewer.Camera;
 import mapviewer.mapviewer.DebugDraw;
 import mapviewer.mapviewer.Draw;
@@ -29,7 +29,7 @@ import Sprites.*;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int AMOUNTOFNPCS = 20;
+    private static final int AMOUNTOFNPCS = 100;
 
 
     private TileMap map;
@@ -42,7 +42,7 @@ public class MapViewer extends JPanel implements ActionListener {
     private int linesH, linesV;
     private ArrayList<Point2D> _startLocations;
     private static Graphics2D g2d;
-
+    private NewNpcLogic _NpcLogic;
     public static void main(String[] args)
     {
         JFrame frame = new JFrame("Map Viewer");
@@ -70,12 +70,16 @@ public class MapViewer extends JPanel implements ActionListener {
 
         npcs = new NewNpcs(AMOUNTOFNPCS);
         Random r = new Random();
+
+        DistanceGrid testDestination = new DistanceGrid((int) map.layerobjects.getObjectList().get(1).getX()/32, (int) map.layerobjects.getObjectList().get(1).getY()/32,map);
+
         for (int i = 0; i < AMOUNTOFNPCS; i++) {
             Point2D startLoc = _startLocations.get(r.nextInt(_startLocations.size()));
 
-            NewNpc npc = new NewNpc(startLoc.getX() + npcs.size()*6, startLoc.getY());
+            NewNpc npc = new NewNpc(startLoc.getX() + npcs.size()*6, startLoc.getY(), new moodless());
             w.addBody(npc);
             npcs.add(npc);
+            npc.setFinalDestination(testDestination);
         }
 
         _myObjectBodies = new MyObjectBodies();
@@ -87,6 +91,7 @@ public class MapViewer extends JPanel implements ActionListener {
                 _myObjectBodies.add(new Toilet(t.getX(),t.getY()));
         }
 
+        _NpcLogic = new NewNpcLogic(npcs, map);
         new Timer(10, this).start();
     }
 
@@ -169,14 +174,15 @@ public class MapViewer extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (NewNpc c : npcs)
-            c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
-
+        for (NewNpc c : npcs) {
+//            c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
+            c.update(map);
+        }
         long time = System.nanoTime();
         double elapsedTime = (time-lastTime) / 1000000000.0;
         lastTime = time;
         w.update(elapsedTime);
-
+        _NpcLogic.update();
         repaint();
     }
 

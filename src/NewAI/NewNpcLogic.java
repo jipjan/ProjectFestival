@@ -13,12 +13,10 @@ public class NewNpcLogic {
     TileMap _map;
     Events _events;
 
-    NewNpcLogic(NewNpcs npcs, TileMap map, Events events)
+    public NewNpcLogic(NewNpcs npcs, TileMap map)
     {
         _npcs = npcs;
         _map = map;
-        _events = events;
-        _curentTime = new Time();
     }
 
     public void update()

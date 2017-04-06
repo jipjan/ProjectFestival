@@ -1,8 +1,11 @@
 package NewAI.pathFinding;
 
+import javafx.collections.transformation.SortedList;
 import mapviewer.tiled.TileLayer;
 import mapviewer.tiled.TileMap;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -18,7 +21,7 @@ public class DistanceGrid {
     private int _mapSizeY;
     private static double _noValue = -2d;
 
-    DistanceGrid(int zeroPointX, int zeroPointY, TileMap map)
+    public DistanceGrid(int zeroPointX, int zeroPointY, TileMap map)
     {
         _map = map;
         _mapSizeX = getMapSizeX();
@@ -28,6 +31,7 @@ public class DistanceGrid {
         _pointCheckQueue.add(new DistanceGridCoordinate(zeroPointX, zeroPointY, 0));
         generateGrid();
     }
+
 
     private void generateGrid()
     {
@@ -39,22 +43,33 @@ public class DistanceGrid {
             }
         }
 
+        HashMap<Integer, DistanceGridCoordinate> checkedPlaces = new HashMap<>();
         //fill The _distanceGrid with valid places to go
         while (!_pointCheckQueue.isEmpty())
         {
             DistanceGridCoordinate pointToCheck = _pointCheckQueue.poll();
-            int pointToCheckX = pointToCheck.getX();
-            int pointToCheckY = pointToCheck.getY();
+            DistanceGridCoordinate checkedPlace = checkedPlaces.get( pointToCheck.getX() * pointToCheck.getY());
+            if (checkedPlace != null) {
+                if (checkedPlace.getX() == pointToCheck.getX() && checkedPlace.getY() == pointToCheck.getX())
+                    System.out.println("checked twice");
+                else {
+                    checkedPlaces.put(pointToCheck.getX() * pointToCheck.getY(), pointToCheck);
 
-            double pointToCheckDistance = pointToCheck.getDistance();
-            _distanceGrid[pointToCheckY][pointToCheckX] = pointToCheckDistance;
+                    int pointToCheckX = pointToCheck.getX();
+                    int pointToCheckY = pointToCheck.getY();
+                    //System.out.println(""+ pointToCheckX+ " - " +pointToCheckY);
 
-            double newDistance = pointToCheckDistance +1;
+                    double pointToCheckDistance = pointToCheck.getDistance();
+                    _distanceGrid[pointToCheckY][pointToCheckX] = pointToCheckDistance;
 
-            addNewPointToQueueIfNeeded(pointToCheckX -1, pointToCheckY, newDistance);
-            addNewPointToQueueIfNeeded(pointToCheckX, pointToCheckY +1, newDistance);
-            addNewPointToQueueIfNeeded(pointToCheckX +1, pointToCheckY, newDistance);
-            addNewPointToQueueIfNeeded(pointToCheckX, pointToCheckY -1, newDistance);
+                    double newDistance = pointToCheckDistance + 1;
+
+                    addNewPointToQueueIfNeeded(pointToCheckX - 1, pointToCheckY, newDistance);
+                    addNewPointToQueueIfNeeded(pointToCheckX, pointToCheckY + 1, newDistance);
+                    addNewPointToQueueIfNeeded(pointToCheckX + 1, pointToCheckY, newDistance);
+                    addNewPointToQueueIfNeeded(pointToCheckX, pointToCheckY - 1, newDistance);
+                }
+            }
         }
 
         //make every place not checked unAccessible
@@ -79,7 +94,7 @@ public class DistanceGrid {
     }
 
     boolean[][] testArray =
-            {{true, true, true, true, true},
+                    {{true, true, true, true, true},
                     {true, false, false, false, true},
                     {true, false, true, false, true},
                     {true, false, false, false, true},
@@ -107,14 +122,94 @@ public class DistanceGrid {
         }
     }
 
+    public GridLocation getNewLocation(GridLocation currentLocation)
+    {
+        int currentX = currentLocation.getX();
+        int currentY = currentLocation.getY();
+        double currentDistance = _distanceGrid[currentY][currentX];
+        double pointToCheck = 0;
+
+        if (!isAccessible(currentX,currentY)) {//is op non accsssible terain
+            ArrayList<DistanceGridCoordinate> directions = new ArrayList<>();
+            directions.add(checkForAccessInLine(currentX,currentY,+1,0,0));
+            directions.add(checkForAccessInLine(currentX,currentY,-1,0,0));
+            directions.add(checkForAccessInLine(currentX,currentY,0,+1,0));
+            directions.add(checkForAccessInLine(currentX,currentY,0,-1,0));
+            directions.add(checkForAccessInLine(currentX,currentY,-1,-1,0));
+            directions.add(checkForAccessInLine(currentX,currentY,+1,+1,0));
+            directions.add(checkForAccessInLine(currentX,currentY,+1,-1,0));
+            directions.add(checkForAccessInLine(currentX,currentY,-1,+1,0));
+
+            DistanceGridCoordinate lowestFound = null;
+            for (DistanceGridCoordinate d: directions) {
+                if (d != null) {
+                    lowestFound = d;
+                    break;
+                }
+            }
+
+            for (DistanceGridCoordinate d: directions)
+            {
+                if (d != null){
+                    if (d.getDistance() < d.getDistance())
+                        lowestFound = d;
+                }
+            }
+            try{
+                return new GridLocation(lowestFound.getX(), lowestFound.getY());
+            } catch (NullPointerException e){
+                System.out.println("npc Stuck! ... GO HELP HIM ASAP");
+            }
+        }
+
+        if (currentY +1 <=_mapSizeY) {
+            pointToCheck = _distanceGrid[currentY + 1][currentX];
+            if (pointToCheck < currentDistance && pointToCheck >= 0)
+                return new GridLocation(currentY + 1, currentX);
+        }
+
+        if (currentX + 1 <= _mapSizeX) {
+            pointToCheck = _distanceGrid[currentY][currentX + 1];
+            if (pointToCheck < currentDistance && pointToCheck >= 0)
+                return new GridLocation(currentY, currentX);
+        }
+
+        if (currentY -1 >= 0) {
+            pointToCheck = _distanceGrid[currentY - 1][currentX];
+            if (pointToCheck < currentDistance && pointToCheck >= 0)
+                return new GridLocation(currentY - 1, currentX);
+        }
+
+        if (currentX -1 >=0) {
+            pointToCheck = _distanceGrid[currentY][currentX - 1];
+            if (pointToCheck < currentDistance && pointToCheck >= 0)
+                return new GridLocation(currentY, currentX);
+        }
+
+        return currentLocation;
+    }
+
+    private DistanceGridCoordinate checkForAccessInLine(int currentX, int currentY, int transformX, int transformY, int count)
+    {
+        currentX += transformX;
+        currentY += transformY;
+        if (_distanceGrid[currentY][currentX]>=0)
+            return new DistanceGridCoordinate(currentX, currentY, count);
+        if (currentX >= _mapSizeX || currentX >0 ||currentY >= _mapSizeY || currentY >0 )
+            return null;
+        return checkForAccessInLine(currentX,currentY ,transformX,transformY, count +1);
+    }
+
     private int getMapSizeX()
     {
-        return testArray[getMapSizeY()].length -1;
+        //return testArray[getMapSizeY()].length -1;
+        return _map.getWidth();
     }
 
     private int getMapSizeY()
     {
-        return testArray.length -1;
+        //return testArray.length -1;
+        return  _map.getHeight();
     }
 
     public static void main(String[] arg)

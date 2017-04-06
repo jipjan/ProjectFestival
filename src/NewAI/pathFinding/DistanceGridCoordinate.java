@@ -25,4 +25,5 @@ public class DistanceGridCoordinate {
     public double getDistance() {
         return distance;
     }
+
 }

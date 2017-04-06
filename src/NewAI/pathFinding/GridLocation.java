@@ -1,11 +1,14 @@
 package NewAI.pathFinding;
 
+import org.dyn4j.geometry.Vector2;
+
 import java.awt.geom.Point2D;
 
 /**
  * Created by jacco on 22/03/2017.
  */
 public class GridLocation {
+    private static final int TILESIZE = 32;
     private int x, y;
 
     public GridLocation(int x, int y) {
@@ -13,14 +16,24 @@ public class GridLocation {
         this.y = y;
     }
 
-    public GridLocation(Point2D p2d)
+    public GridLocation(Vector2 location)
     {
-        //todo
+        //todo debug
+        x = (int) Math.round( location.x /TILESIZE);
+        y = (int) Math.round( location.y /TILESIZE);
+
     }
 
-    public Point2D getLocation(){
-        //todo
-        return new Point2D.Double(-1, -1);
+    public boolean isSameGridLocation(GridLocation toCheck)
+    {
+        if (x == toCheck.getX() && y == toCheck.getY())
+            return true;
+        else return false;
+    }
+
+    public Vector2 getLocation(){
+        //todo debug
+        return new Vector2(x * TILESIZE, y * TILESIZE);
     }
 
     public int getX() {

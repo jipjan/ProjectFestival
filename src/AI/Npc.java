@@ -64,7 +64,7 @@ public class Npc {
 
     public Npc(GridLocation gridLocation, IMood IMood)
     {
-        _location = gridLocation.getLocation();
+        //_location = gridLocation.getLocation();
         _I_mood = IMood;
     }
 
