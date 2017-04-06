@@ -12,7 +12,7 @@ public class NewNpc extends Body {
 
     public final Image Sprite;
 
-    public NewNpc(int x, int y) {
+    public NewNpc(double x, double y) {
         addFixture(Geometry.createCircle(3));
         setMass(MassType.NORMAL);
         translate(x, y);

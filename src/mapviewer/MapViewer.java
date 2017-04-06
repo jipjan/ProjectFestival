@@ -16,19 +16,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Random;
+
 import Sprites.*;
 
 /**
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
+    private static final int AMOUNTOFNPCS = 20;
+
+
     private TileMap map;
     private Camera camera;
     private double lastTime = 0;
     private World w = new World();
     private NewNpcs npcs;
-    private int _amountNpcs = 20;
     private int linesH, linesV;
+    private ArrayList<Point2D> _startLocations;
+    private static Graphics2D g2d;
 
     public static void main(String[] args)
     {
@@ -50,10 +57,17 @@ public class MapViewer extends JPanel implements ActionListener {
 
         Sprites.Init();
 
+        _startLocations = new ArrayList<>();
+        _startLocations.add(new Point2D.Double(0, 300));
+
         w.setGravity(new Vector2(0, 0));
-        npcs = new NewNpcs(_amountNpcs);
-        for (int i = 0; i < _amountNpcs; i++) {
-            NewNpc npc = new NewNpc((i % 100) * 6, i / 100 * 6);
+
+        npcs = new NewNpcs(AMOUNTOFNPCS);
+        Random r = new Random();
+        for (int i = 0; i < AMOUNTOFNPCS; i++) {
+            Point2D startLoc = _startLocations.get(r.nextInt(_startLocations.size()));
+
+            NewNpc npc = new NewNpc(startLoc.getX() + npcs.size()*6, startLoc.getY());
             w.addBody(npc);
             npcs.add(npc);
         }
@@ -61,7 +75,7 @@ public class MapViewer extends JPanel implements ActionListener {
         new Timer(10, this).start();
     }
 
-    Graphics2D g2d;
+
 
     @Override
     public void paintComponent(Graphics g)
