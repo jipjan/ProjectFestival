@@ -82,7 +82,9 @@ public class MapViewer extends JPanel implements ActionListener {
 
         for(Item t : map.layerobjects.getObjectList())
         {
-            _myObjectBodies.add(new Toilet(t.getX(),t.getY()));
+            System.out.println(t.getName());
+            if (t.getName().contains("Toilet"))
+                _myObjectBodies.add(new Toilet(t.getX(),t.getY()));
         }
 
         new Timer(10, this).start();
