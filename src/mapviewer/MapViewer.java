@@ -62,16 +62,6 @@ public class MapViewer extends JPanel implements ActionListener {
                 npcs.add(npc);
             }
 
-            addMouseMotionListener(new MouseMotionAdapter() {
-                @Override
-                public void mouseMoved(MouseEvent e) {
-                    super.mouseMoved(e);
-                    System.out.println("test");
-                    for (NewNpc c : npcs)
-                        c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
-                }
-            });
-
             new Timer(10, this).start();
     }
 
@@ -85,8 +75,6 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d = (Graphics2D) g;
 
         this.drawGrid(g2d);
-        //this.drawCrosshair(g2d);
-
 
         // KEEP THIS ORDER - DO NOT EDIT UNLESS FUCKERY IS WANTED
         g2d.setTransform(this.camera.getTransform(getWidth(), getHeight()));
@@ -101,23 +89,7 @@ public class MapViewer extends JPanel implements ActionListener {
         // YOU CAN EDIT BEYOND THIS POINT AGAIN!
 
         this.drawStats(g2d);
-/*
-        g2d.setColor(Color.blue);
 
-        // Top Vertical line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth() / 2, 0);
-
-        // Down Vertical line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth() / 2, this.getHeight());
-
-        // Left Horizontal line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, 0, this.getHeight() / 2);
-
-        // Right Horizontal line
-        g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
-        */
-        //for (Npc c : npcs)
-        //    c.draw(g2d);
         AffineTransform originalTransform = g2d.getTransform();
 
         g2d.setTransform(camera.getTransform(getWidth(), getHeight()));
@@ -173,25 +145,6 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.translate(0, -(statCount * statHeight));*/
     }
 
-    private void drawCrosshair(Graphics2D g2d)
-    {
-        g2d.setColor(Color.red);
-        int centerX = (int) ((this.getWidth() / 2) + (this.camera.getCenterPoint().getX() * this.camera.getZoom()));
-        int centerY = (int) ((this.getHeight() / 2) + (this.camera.getCenterPoint().getY() * this.camera.getZoom()));
-
-        // Top Vertical line
-        g2d.drawLine(centerX, centerY, centerX, 0);
-
-        // Down Vertical line
-        g2d.drawLine(centerX, centerY, centerX, this.getHeight());
-
-        // Left Horizontal line
-        g2d.drawLine(centerX, centerY, 0, centerY);
-
-        // Right Horizontal line
-        g2d.drawLine(centerX, centerY, this.getWidth(), centerY);
-    }
-
     private void drawGrid(Graphics2D g2d)
     {
         int stepSize = 32;
@@ -227,8 +180,9 @@ public class MapViewer extends JPanel implements ActionListener {
     double lastTime = 0;
     @Override
     public void actionPerformed(ActionEvent e) {
-        //for (Npc c : npcs)
-        //   c.update(npcs);
+
+        for (NewNpc c : npcs)
+            c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
 
         long time = System.nanoTime();
         double elapsedTime = (time-lastTime) / 1000000000.0;
