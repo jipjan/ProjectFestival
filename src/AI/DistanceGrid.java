@@ -1,5 +1,6 @@
 package AI;
 
+import mapviewer.tiled.TileLayer;
 import mapviewer.tiled.TileMap;
 
 import java.util.LinkedList;
@@ -10,24 +11,16 @@ import java.util.Queue;
  */
 public class DistanceGrid {
     //             y x
-    private double[][] _distanceGrid;
-    private TileMap map;
+    private double[][] _distanceGrid; // double[y][x]
+    private TileMap _map;
     private Queue<DistanceGridCoordinate> _pointCheckQueue;
     private int _mapSizeX;
     private int _mapSizeY;
     private static double _noValue = -2d;
 
-
-    public boolean[][] testArray =
-            {{true, true, true, true, true},
-                    {true, false, false, false, true},
-                    {true, false, true, false, true},
-                    {true, false, true, false, true},
-                    {true, true, true , true, true}};
-
-    DistanceGrid(int zeroPointX, int zeroPointY)
+    DistanceGrid(int zeroPointX, int zeroPointY, TileMap map)
     {
-        //this.map = map;
+        _map = map;
         _mapSizeX = getMapSizeX();
         _mapSizeY = getMapSizeY();
 
@@ -72,40 +65,6 @@ public class DistanceGrid {
         printToConsole();
     }
 
-    public GridLocation getNextCloseCoordinate(GridLocation currentLocation)
-    {
-        int currentX = currentLocation.getX();
-        int currentY = currentLocation.getY();
-
-        GridLocation toCheckLocation = giveNewDistanceIfCloser(currentLocation, currentX - 1, currentY);
-        if (toCheckLocation != currentLocation)
-            return toCheckLocation;
-
-        toCheckLocation = giveNewDistanceIfCloser(currentLocation, currentX + 1, currentY);
-        if (toCheckLocation != currentLocation)
-            return toCheckLocation;
-
-        toCheckLocation = giveNewDistanceIfCloser(currentLocation, currentX, currentY + 1);
-        if (toCheckLocation != currentLocation)
-            return toCheckLocation;
-
-        return giveNewDistanceIfCloser(currentLocation, currentX, currentY - 1);
-    }
-
-    private GridLocation giveNewDistanceIfCloser(GridLocation currentLocation, int newXtoCheck, int newYtoCheck)
-    {
-        int currentX = currentLocation.getX();
-        int currentY = currentLocation.getY();
-
-        double currentDistance = _distanceGrid[currentY][currentX];
-        double toCheckDistance = _distanceGrid[newYtoCheck][newXtoCheck];
-
-        if (toCheckDistance < currentDistance && !(toCheckDistance < 0)) {
-            return new GridLocation(newXtoCheck, newYtoCheck);
-        }
-        return currentLocation;
-    }
-
     private void addNewPointToQueueIfNeeded(int x, int y, double distance)
     {
         if (isAccessible(x, y) && needsNewDistance(x,y,distance))
@@ -114,15 +73,29 @@ public class DistanceGrid {
 
     private boolean needsNewDistance(int x, int y, double currentDistance)
     {
-        if (_distanceGrid[y][x] == -2||_distanceGrid[y][x] > currentDistance)
+        if (_distanceGrid[y][x] == -2 || _distanceGrid[y][x] > currentDistance)
             return true;
         return false;
     }
+
+    boolean[][] testArray =
+            {{true, true, true, true, true},
+                    {true, false, false, false, true},
+                    {true, false, true, false, true},
+                    {true, false, false, false, true},
+                    {true, true, true , true, true}};
+
     private boolean isAccessible(int x, int y)
     {
+        //layer op kunnen vragen
+        TileLayer layer = _map.getLayers().get(0);
+
         if (x < 0 || x >= _mapSizeX + 1 || y < 0 || y >= _mapSizeY + 1)
             return false;
-        return testArray[y][x];
+        if(layer.getTileData()[y][x] == 1026)
+            return false;
+
+        return true;
     }
 
     private void printToConsole()
@@ -149,3 +122,4 @@ public class DistanceGrid {
         DistanceGrid d = new DistanceGrid(0,0, null);//put map here instead of null
     }
 }
+

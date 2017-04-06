@@ -63,6 +63,6 @@ public class Npcs extends LinkedList<Npc>{
     private boolean[][] validWalkLocations()
     {
         //todo
-        return new DistanceGrid(-1,-1).testArray;
+        return new DistanceGrid(-1,-1, null).testArray;
     }
 }
