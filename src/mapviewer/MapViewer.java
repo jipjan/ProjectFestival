@@ -28,7 +28,7 @@ import java.util.Random;
 public class MapViewer extends JPanel implements ActionListener {
     private TileMap map;
     private Camera camera;
-
+    int i=0;
     private int linesV;
     private int linesH;
 
@@ -48,7 +48,7 @@ public class MapViewer extends JPanel implements ActionListener {
 
     World w = new World();
     NewNpcs npcs;
-    int _amountNpcs = 1;
+    int _amountNpcs = 20;
 
     public MapViewer() {
         this.map = new TileMap("./resources/Festivalplanner Map V1.json");
@@ -68,13 +68,11 @@ public class MapViewer extends JPanel implements ActionListener {
                     super.mouseMoved(e);
                     System.out.println("test");
                     for (NewNpc c : npcs)
-                        c.setDestination(map.layerobjects.getObjectList().get(0).getX(), map.layerobjects.getObjectList().get(0).getY());
+                        c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
                 }
             });
 
             new Timer(10, this).start();
-
-
     }
 
     Graphics2D g2d;
@@ -133,7 +131,8 @@ public class MapViewer extends JPanel implements ActionListener {
         if (map.layerobjects==null) return;
         ObjectStats objstats = new ObjectStats(map.layerobjects.getObjectList());
         objstats.counters(g2d);
-
+        i++;
+        System.out.println(i);
         /*
         int statCount = 12;
         int statHeight = 14;

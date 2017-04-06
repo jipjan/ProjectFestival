@@ -1,7 +1,6 @@
 package NewAI;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.Force;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
@@ -18,8 +17,6 @@ public class NewNpc extends Body {
     }
 
     public void setDestination(double x, double y) {
-        //applyForce(new Force(500, 0));
-
-        setLinearVelocity(new Vector2(getWorldCenter(), new Vector2(x, y)));
+         setLinearVelocity(new Vector2(getWorldCenter(), new Vector2(x, y)));
     }
 }
