@@ -1,12 +1,10 @@
 package mapviewer;
 
-import AI.Npc;
 import NewAI.NewNpc;
 import NewAI.NewNpcs;
 import mapviewer.mapviewer.Camera;
 import mapviewer.mapviewer.DebugDraw;
 import mapviewer.mapviewer.ObjectStats;
-import mapviewer.tiled.ObjectLayer;
 import mapviewer.tiled.TileMap;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Vector2;
@@ -15,12 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Thijs on 20-2-2017.
@@ -28,9 +22,11 @@ import java.util.Random;
 public class MapViewer extends JPanel implements ActionListener {
     private TileMap map;
     private Camera camera;
-    int i=0;
-    private int linesV;
-    private int linesH;
+    private double lastTime = 0;
+    private World w = new World();
+    private NewNpcs npcs;
+    private int _amountNpcs = 20;
+    private int linesH, linesV;
 
     public static void main(String[] args)
     {
@@ -44,11 +40,7 @@ public class MapViewer extends JPanel implements ActionListener {
         frame.setVisible(true);
     }
 
-    //ArrayList<Npc> npcs = new ArrayList<>();
 
-    World w = new World();
-    NewNpcs npcs;
-    int _amountNpcs = 20;
 
     public MapViewer() {
         this.map = new TileMap("./resources/Festivalplanner Map V1.json");
@@ -103,8 +95,6 @@ public class MapViewer extends JPanel implements ActionListener {
         if (map.layerobjects==null) return;
         ObjectStats objstats = new ObjectStats(map.layerobjects.getObjectList());
         objstats.counters(g2d);
-        i++;
-        System.out.println(i);
         /*
         int statCount = 12;
         int statHeight = 14;
@@ -176,11 +166,8 @@ public class MapViewer extends JPanel implements ActionListener {
         this.linesV = lV;
     }
 
-
-    double lastTime = 0;
     @Override
     public void actionPerformed(ActionEvent e) {
-
         for (NewNpc c : npcs)
             c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
 
