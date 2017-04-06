@@ -2,10 +2,13 @@ package mapviewer;
 
 import NewAI.NewNpc;
 import NewAI.NewNpcs;
+import NewAI.Toilet;
 import mapviewer.mapviewer.Camera;
 import mapviewer.mapviewer.DebugDraw;
 import mapviewer.mapviewer.Draw;
 import mapviewer.mapviewer.ObjectStats;
+import mapviewer.tiled.Item;
+import mapviewer.tiled.ObjectLayer;
 import mapviewer.tiled.TileMap;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Vector2;
@@ -33,6 +36,9 @@ public class MapViewer extends JPanel implements ActionListener {
     private double lastTime = 0;
     private World w = new World();
     private NewNpcs npcs;
+    private Toilet toilet;
+    private ObjectLayer objectLayer; //geen idee of dit goed is
+    private ArrayList<Item> toiletten;
     private int linesH, linesV;
     private ArrayList<Point2D> _startLocations;
     private static Graphics2D g2d;
@@ -70,6 +76,12 @@ public class MapViewer extends JPanel implements ActionListener {
             NewNpc npc = new NewNpc(startLoc.getX() + npcs.size()*6, startLoc.getY());
             w.addBody(npc);
             npcs.add(npc);
+        }
+
+        toiletten = objectLayer.getObjectList();
+        for(Item t : toiletten)
+        {
+            toilet = new Toilet(t.getX(),t.getY());
         }
 
         new Timer(10, this).start();
