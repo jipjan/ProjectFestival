@@ -4,6 +4,7 @@ import NewAI.NewNpc;
 import NewAI.NewNpcs;
 import mapviewer.mapviewer.Camera;
 import mapviewer.mapviewer.DebugDraw;
+import mapviewer.mapviewer.Draw;
 import mapviewer.mapviewer.ObjectStats;
 import mapviewer.tiled.TileMap;
 import org.dyn4j.dynamics.World;
@@ -15,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import Sprites.*;
 
 /**
  * Created by Thijs on 20-2-2017.
@@ -45,25 +47,26 @@ public class MapViewer extends JPanel implements ActionListener {
     public MapViewer() {
         this.map = new TileMap("./resources/Festivalplanner Map V1.json");
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
-            w.setGravity(new Vector2(0,0));
 
-            npcs = new NewNpcs(_amountNpcs);
-            for (int i = 0; i < _amountNpcs; i++) {
-                NewNpc npc = new NewNpc((i % 100) * 6, i / 100 * 6 );
-                w.addBody(npc);
-                npcs.add(npc);
-            }
+        Sprites.Init();
 
-            new Timer(10, this).start();
+        w.setGravity(new Vector2(0, 0));
+        npcs = new NewNpcs(_amountNpcs);
+        for (int i = 0; i < _amountNpcs; i++) {
+            NewNpc npc = new NewNpc((i % 100) * 6, i / 100 * 6);
+            w.addBody(npc);
+            npcs.add(npc);
+        }
+
+        new Timer(10, this).start();
     }
 
     Graphics2D g2d;
 
+    @Override
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-
-
         g2d = (Graphics2D) g;
 
         this.drawGrid(g2d);
@@ -80,12 +83,13 @@ public class MapViewer extends JPanel implements ActionListener {
         // Done resetting camera transform
         // YOU CAN EDIT BEYOND THIS POINT AGAIN!
 
-        this.drawStats(g2d);
+        // this.drawStats(g2d);
 
+        // Draw NPCs
         AffineTransform originalTransform = g2d.getTransform();
-
         g2d.setTransform(camera.getTransform(getWidth(), getHeight()));
         DebugDraw.draw(g2d, w, 1);
+        Draw.draw(g2d, npcs, 1);
         g2d.setTransform(originalTransform);
     }
 
@@ -177,6 +181,5 @@ public class MapViewer extends JPanel implements ActionListener {
         w.update(elapsedTime);
 
         repaint();
-
     }
 }
