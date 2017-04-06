@@ -1,6 +1,5 @@
 package NewAI;
 
-import Sprites.Sprites;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 

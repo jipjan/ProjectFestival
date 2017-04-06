@@ -23,7 +23,6 @@ public class Draw {
             AffineTransform bodyTransform = new AffineTransform();
             bodyTransform.translate(b.getTransform().getTranslationX() * scale, b.getTransform().getTranslationY() * scale);
             bodyTransform.rotate(b.getTransform().getRotation());
-            bodyTransform.scale(1, -1);
             g2d.transform(bodyTransform);
 
 
