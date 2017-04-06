@@ -1,6 +1,5 @@
 package GUI;
 
-import ImportExport.CurrentSetup;
 import ImportExport.Export;
 import ImportExport.Import;
 
@@ -17,18 +16,23 @@ public class TopBar extends ColoredJPanel {
 
         JFileChooser f = new JFileChooser();
 
-        n.addActionListener((e) -> CurrentSetup.reset());
+        n.addActionListener((e) -> { CurrentSetup.reset();
+        ColoredJPanel.repaintAllPanels();
+        });
 
         o.addActionListener((e) -> {
             if (f.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-                CurrentSetup.setEvents(Import.ImportJsonObject(f.getSelectedFile().getAbsolutePath(), Events.Events.class));
+                Events.Events aids = Import.ImportJsonObject(f.getSelectedFile().getAbsolutePath(), Events.Events.class);
+                CurrentSetup.Events.clear();
+                for (Events.Event evt : aids)
+                    CurrentSetup.Events.add(evt);
                 ColoredJPanel.repaintAllPanels();
             }
         });
 
         s.addActionListener((e) -> {
             if (f.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-                Export.ExportJsonFile(f.getSelectedFile().getAbsolutePath(), CurrentSetup.getEvents());
+                Export.ExportJsonFile(f.getSelectedFile().getAbsolutePath(), CurrentSetup.Events);
             }
         });
 

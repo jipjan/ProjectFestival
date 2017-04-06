@@ -49,4 +49,5 @@ public class AgendaTableObjectModel extends AbstractTableModel {
         else
             return null;
     }
+
 }

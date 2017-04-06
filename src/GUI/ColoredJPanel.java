@@ -1,6 +1,7 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -9,7 +10,8 @@ import java.util.ArrayList;
  */
 public class ColoredJPanel extends JPanel {
     private static ArrayList<ColoredJPanel> _myPanels = new ArrayList<>();
-
+    private static ArrayList<AbstractTableModel> _myJtables = new ArrayList<>();
+    private static Runnable _unscheduler;
 
     public ColoredJPanel()
     {
@@ -25,13 +27,27 @@ public class ColoredJPanel extends JPanel {
         _myPanels.add(this);
     }
 
+    public void addModel(AbstractTableModel m) {
+        _myJtables.add(m);
+    }
+
+    public void setUnscheduler(Runnable r) {
+        _unscheduler = r;
+    }
+
     private void setbg()
     {
         setBackground(Color.pink);
     }
 
     public static void repaintAllPanels() {
-        for(JPanel p : _myPanels)
+        for (AbstractTableModel t : _myJtables)
+            t.fireTableDataChanged();
+
+        _unscheduler.run();
+
+        for(JPanel p : _myPanels) {
             p.repaint();
+        }
     }
 }
