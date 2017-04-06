@@ -56,7 +56,7 @@ public class MapViewer extends JPanel {
         g2d.translate(-(this.getWidth() / 2) - this.camera.getCenterPoint().getX() * this.camera.getZoom(), -(this.getHeight() / 2) - this.camera.getCenterPoint().getY() * this.camera.getZoom());
         // Done resetting camera transform
         // YOU CAN EDIT BEYOND THIS POINT AGAIN!
-
+        g2d.setColor(Color.MAGENTA);
         this.drawStats(g2d);
 /*
         g2d.setColor(Color.blue);
@@ -78,6 +78,7 @@ public class MapViewer extends JPanel {
 
     private void drawStats(Graphics2D g2d)
     {
+        System.out.println("B");
         if (map.layer==null) return;
         ObjectStats objstats = new ObjectStats(map.layer.getObjectList());
         objstats.counters(g2d);

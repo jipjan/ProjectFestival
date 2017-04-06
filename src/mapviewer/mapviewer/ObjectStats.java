@@ -2,12 +2,7 @@ package mapviewer.mapviewer;
 
 import AI.Npc;
 import GUI.CurrentSetup;
-import mapviewer.MapViewer;
 import mapviewer.tiled.Item;
-import mapviewer.tiled.ObjectLayer;
-import mapviewer.tiled.TileMap;
-import javax.swing.*;
-import javax.json.JsonObject;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -38,6 +33,7 @@ public class ObjectStats {
             double y = item.getY();
             String name = item.getName();
             int aantalNPCs = getNPCs(x,y);
+            System.out.println("AAAAAAAAAAAAAAAAAAA");
             g2d.drawString("Naam: "+name +" Aantal bezoekers: "+ aantalNPCs, (int) x,(int) y);
         }
     }
