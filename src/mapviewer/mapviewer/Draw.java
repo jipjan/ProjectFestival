@@ -1,7 +1,6 @@
 package mapviewer.mapviewer;
 
-import NewAI.NewNpc;
-import NewAI.NewNpcs;
+import NewAI.MyBody;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
@@ -10,13 +9,14 @@ import org.dyn4j.geometry.Vector2;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 /**
  * Created by Jaap-Jan on 15-3-2017.
  */
 public class Draw {
-    public static void draw(Graphics2D g2d, NewNpcs bodies, double scale) {
-        for(NewNpc b : bodies)
+    public static<T extends MyBody> void  draw(Graphics2D g2d, ArrayList<T> bodies, double scale) {
+        for(MyBody b : bodies)
         {
             AffineTransform originalTransform = g2d.getTransform();
 

@@ -1,5 +1,6 @@
 package mapviewer;
 
+import NewAI.MyObjectBodies;
 import NewAI.NewNpc;
 import NewAI.NewNpcs;
 import NewAI.Toilet;
@@ -36,9 +37,8 @@ public class MapViewer extends JPanel implements ActionListener {
     private double lastTime = 0;
     private World w = new World();
     private NewNpcs npcs;
-    private Toilet toilet;
+    private MyObjectBodies _myObjectBodies;
     private ObjectLayer objectLayer; //geen idee of dit goed is
-    private ArrayList<Item> toiletten;
     private int linesH, linesV;
     private ArrayList<Point2D> _startLocations;
     private static Graphics2D g2d;
@@ -78,44 +78,17 @@ public class MapViewer extends JPanel implements ActionListener {
             npcs.add(npc);
         }
 
-        toiletten = objectLayer.getObjectList();
-        for(Item t : toiletten)
+        _myObjectBodies = new MyObjectBodies();
+
+        for(Item t : map.layerobjects.getObjectList())
         {
-            toilet = new Toilet(t.getX(),t.getY());
+            _myObjectBodies.add(new Toilet(t.getX(),t.getY()));
         }
 
         new Timer(10, this).start();
     }
 
-    @Override
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        g2d = (Graphics2D) g;
 
-        this.drawGrid(g2d);
-
-        // KEEP THIS ORDER - DO NOT EDIT UNLESS FUCKERY IS WANTED
-        g2d.setTransform(this.camera.getTransform(getWidth(), getHeight()));
-
-        // Camera transfom is needed for the map to draw and to keep correct ratio's
-        this.map.draw(g2d);
-
-        // Reset camera transform
-        g2d.scale(1 / this.camera.getZoom() , 1 / this.camera.getZoom());
-        g2d.translate(-(this.getWidth() / 2) - this.camera.getCenterPoint().getX() * this.camera.getZoom(), -(this.getHeight() / 2) - this.camera.getCenterPoint().getY() * this.camera.getZoom());
-        // Done resetting camera transform
-        // YOU CAN EDIT BEYOND THIS POINT AGAIN!
-
-        // this.drawStats(g2d);
-
-        // Draw NPCs
-        AffineTransform originalTransform = g2d.getTransform();
-        g2d.setTransform(camera.getTransform(getWidth(), getHeight()));
-        DebugDraw.draw(g2d, w, 1);
-        Draw.draw(g2d, npcs, 1);
-        g2d.setTransform(originalTransform);
-    }
 
 
     private void drawStats(Graphics2D g2d)
@@ -205,5 +178,36 @@ public class MapViewer extends JPanel implements ActionListener {
         w.update(elapsedTime);
 
         repaint();
+    }
+
+    @Override
+    public void paintComponent(Graphics g)
+    {
+        super.paintComponent(g);
+        g2d = (Graphics2D) g;
+
+        this.drawGrid(g2d);
+
+        // KEEP THIS ORDER - DO NOT EDIT UNLESS FUCKERY IS WANTED
+        g2d.setTransform(this.camera.getTransform(getWidth(), getHeight()));
+
+        // Camera transfom is needed for the map to draw and to keep correct ratio's
+        this.map.draw(g2d);
+
+        // Reset camera transform
+        g2d.scale(1 / this.camera.getZoom() , 1 / this.camera.getZoom());
+        g2d.translate(-(this.getWidth() / 2) - this.camera.getCenterPoint().getX() * this.camera.getZoom(), -(this.getHeight() / 2) - this.camera.getCenterPoint().getY() * this.camera.getZoom());
+        // Done resetting camera transform
+        // YOU CAN EDIT BEYOND THIS POINT AGAIN!
+
+        // this.drawStats(g2d);
+
+        // Draw NPCs
+        AffineTransform originalTransform = g2d.getTransform();
+        g2d.setTransform(camera.getTransform(getWidth(), getHeight()));
+        DebugDraw.draw(g2d, w, 1);
+        Draw.draw(g2d, _myObjectBodies, 1);
+        Draw.draw(g2d, npcs, 1);
+        g2d.setTransform(originalTransform);
     }
 }

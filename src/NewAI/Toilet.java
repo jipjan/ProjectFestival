@@ -11,17 +11,12 @@ import java.util.Random;
 /**
  * Created by thijs_000 on 06-Apr-17.
  */
-public class Toilet extends Body
+public class Toilet extends MyBody
 {
-
-    public final Image Sprite;
-
     public Toilet(double x, double y) {
-        addFixture(Geometry.createRectangle(3.2,3.2));
-        setMass(MassType.INFINITE);
+        Sprite = Sprites.Toilet;
+        addFixture(Geometry.createRectangle(Sprite.getWidth(), Sprite.getHeight()));
+        setMass(MassType.NORMAL);
         translate(x, y);
-        // hier moet dan de sprite van het toilet komen.
-        Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
     }
-
 }
