@@ -75,8 +75,6 @@ public class MapViewer extends JPanel implements ActionListener {
         new Timer(10, this).start();
     }
 
-
-
     @Override
     public void paintComponent(Graphics g)
     {
