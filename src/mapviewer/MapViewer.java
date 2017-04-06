@@ -90,9 +90,6 @@ public class MapViewer extends JPanel implements ActionListener {
         new Timer(10, this).start();
     }
 
-
-
-
     private void drawStats(Graphics2D g2d)
     {
         if (map.layerobjects==null) return;
@@ -135,7 +132,8 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.drawString("Tile Width:" + this.map.getTileWidth(), 0, 0);
         g2d.translate(0, statHeight);
         g2d.drawString("Tile Height:" + this.map.getTileHeight(), 0, 0);
-        g2d.translate(0, -(statCount * statHeight));*/
+        g2d.translate(0, -(statCount * statHeight));
+        */
     }
 
     private void drawGrid(Graphics2D g2d)

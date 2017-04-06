@@ -1,7 +1,7 @@
 package GUI;
 
 import GUI.Agenda.AgendaTabPanel;
-import GUI.EntertainerEditor.EntertainerEditorTabPanel;
+import GUI.entertainerEditor.*;
 import GUI.Simulation.SimulationTabPanel;
 import java.awt.*;
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class MainFrame extends ColoredJPanel {
         tb.setUI(new CustomTabbedPaneUI());
 
         tb.add(new AgendaTabPanel());
-        tb.add(new EntertainerEditorTabPanel());
+        //tb.add(new EntertainerEditorTabPanel());//todo
         tb.add(new SimulationTabPanel());
 
         add(new TopBar(), BorderLayout.NORTH);

@@ -1,4 +1,4 @@
-package AI;
+package NewAI.pathFinding;
 
 import mapviewer.tiled.TileLayer;
 import mapviewer.tiled.TileMap;

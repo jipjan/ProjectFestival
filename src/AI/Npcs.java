@@ -2,7 +2,9 @@ package AI;
 
 import java.util.*;
 
-import AI.mood.*;
+import NewAI.mood.*;
+import NewAI.pathFinding.DistanceGrid;
+import NewAI.pathFinding.GridLocation;
 
 public class Npcs extends LinkedList<Npc>{
     boolean[][] _validWalkLocations;//2dMap[y][x]
@@ -34,7 +36,7 @@ public class Npcs extends LinkedList<Npc>{
         remove(npc);
     }
 
-    public ArrayList<Npc> getNpcsByMood(Mood m) {
+    public ArrayList<Npc> getNpcsByMood(IMood m) {
         ArrayList<Npc> toReturn = new ArrayList<>();
 
         for (Iterator<Npc> it = this.listIterator(); it.hasNext(); ) {
@@ -63,6 +65,6 @@ public class Npcs extends LinkedList<Npc>{
     private boolean[][] validWalkLocations()
     {
         //todo
-        return new DistanceGrid(-1,-1, null).testArray;
+        return null;//new DistanceGrid(-1,-1, null).testArray;
     }
 }

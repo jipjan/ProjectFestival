@@ -1,4 +1,4 @@
-package AI;
+package NewAI.pathFinding;
 
 import java.awt.geom.Point2D;
 

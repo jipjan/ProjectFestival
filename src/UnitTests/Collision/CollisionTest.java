@@ -1,4 +1,4 @@
-package Collision;
+package UnitTests.Collision;
 import AI.Npc;
 
 import javax.swing.*;
@@ -32,7 +32,6 @@ public class CollisionTest extends JPanel implements ActionListener {
             Point2D spawnPoint = new Point2D.Double(Math.random() * 800, Math.random() * 800);
             if (canSpawn(spawnPoint))
                 npcs.add(new Npc(spawnPoint));
-
         }
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override

@@ -2,19 +2,20 @@ package AI;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
-import AI.mood.*;
+import NewAI.mood.*;
+import NewAI.pathFinding.DistanceGrid;
+import NewAI.pathFinding.GridLocation;
 
 import javax.imageio.ImageIO;
 
 public class Npc {
     private State _state;
-    private Mood _mood;
+    private IMood _I_mood;
     private Point2D _location;
     private Point2D _destination;
     private double _direction = 0;
@@ -61,10 +62,10 @@ public class Npc {
         }
     }
 
-    public Npc(GridLocation gridLocation, Mood mood)
+    public Npc(GridLocation gridLocation, IMood IMood)
     {
         _location = gridLocation.getLocation();
-        _mood = mood;
+        _I_mood = IMood;
     }
 
     public void needsUpdate()
@@ -82,16 +83,16 @@ public class Npc {
         return _finalDestination;
     }
 
-    public void setMood(Mood m) {
-        _mood = m;
+    public void setMood(IMood m) {
+        _I_mood = m;
     }
 
     public void setState(State s) {
         _state = s;
     }
 
-    public Mood getMood() {
-        return _mood;
+    public IMood getMood() {
+        return _I_mood;
     }
 
     public State getState() {
