@@ -1,10 +1,15 @@
 package mapviewer;
 
 import AI.Npc;
+import NewAI.NewNpc;
+import NewAI.NewNpcs;
 import mapviewer.mapviewer.Camera;
+import mapviewer.mapviewer.DebugDraw;
 import mapviewer.mapviewer.ObjectStats;
 import mapviewer.tiled.ObjectLayer;
 import mapviewer.tiled.TileMap;
+import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Vector2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,8 +17,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Thijs on 20-2-2017.
@@ -37,26 +44,31 @@ public class MapViewer extends JPanel implements ActionListener {
         frame.setVisible(true);
     }
 
-    ArrayList<Npc> npcs = new ArrayList<>();
+    //ArrayList<Npc> npcs = new ArrayList<>();
+
+    World w = new World();
+    NewNpcs npcs;
+    int _amountNpcs = 1;
 
     public MapViewer() {
         this.map = new TileMap("./resources/Festivalplanner Map V1.json");
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
+            w.setGravity(new Vector2(0,0));
 
-            while (npcs.size() < 1000) {
-                Point2D spawnPoint = new Point2D.Double(Math.random() * 800, Math.random() * 800);
-                if (canSpawn(spawnPoint))
-                    npcs.add(new Npc(spawnPoint));
-
+            npcs = new NewNpcs(_amountNpcs);
+            for (int i = 0; i < _amountNpcs; i++) {
+                NewNpc npc = new NewNpc((i % 100) * 6, i / 100 * 6 );
+                w.addBody(npc);
+                npcs.add(npc);
             }
+
             addMouseMotionListener(new MouseMotionAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {
                     super.mouseMoved(e);
-
-                    for (Npc c : npcs)
-                        c.setDestination(new Point2D.Double(e.getX(), e.getY()));
-
+                    System.out.println("test");
+                    for (NewNpc c : npcs)
+                        c.setDestination(map.layerobjects.getObjectList().get(0).getX(), map.layerobjects.getObjectList().get(0).getY());
                 }
             });
 
@@ -64,19 +76,15 @@ public class MapViewer extends JPanel implements ActionListener {
 
 
     }
-    public boolean canSpawn(Point2D point)
-    {
-        for (Npc c : npcs) {
-            if (c.getLocation().distance(point) < c.getWidth())
-                return false;
-        }
-        return true;
-    }
+
+    Graphics2D g2d;
 
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
+
+
+        g2d = (Graphics2D) g;
 
         this.drawGrid(g2d);
         //this.drawCrosshair(g2d);
@@ -110,15 +118,20 @@ public class MapViewer extends JPanel implements ActionListener {
         // Right Horizontal line
         g2d.drawLine(this.getWidth() / 2, this.getHeight() / 2, this.getWidth(), this.getHeight() / 2);
         */
-        for (Npc c : npcs)
-            c.draw(g2d);
+        //for (Npc c : npcs)
+        //    c.draw(g2d);
+        AffineTransform originalTransform = g2d.getTransform();
+
+        g2d.setTransform(camera.getTransform(getWidth(), getHeight()));
+        DebugDraw.draw(g2d, w, 1);
+        g2d.setTransform(originalTransform);
     }
 
 
     private void drawStats(Graphics2D g2d)
     {
-        if (map.layer==null) return;
-        ObjectStats objstats = new ObjectStats(map.layer.getObjectList());
+        if (map.layerobjects==null) return;
+        ObjectStats objstats = new ObjectStats(map.layerobjects.getObjectList());
         objstats.counters(g2d);
 
         /*
@@ -211,10 +224,17 @@ public class MapViewer extends JPanel implements ActionListener {
         this.linesV = lV;
     }
 
+
+    double lastTime = 0;
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (Npc c : npcs)
-            c.update(npcs);
+        //for (Npc c : npcs)
+        //   c.update(npcs);
+
+        long time = System.nanoTime();
+        double elapsedTime = (time-lastTime) / 1000000000.0;
+        lastTime = time;
+        w.update(elapsedTime);
 
         repaint();
 

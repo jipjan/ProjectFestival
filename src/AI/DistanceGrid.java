@@ -88,7 +88,7 @@ public class DistanceGrid {
     private boolean isAccessible(int x, int y)
     {
         //layer op kunnen vragen
-        TileLayer layer = _map.getLayers().get(0);
+        TileLayer layer = _map.layertiled;
 
         if (x < 0 || x >= _mapSizeX + 1 || y < 0 || y >= _mapSizeY + 1)
             return false;

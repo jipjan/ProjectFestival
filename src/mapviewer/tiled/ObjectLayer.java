@@ -27,7 +27,7 @@ public class ObjectLayer extends Layer {
 
     }
 
-    public ArrayList getObjectList(){
+    public ArrayList<Item> getObjectList(){
         return objList;
     }
 }

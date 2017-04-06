@@ -38,5 +38,6 @@
     <orderEntry type="library" name="jaretutil-0.32" level="project" />
     <orderEntry type="library" name="javax.json-1.0.4" level="project" />
     <orderEntry type="library" name="timebars-1.49" level="project" />
+    <orderEntry type="library" name="dyn4j-3.2.3" level="project" />
   </component>
 </module>
