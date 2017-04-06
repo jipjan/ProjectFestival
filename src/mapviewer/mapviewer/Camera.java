@@ -30,8 +30,8 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
         panel.addMouseMotionListener(this);
         panel.addMouseWheelListener(this);
 
-        maxZoom = Double.MAX_VALUE;
-        minZoom = Double.MIN_VALUE;
+        maxZoom = 0.25f;
+        minZoom = 2.0f;
 
         this.zoom = zoom;
         this.centerPoint = centerPoint;
@@ -40,7 +40,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     public AffineTransform getTransform(int windowWidth, int windowHeight)
     {
         AffineTransform tx = new AffineTransform();
-        tx.translate(windowWidth / 2, windowHeight / 2);
+        tx.translate(windowWidth / 4, windowHeight / 4);
         tx.scale(this.zoom, this.zoom);
         tx.translate(this.centerPoint.getX(), this.centerPoint.getY());
 
@@ -65,9 +65,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
         if (SwingUtilities.isMiddleMouseButton(e) || SwingUtilities.isLeftMouseButton(e))
         {
             this.centerPoint = new Point2D.Double(this.centerPoint.getX() - (this.lastMousePos.getX() - e.getX()) / this.zoom, this.centerPoint.getY() - (this.lastMousePos.getY() - e.getY()) / this.zoom);
-
             this.lastMousePos = e.getPoint();
-
             repaint();
         }
     }
@@ -79,9 +77,12 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
 
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        this.zoom *= (1.0F - e.getWheelRotation() / 25.0F);
-
-        repaint();
+        double z = zoom * (1.0F - e.getWheelRotation() / 25.0F);
+        System.out.println(z);
+        if (z <= minZoom && z >= maxZoom) {
+            zoom = z;
+            repaint();
+        }
     }
 
     public double getZoom()
@@ -115,9 +116,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
         this.minZoom = minZoom;
     }
 
-    private void repaint()
-    {
-        if(this.zoom > this.minZoom && this.zoom < this.maxZoom)
-            this.panel.repaint();
+    private void repaint() {
+        this.panel.repaint();
     }
 }

@@ -1,21 +1,14 @@
 package GUI.MyPanel;
 
-import GUI.MyPanel.ITableObject;
-
 import javax.swing.table.AbstractTableModel;
-import java.util.ArrayList;
-import java.util.List;
+import Events.Events;
+import Events.Event;
 
-public class AgendaTableObjectModel<TItem extends ITableObject> extends AbstractTableModel {
-    private List<TItem> _items;
-    private String[] _columns;
+public class AgendaTableObjectModel extends AbstractTableModel {
+    private Events _items;
+    private String[] _columns = new String[] { "Naam", "Performer", "Duur", "Populariteit"};
 
-    public AgendaTableObjectModel(ArrayList<TItem> items, String... columns) {
-        _items = items;
-        _columns = columns;
-    }
-
-    public void setItems(ArrayList<TItem> items) {
+    public AgendaTableObjectModel(Events items) {
         _items = items;
     }
 
@@ -35,20 +28,25 @@ public class AgendaTableObjectModel<TItem extends ITableObject> extends Abstract
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ITableObject obj = _items.get(rowIndex);
+        Event obj = _items.get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return obj.getName();
             case 1:
-                return obj.getDuration();
+                return obj.getPerformer();
             case 2:
+                return obj.getDuration();
+            case 3:
                 return obj.getPopularity();
             default:
                 return "Mistakes were made";
         }
     }
 
-    public TItem getItem(int row) {
-        return _items.get(row);
+    public Event getItem(int row) {
+        if (row != -1 && _items.size() > row)
+            return _items.get(row);
+        else
+            return null;
     }
 }

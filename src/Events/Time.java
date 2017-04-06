@@ -1,29 +1,27 @@
 package Events;
 
 import de.jaret.util.date.JaretDate;
-
 import java.io.Serializable;
-import java.util.Date;
 
 public class Time implements Serializable {
-    JaretDate _beginDate;
-    JaretDate _endDate;
+    private JaretDate _beginDate;
+    private JaretDate _endDate;
 
-    public Time(int time) {
-        JaretDate beginDate = new JaretDate();
-        JaretDate endDate = new JaretDate().advanceMinutes(time);
-        _beginDate = beginDate;
-        _endDate = endDate;
-
-    }
-
-    public Time(Date begin, Date end) {
-        _beginDate = new JaretDate(begin);
-        _endDate = new JaretDate(end);
+    public Time(JaretDate begin, JaretDate end) {
+        _beginDate = begin;
+        _endDate = end;
     }
 
     public JaretDate getBeginDate() {
         return _beginDate;
+    }
+
+    public void setBeginDate(JaretDate date) {
+        _beginDate = date;
+    }
+
+    public void setEndDate(JaretDate date) {
+        _endDate = date;
     }
 
     public JaretDate getEndDate() { return _endDate; }

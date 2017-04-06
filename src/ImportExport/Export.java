@@ -1,6 +1,7 @@
 package ImportExport;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 
@@ -20,10 +21,10 @@ public class Export {
     }
 
     public static void ExportJsonFile(String fileLocation, Object obj) {
-        Gson gson = new Gson();
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileLocation));
-            writer.write(gson.toJson(obj));
+            Gson g = new GsonBuilder().addSerializationExclusionStrategy(new MyExclusionStrategy()).create();
+            writer.write(g.toJson(obj));
             writer.close();
             System.out.println("Json data is saved in " + fileLocation);
         } catch (IOException ex) {

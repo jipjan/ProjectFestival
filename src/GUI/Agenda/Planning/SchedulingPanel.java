@@ -3,24 +3,17 @@ package GUI.Agenda.Planning;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.dnd.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.TooManyListenersException;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import Events.Event;
-import GUI.CurrentSetup;
+import ImportExport.CurrentSetup;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
-import de.jaret.util.misc.Pair;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
 import de.jaret.util.ui.timebars.mod.DefaultIntervalModificator;
 import de.jaret.util.ui.timebars.model.*;
@@ -40,13 +33,14 @@ public class SchedulingPanel extends JPanel {
 
     protected JaretDate _tbvDragOrigBegin;
     protected JaretDate _tbvDragOrigEnd;
-    protected DefaultTimeBarRowModel _tbvDragOrigRow;
+    protected MyTimeBarRowModel _tbvDragOrigRow;
 
     public SchedulingPanel() {
         setLayout(new BorderLayout());
-        // split pane for tbv/table
+
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setResizeWeight(0.85);
+        splitPane.setEnabled(false);
         add(splitPane, BorderLayout.CENTER);
 
         // TBV
@@ -60,48 +54,38 @@ public class SchedulingPanel extends JPanel {
         _tbv.setYAxisWidth(150);
         _tbv.setTimeScaleRenderer(new BoxTimeScaleRenderer());
         _tbv.setTimeScalePosition(TimeBarViewerInterface.TIMESCALE_POSITION_TOP);
-        JaretDate startDate = new JaretDate().setTime(0, 0, 0, 0);
-        _tbv.setInitialDisplayRange(startDate, 24 * 60 * 60);
-        _tbv.setMinDate(startDate);
-        _tbv.setMaxDate(new JaretDate().setTime(23, 59, 59, 0));
-        _tbv.setStartDate(startDate);
-        _tbv.setStrictClipTimeCheck(true);
-/*
+        _tbv.setInitialDisplayRange(new JaretDate().setTime(0, 0, 0, 0), 24 * 60 * 60);
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
                 _tbv.setInitialDisplayRange(new JaretDate().setTime(0, 0, 0, 0), 24 * 60 * 60);
             }
-
             @Override
             public void componentMoved(ComponentEvent e) {
 
             }
-
             @Override
             public void componentShown(ComponentEvent e) {
 
             }
-
             @Override
             public void componentHidden(ComponentEvent e) {
 
             }
         });
-*/
-        // Interval modificator preventing intervals from beeing overlapped by shifting or sizing
-        _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
 
-        // register the renderer
-        _tbv.registerTimeBarRenderer(Event.class, new EventRenderer());
+        _EventTableModel = new EventTableModel(CurrentSetup.getEvents());
+        _EventTable = new JTable(_EventTableModel);
+
+        _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
+        _tbv.registerTimeBarRenderer(Event.class, new EventRenderer(_EventTable));
 
         setUpDND(_tbv);
 
         createActions(_tbv);
 
         // table
-        _EventTableModel = new EventTableModel(CurrentSetup.Events);
-        _EventTable = new JTable(_EventTableModel);
+
         JScrollPane scroll = new JScrollPane(_EventTable);
         splitPane.setBottomComponent(scroll);
 
@@ -114,10 +98,7 @@ public class SchedulingPanel extends JPanel {
         // controls at the bottom
         JPanel controlPanel = createControlPanel(24 * 60 * 60);
         add(controlPanel, BorderLayout.SOUTH);
-
-
         _tbv.setUseTitleRendererComponentInPlace(true);
-
     }
 
     /**
@@ -148,18 +129,6 @@ public class SchedulingPanel extends JPanel {
         };
         pop = new JPopupMenu("Operations");
         pop.add(action);
-        action = new AbstractAction("Push back") {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("run " + getValue(NAME));
-                Pair<TimeBarRow, JaretDate> info = _tbv.getPopUpInformation();
-                List<Interval> intervals = info.getLeft().getIntervals(info.getRight());
-                if (intervals.size() == 1) {
-                    System.out.println("pushback on "+intervals.get(0));
-                }
-            }
-
-        };
-        pop.add(action);
         _tbv.registerPopupMenu(Event.class, pop);
     }
 
@@ -167,15 +136,13 @@ public class SchedulingPanel extends JPanel {
         List<Interval> intervals = new ArrayList<Interval>(_tbv.getSelectionModel().getSelectedIntervals());
         for (Interval interval : intervals) {
             TimeBarRow row = _model.getRowForInterval(interval);
-            ((DefaultTimeBarRowModel)row).remInterval(interval);
-            _EventTableModel.addEvent((Event)interval);
+            ((MyTimeBarRowModel)row).remInterval(interval);
         }
     }
     private void clearRow(TimeBarRow row) {
         List<Interval> intervals = new ArrayList<Interval>(row.getIntervals());
         for (Interval interval : intervals) {
-            ((DefaultTimeBarRowModel)row).remInterval(interval);
-            _EventTableModel.addEvent((Event)interval);
+            ((MyTimeBarRowModel)row).remInterval(interval);
         }
     }
 
@@ -203,8 +170,8 @@ public class SchedulingPanel extends JPanel {
                         TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                         if (overRow != null) {
                             for (Event Event : _draggedEvents) {
-                                ((DefaultTimeBarRowModel) overRow).addInterval(Event);
-                                _EventTableModel.removeEvent(Event);
+                                Event.setPodium(_model.getIndexForRow(overRow) + 1);
+                                ((MyTimeBarRowModel) overRow).addInterval(Event);
                             }
                             tbv.setGhostIntervals(null, null);
                             evt.dropComplete(true);
@@ -214,10 +181,19 @@ public class SchedulingPanel extends JPanel {
                         }
                         tbv.deHighlightRow();
                     }
-
                 }
 
                 public void dragOver(DropTargetDragEvent evt) {
+                    for (Event e : _draggedEvents)
+                        for (int i = 0; i < _tbv.getModel().getRowCount(); i++)
+                            for (Interval inter : _tbv.getModel().getRow(i).getIntervals())
+                                if (inter.equals(e)) {
+                                    TimeBarRow row = _model.getRowForInterval(inter);
+                                    ((MyTimeBarRowModel) row).remInterval(inter);
+                                    break;
+                                }
+
+
                     TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                     if (overRow != null) {
                         tbv.highlightRow(overRow);
@@ -307,7 +283,6 @@ public class SchedulingPanel extends JPanel {
             if (markerDragging) {
                 return;
             }
-
             List<Interval> intervals = _tbv.getDelegate().getIntervalsAt(e.getDragOrigin().x, e.getDragOrigin().y);
             if (intervals.size() > 0 && e.getTriggerEvent().isAltDown()) {
                 Interval interval = intervals.get(0);
@@ -317,23 +292,14 @@ public class SchedulingPanel extends JPanel {
                 _draggedEventsOffsets = new ArrayList<Integer>();
                 _draggedEventsOffsets.add(0);
                 TimeBarRow row = _model.getRowForInterval(interval);
-                ((DefaultTimeBarRowModel)row).remInterval(interval);
+                ((MyTimeBarRowModel)row).remInterval(interval);
 
                 // save orig data
-                _tbvDragOrigRow = (DefaultTimeBarRowModel)row;
+                _tbvDragOrigRow = (MyTimeBarRowModel)row;
                 _tbvDragOrigBegin = interval.getBegin().copy();
                 _tbvDragOrigEnd = interval.getEnd().copy();
-
                 return;
             }
-//            Point origin = e.getDragOrigin();
-//            if (_tbv.getDelegate().getYAxisRect().contains(origin)) {
-//                TimeBarRow row = _tbv.getRowForXY(origin.x, origin.y);
-//                if (row != null) {
-//                    e.startDrag(null, new StringSelection("Drag ROW " + row));
-//                }
-//            }
-
         }
     }
 
@@ -416,7 +382,6 @@ public class SchedulingPanel extends JPanel {
             }
         });
         unscheduleButton.addActionListener(new ActionListener() {
-
             public void actionPerformed(ActionEvent arg0) {
                 unscheduleSelected();
             }
@@ -426,24 +391,10 @@ public class SchedulingPanel extends JPanel {
         return panel;
     }
 
-    private int calcInitialSliderVal(double c, double b, double faktor, int seconds) {
-
-        double x = 1 / b * log2((seconds - c) / faktor);
-
-        return (int) x;
-    }
-
-    private double log2(double a) {
-        return Math.log(a) / Math.log(2);
-    }
-
     protected ScheduleTimeBarModel createTBVModel() {
         ScheduleTimeBarModel model = new ScheduleTimeBarModel();
-
-        model.addRow("Podium 1");
-        model.addRow("Podium 2");
-        model.addRow("Podium 3");
-
+        for (int i = 1; i <= CurrentSetup.Podia; i++)
+            model.addRow("Podium " + i);
         return model;
     }
 
