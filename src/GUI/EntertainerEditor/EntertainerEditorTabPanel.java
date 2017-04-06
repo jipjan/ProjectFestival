@@ -1,10 +1,8 @@
 package GUI.EntertainerEditor;
 
-import Events.Event;
 import GUI.ColoredJPanel;
+import GUI.CurrentSetup;
 import GUI.MyPanel.AgendaTableObjectModel;
-import ImportExport.CurrentSetup;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -19,7 +17,8 @@ public class EntertainerEditorTabPanel extends ColoredJPanel {
 
         setName("Entertainer Editor");
 
-        AgendaTableObjectModel m = new AgendaTableObjectModel(CurrentSetup.getEvents());
+        AgendaTableObjectModel m = new AgendaTableObjectModel(CurrentSetup.Events);
+        addModel(m);
         JTable table = new JTable(m);
 
 

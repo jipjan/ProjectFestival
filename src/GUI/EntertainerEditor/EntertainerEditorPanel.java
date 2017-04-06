@@ -1,8 +1,11 @@
 package GUI.EntertainerEditor;
 
 
+import Events.Time;
 import GUI.ColoredJPanel;
 import Events.Event;
+import GUI.CurrentSetup;
+import de.jaret.util.date.JaretDate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,13 +69,19 @@ public class EntertainerEditorPanel extends ColoredJPanel{
         add(_populariteit, c);
 
         JButton save = new JButton("Save");
+        JButton nieuw = new JButton("Nieuw");
         save.addActionListener((o) -> updateEvent());
+        nieuw.addActionListener((o) -> nieuwEvent());
 
         c.gridx = 1;
         c.gridy = 4;
         add(save, c);
 
+        c.gridx = 2;
+        add(nieuw, c);
+
         setAllEnabled(false);
+        nieuw.setEnabled(true);
     }
 
     private void setAllEnabled(boolean b) {
@@ -86,6 +95,13 @@ public class EntertainerEditorPanel extends ColoredJPanel{
         _event.setDuration((int) _duur.getValue());
         _event.setPopularity((short)_populariteit.getValue());
         _linkedTable.tableChanged(null);
+    }
+
+    private void nieuwEvent() {
+        Event e = new Event("Nieuw", "Nieuw", (short) 1, new Time(new JaretDate(), new JaretDate().advanceMinutes(60)));
+        CurrentSetup.Events.add(e);
+        setEvent(e);
+        ColoredJPanel.repaintAllPanels();
     }
 
     public void setEvent(Event e){

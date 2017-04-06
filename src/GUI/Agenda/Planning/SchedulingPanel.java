@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.dnd.*;
 import java.awt.event.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TooManyListenersException;
@@ -11,7 +12,8 @@ import java.util.TooManyListenersException;
 import javax.swing.*;
 
 import Events.Event;
-import ImportExport.CurrentSetup;
+import GUI.ColoredJPanel;
+import GUI.CurrentSetup;
 import de.jaret.util.date.Interval;
 import de.jaret.util.date.JaretDate;
 import de.jaret.util.ui.timebars.TimeBarViewerInterface;
@@ -20,7 +22,7 @@ import de.jaret.util.ui.timebars.model.*;
 import de.jaret.util.ui.timebars.swing.TimeBarViewer;
 import de.jaret.util.ui.timebars.swing.renderer.BoxTimeScaleRenderer;
 
-public class SchedulingPanel extends JPanel {
+public class SchedulingPanel extends ColoredJPanel {
 
     JTable _EventTable;
     EventTableModel _EventTableModel;
@@ -74,7 +76,8 @@ public class SchedulingPanel extends JPanel {
             }
         });
 
-        _EventTableModel = new EventTableModel(CurrentSetup.getEvents());
+        _EventTableModel = new EventTableModel(CurrentSetup.Events);
+        addModel(_EventTableModel);
         _EventTable = new JTable(_EventTableModel);
 
         _tbv.addIntervalModificator(new PreventOverlapIntervalModificator());
@@ -99,7 +102,30 @@ public class SchedulingPanel extends JPanel {
         JPanel controlPanel = createControlPanel(24 * 60 * 60);
         add(controlPanel, BorderLayout.SOUTH);
         _tbv.setUseTitleRendererComponentInPlace(true);
+
+
+        Runnable b = () -> {
+            ArrayList<ArrayList<Interval>> penus = new ArrayList<>();
+            for (int i = 0; i < _tbv.getModel().getRowCount(); i++) {
+                ArrayList<Interval> listR = new ArrayList<>();
+                for (Interval inter : _tbv.getModel().getRow(i).getIntervals()) {
+                    listR.add(inter);
+                }
+                penus.add(listR);
+            }
+
+            for (ArrayList<Interval> r : penus)
+                for (Interval inter : r)
+                {
+                    TimeBarRow row = _model.getRowForInterval(inter);
+                    ((MyTimeBarRowModel) row).remInterval(inter);
+                }
+        };
+
+        setUnscheduler(b);
     }
+
+
 
     /**
      * Setup some actions on the timebar viewer.
