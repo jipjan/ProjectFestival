@@ -5,9 +5,6 @@ import Sprites.Sprites;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 
-/**
- * Created by thijs_000 on 06-Apr-17.
- */
 public class Toilet extends MyBody
 {
     public Toilet(double x, double y) {

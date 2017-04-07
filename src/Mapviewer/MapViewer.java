@@ -79,10 +79,9 @@ public class MapViewer extends JPanel implements ActionListener {
         for (int i = 0; i < AMOUNTOFNPCS; i++) {
             Point2D startLoc = _startLocations.get(r.nextInt(_startLocations.size()));
 
-            MyNpc npc = new MyNpc(50 + startLoc.getX() + npcs.size()*25, startLoc.getY() + 500, new moodless());
+            MyNpc npc = new MyNpc(50 + startLoc.getX() + npcs.size()*25, startLoc.getY() + 500);
             w.addBody(npc);
             npcs.add(npc);
-            npc.setFinalDestination(testDestination);
         }
 
         _myBodies = new MyBodies();
@@ -182,7 +181,6 @@ public class MapViewer extends JPanel implements ActionListener {
             //c.update(map);
             Item i = map.layerobjects.getObjectList().get(r.nextInt(map.layerobjects.getObjectList().size()));
             System.out.println(map.layerobjects.getObjectList().indexOf(i));
-            c.setDestinationWithCheck(i.getX(), i.getY());
         }
         long time = System.nanoTime();
         double elapsedTime = (time-lastTime) / 1000000000.0;

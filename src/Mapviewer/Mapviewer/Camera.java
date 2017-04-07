@@ -17,11 +17,6 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     private double maxZoom;
     private double minZoom;
 
-    public Camera(JPanel panel)
-    {
-        this(panel, 1.0D, new Point2D.Double(0.0D, 0.0D));
-    }
-
     public Camera(JPanel panel, double zoom, Point2D centerPoint)
     {
         this.panel = panel;
