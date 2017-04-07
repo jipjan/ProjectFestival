@@ -10,4 +10,44 @@ public class TileObject {
     private String type;
     private boolean visible;
     private int width, x, y;
+
+    public int getGid() {
+        return gid;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getRotation() {
+        return rotation;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

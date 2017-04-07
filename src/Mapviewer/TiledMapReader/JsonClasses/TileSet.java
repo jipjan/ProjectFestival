@@ -1,6 +1,8 @@
 package Mapviewer.TiledMapReader.JsonClasses;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Jaap-Jan on 7-4-2017.
@@ -13,7 +15,7 @@ public class TileSet {
     private int spacing;
     private ArrayList<TileTerrain> terrains = new ArrayList<>();
     private int tilecount, tileheight;
-    private transient ArrayList<TileTile> tiles = new ArrayList<>();
+    private transient HashMap<Integer, BufferedImage> tiles = new HashMap<>();
     private int tilewidth;
 
     public int getColumns() {
@@ -60,7 +62,11 @@ public class TileSet {
         return tileheight;
     }
 
-    public ArrayList<TileTile> getTiles() {
+    public void addTile(int id, BufferedImage image) {
+        tiles.put(id, image);
+    }
+
+    public HashMap<Integer, BufferedImage> getTiles() {
         return tiles;
     }
 

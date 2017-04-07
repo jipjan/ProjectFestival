@@ -3,6 +3,9 @@ package Mapviewer.TiledMapReader.JsonClasses;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 /**
  * Created by Jaap-Jan on 7-4-2017.
  */
@@ -27,5 +30,41 @@ public class TileLayer {
                 i++;
             }
         }
+    }
+
+    public int[][] getData() {
+        return data;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getOpacity() {
+        return opacity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

@@ -18,4 +18,44 @@ public class ObjectLayer {
     private boolean visible;
     private int width;
     private int x, y;
+
+    public String getDraworder() {
+        return draworder;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<TileObject> getObjects() {
+        return objects;
+    }
+
+    public int getOpacity() {
+        return opacity;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

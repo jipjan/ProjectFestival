@@ -3,7 +3,7 @@ package AI.mood;
 import Events.Events;
 import AI.pathFinding.GridLocation;
 import Events.Time;
-import Mapviewer.Tiled.TileMap;
+import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 
 /**
  * Created by jacco on 23/03/2017.

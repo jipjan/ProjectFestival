@@ -1,5 +1,6 @@
 package Mapviewer.TiledMapReader.JsonClasses;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**

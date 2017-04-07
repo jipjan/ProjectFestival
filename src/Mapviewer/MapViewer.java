@@ -1,6 +1,11 @@
 package Mapviewer;
 
 import AI.NewNpcLogic;
+import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
+import Mapviewer.TiledMapReader.JsonClasses.TileMap;
+import Mapviewer.TiledMapReader.JsonClasses.TileObject;
+import Mapviewer.TiledMapReader.LayerDrawer;
+import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import NewAI.*;
 import AI.mood.moodless;
 import AI.pathFinding.DistanceGrid;
@@ -8,9 +13,6 @@ import Mapviewer.Mapviewer.Camera;
 import Mapviewer.Mapviewer.DebugDraw;
 import Mapviewer.Mapviewer.Draw;
 import Mapviewer.Mapviewer.ObjectStats;
-import Mapviewer.Tiled.Item;
-import Mapviewer.Tiled.ObjectLayer;
-import Mapviewer.Tiled.TileMap;
 import NewAI.BaseClasses.MyBodies;
 import NewAI.BaseClasses.MyNpcs;
 import NewAI.WorldObjects.Toilet;
@@ -61,7 +63,15 @@ public class MapViewer extends JPanel implements ActionListener {
     Random r = new Random();
 
     public MapViewer() {
-        this.map = new TileMap("./resources/Festivalplanner Map V1.json");
+        map = new MyTiledJsonParser("./resources/Festivalplanner Map V1.json").Map;
+
+        LayerDrawer.drawLayer(map.getTileLayers().get(1), map.getTilesets().get(0));
+
+
+
+
+
+
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
 
         Sprites.Init();
@@ -74,7 +84,7 @@ public class MapViewer extends JPanel implements ActionListener {
         npcs = new MyNpcs(AMOUNTOFNPCS);
 
 
-        DistanceGrid testDestination = new DistanceGrid((int) map.layerobjects.getObjectList().get(1).getX()/32, (int) map.layerobjects.getObjectList().get(1).getY()/32,map);
+        DistanceGrid testDestination = new DistanceGrid((int) map.getObjectLayers().get(0).getX()/32, (int) map.getObjectLayers().get(0).getY()/32,map);
 
         for (int i = 0; i < AMOUNTOFNPCS; i++) {
             Point2D startLoc = _startLocations.get(r.nextInt(_startLocations.size()));
@@ -86,7 +96,7 @@ public class MapViewer extends JPanel implements ActionListener {
 
         _myBodies = new MyBodies();
 
-        for(Item t : map.layerobjects.getObjectList())
+        for(TileObject t : map.getObjectLayers().get(0).getObjects())
         {
             System.out.println(t.getName());
             if (t.getName().contains("Toilet"))
@@ -99,8 +109,8 @@ public class MapViewer extends JPanel implements ActionListener {
 
     private void drawStats(Graphics2D g2d)
     {
-        if (map.layerobjects==null) return;
-        ObjectStats objstats = new ObjectStats(map.layerobjects.getObjectList());
+        if (map.getObjectLayers().get(0)==null) return;
+        ObjectStats objstats = new ObjectStats(map.getObjectLayers().get(0).getObjects());
         objstats.counters(g2d);
         /*
         int statCount = 12;
@@ -179,8 +189,7 @@ public class MapViewer extends JPanel implements ActionListener {
         for (MyNpc c : npcs) {
 //            c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
             //c.update(map);
-            Item i = map.layerobjects.getObjectList().get(r.nextInt(map.layerobjects.getObjectList().size()));
-            System.out.println(map.layerobjects.getObjectList().indexOf(i));
+            TileObject i = map.getObjectLayers().get(0).getObjects().get(r.nextInt(map.getObjectLayers().get(0).getObjects().size()));
         }
         long time = System.nanoTime();
         double elapsedTime = (time-lastTime) / 1000000000.0;
@@ -202,7 +211,7 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.setTransform(this.camera.getTransform(getWidth(), getHeight()));
 
         // Camera transfom is needed for the map to draw and to keep correct ratio's
-        this.map.draw(g2d);
+        //this.map.draw(g2d);
 
         // Reset camera transform
         g2d.scale(1 / this.camera.getZoom() , 1 / this.camera.getZoom());

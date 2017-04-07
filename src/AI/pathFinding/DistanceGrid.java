@@ -1,7 +1,8 @@
 package AI.pathFinding;
 
-import Mapviewer.Tiled.TileLayer;
-import Mapviewer.Tiled.TileMap;
+
+import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
+import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,7 +107,7 @@ public class DistanceGrid {
 
         if (x < 0 || x >= _mapSizeX + 1 || y < 0 || y >= _mapSizeY + 1)
             return false;
-        if(layer.getTileData()[y][x] == 1027)
+        if(layer.getData()[y][x] == 1027)
             return false;
 
         return true;

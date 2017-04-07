@@ -1,13 +1,16 @@
-package Mapviewer.TiledMapReader.JsonClasses;
+package Mapviewer.TiledMapReader;
 
 
+import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
+import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
+import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-import javax.json.Json;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -18,14 +21,13 @@ public class MyTiledJsonParser {
 
     public MyTiledJsonParser(String file) {
         try {
-            Reader reader = new InputStreamReader(new FileInputStream(file));
+            String json = new String(Files.readAllBytes(Paths.get(file)));
+
             Gson g = new Gson();
-            Map = g.fromJson(reader, TileMap.class);
-            reader.close();
+            Map = g.fromJson(json, TileMap.class);
 
-
-            reader = new InputStreamReader(new FileInputStream(file));
-            JsonObject obj = g.fromJson(reader, JsonElement.class).getAsJsonObject();
+            //reader = new InputStreamReader(new FileInputStream(file));
+            JsonObject obj = g.fromJson(json, JsonElement.class).getAsJsonObject();
             JsonArray array = obj.get("layers").getAsJsonArray();
             for (int i = 0; i < array.size(); i++) {
                 JsonObject layer = array.get(i).getAsJsonObject();
@@ -43,16 +45,19 @@ public class MyTiledJsonParser {
 
             array = obj.get("tilesets").getAsJsonArray();
             JsonObject tiles = array.get(0).getAsJsonObject().get("tiles").getAsJsonObject();
+            int x, y;
             for (Map.Entry<String, JsonElement> tile : tiles.entrySet()) {
-                short[] terrain = new short[4];
+                /*
+                Short[] terrain = new Short[4];
                 int counter = 0;
                 for (JsonElement tItem : tile.getValue().getAsJsonObject().get("terrain").getAsJsonArray()) {
                     terrain[counter] = tItem.getAsShort();
                     counter++;
                 }
-                Map.getTilesets().get(0).getTiles().add(new TileTile(Integer.parseInt(tile.getKey()), terrain));
+                Map.getTilesets().get(0).getTiles().put(Integer.parseInt(tile.getKey()), terrain);
+                */
             }
-            reader.close();
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }

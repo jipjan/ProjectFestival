@@ -1,16 +1,11 @@
 package NewAI;
 
-import AI.pathFinding.DistanceGrid;
-import AI.pathFinding.GridLocation;
 import NewAI.BaseClasses.MyBody;
-import javafx.geometry.Point2D;
-import Mapviewer.Tiled.TileMap;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 import Sprites.*;
 import java.util.Random;
-import AI.mood.IMood;
 
 public class MyNpc extends MyBody {
 

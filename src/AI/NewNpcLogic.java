@@ -2,7 +2,7 @@ package AI;
 
 import Events.Events;
 import Events.Time;
-import Mapviewer.Tiled.TileMap;
+import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 import NewAI.BaseClasses.MyNpcs;
 
 /**

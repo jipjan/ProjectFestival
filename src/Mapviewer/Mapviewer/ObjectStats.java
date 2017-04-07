@@ -2,7 +2,7 @@ package Mapviewer.Mapviewer;
 
 import AI.Npc;
 import GUI.CurrentSetup;
-import Mapviewer.Tiled.Item;
+import Mapviewer.TiledMapReader.JsonClasses.TileObject;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -14,12 +14,12 @@ import java.util.ArrayList;
  * Created by Trist on 23-3-2017.
  */
 public class ObjectStats {
-    ArrayList<Item> objList = new ArrayList<Item>();
+    ArrayList<TileObject> objList = new ArrayList<TileObject>();
     double x;
     double y;
     String name;
     public Graphics g;
-    Item item = new Item("", 0, 0);
+    TileObject item = new TileObject();
     public ObjectStats(ArrayList objects) {
  //       objList = objects;
 //        counters();

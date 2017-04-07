@@ -1,4 +1,4 @@
-package Mapviewer.TiledMapReader.JsonClasses;
+package Mapviewer.TiledMapReader;
 
 /**
  * Created by Jaap-Jan on 7-4-2017.
