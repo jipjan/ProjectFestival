@@ -2,9 +2,8 @@ package AI;
 
 import java.util.*;
 
-import NewAI.mood.*;
-import NewAI.pathFinding.DistanceGrid;
-import NewAI.pathFinding.GridLocation;
+import AI.mood.*;
+import AI.pathFinding.GridLocation;
 
 public class Npcs extends LinkedList<Npc>{
     boolean[][] _validWalkLocations;//2dMap[y][x]

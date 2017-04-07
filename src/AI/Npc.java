@@ -7,9 +7,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
-import NewAI.mood.*;
-import NewAI.pathFinding.DistanceGrid;
-import NewAI.pathFinding.GridLocation;
+import AI.mood.*;
+import AI.pathFinding.DistanceGrid;
+import AI.pathFinding.GridLocation;
 
 import javax.imageio.ImageIO;
 
