@@ -7,4 +7,9 @@ public class TileTile {
     private int id;
     private short[] terrain = new short[4];
 
+    public TileTile(int id, short[] terrain) {
+        this.id = id;
+        this.terrain = terrain;
+    }
+
 }
