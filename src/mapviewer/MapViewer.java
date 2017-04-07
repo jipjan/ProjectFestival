@@ -29,7 +29,7 @@ import Sprites.*;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int AMOUNTOFNPCS = 100;
+    private static final int AMOUNTOFNPCS = 50;
 
 
     private TileMap map;
@@ -76,7 +76,7 @@ public class MapViewer extends JPanel implements ActionListener {
         for (int i = 0; i < AMOUNTOFNPCS; i++) {
             Point2D startLoc = _startLocations.get(r.nextInt(_startLocations.size()));
 
-            NewNpc npc = new NewNpc(startLoc.getX() + npcs.size()*6, startLoc.getY(), new moodless());
+            NewNpc npc = new NewNpc(50 + startLoc.getX() + npcs.size()*14, startLoc.getY() + 500, new moodless());
             w.addBody(npc);
             npcs.add(npc);
             npc.setFinalDestination(testDestination);
