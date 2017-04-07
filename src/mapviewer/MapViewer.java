@@ -55,7 +55,7 @@ public class MapViewer extends JPanel implements ActionListener {
         frame.setVisible(true);
     }
 
-
+    Random r = new Random();
 
     public MapViewer() {
         this.map = new TileMap("./resources/Festivalplanner Map V1.json");
@@ -69,14 +69,14 @@ public class MapViewer extends JPanel implements ActionListener {
         w.setGravity(new Vector2(0, 0));
 
         npcs = new NewNpcs(AMOUNTOFNPCS);
-        Random r = new Random();
+
 
         DistanceGrid testDestination = new DistanceGrid((int) map.layerobjects.getObjectList().get(1).getX()/32, (int) map.layerobjects.getObjectList().get(1).getY()/32,map);
 
         for (int i = 0; i < AMOUNTOFNPCS; i++) {
             Point2D startLoc = _startLocations.get(r.nextInt(_startLocations.size()));
 
-            NewNpc npc = new NewNpc(50 + startLoc.getX() + npcs.size()*14, startLoc.getY() + 500, new moodless());
+            NewNpc npc = new NewNpc(50 + startLoc.getX() + npcs.size()*25, startLoc.getY() + 500, new moodless());
             w.addBody(npc);
             npcs.add(npc);
             npc.setFinalDestination(testDestination);
@@ -176,7 +176,10 @@ public class MapViewer extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for (NewNpc c : npcs) {
 //            c.setDestination(map.layerobjects.getObjectList().get(1).getX(), map.layerobjects.getObjectList().get(1).getY());
-            c.update(map);
+            //c.update(map);
+            Item i = map.layerobjects.getObjectList().get(r.nextInt(map.layerobjects.getObjectList().size()));
+            System.out.println(map.layerobjects.getObjectList().indexOf(i));
+            c.setDestinationWithCheck(i.getX(), i.getY());
         }
         long time = System.nanoTime();
         double elapsedTime = (time-lastTime) / 1000000000.0;

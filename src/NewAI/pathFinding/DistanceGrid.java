@@ -107,7 +107,7 @@ public class DistanceGrid {
 
         if (x < 0 || x >= _mapSizeX + 1 || y < 0 || y >= _mapSizeY + 1)
             return false;
-        if(layer.getTileData()[y][x] == 1026)
+        if(layer.getTileData()[y][x] == 1027)
             return false;
 
         return true;

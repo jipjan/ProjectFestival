@@ -2,6 +2,7 @@ package NewAI;
 
 import NewAI.pathFinding.DistanceGrid;
 import NewAI.pathFinding.GridLocation;
+import javafx.geometry.Point2D;
 import mapviewer.tiled.TileMap;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
@@ -19,7 +20,7 @@ public class NewNpc extends MyBody {
         _mood = mood;
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         addFixture(Geometry.createCircle(Sprite.getHeight()));
-        setMass(MassType.NORMAL);
+        setMass(MassType.FIXED_ANGULAR_VELOCITY);
         translate(x, y);
     }
 
@@ -30,6 +31,21 @@ public class NewNpc extends MyBody {
     public void setDestination(Vector2 destination)
     {
         setLinearVelocity(new Vector2(getWorldCenter(), destination));
+    }
+
+    Point2D _mahPoint;
+
+    public void setDestinationWithCheck(double x, double y) {
+        double cX = getWorldCenter().x, cY = getWorldCenter().y;
+
+        if (_mahPoint == null || between(x, y, cX, cY))
+            _mahPoint = new Point2D(x, y);
+        setDestination(_mahPoint.getX(), _mahPoint.getY());
+    }
+
+    private boolean between(double x, double y, double nx, double ny)
+    {
+        return ((x - 2 < x && x + 2 > x) && (y - 1 < y && y + 1 > y));
     }
 
     public void setFinalDestination(DistanceGrid destination)
