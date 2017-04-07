@@ -16,14 +16,15 @@ import java.util.ArrayList;
  * Created by Thijs on 20-2-2017.
  */
 public class TileMap {
-
+    private ArrayList<TileLayer> _tileLayers = new ArrayList<>();
 
 
     private ArrayList<Tileset> tilesets = new ArrayList<>();
     private ArrayList<TileLayer> layers = new ArrayList();
     private ArrayList<BufferedImage> tiles = new ArrayList();
+
+
     public ObjectLayer layerobjects;
-    public TileLayer layertiled;
 
     private int width;
     private int height;
@@ -32,31 +33,28 @@ public class TileMap {
     private int tileWidth;
     private int tileHeight;
     private int version;
-    private  String renderOrder;
+    private String renderOrder;
     private int rows;
     private int columns;
 
-    public TileMap(String resourcePath)
-    {
-        try(JsonReader reader = Json.createReader(new FileReader(resourcePath)))
-        {
-            JsonObject o = (JsonObject)reader.read();
+    public TileMap(String resourcePath) {
+        try (JsonReader reader = Json.createReader(new FileReader(resourcePath))) {
+            JsonObject o = (JsonObject) reader.read();
 
             // Save all data of the root object (TileMap)
-            this.height = o.getInt("height");
-            this.width = o.getInt("width");
-            this.nextObjectId = o.getInt("nextobjectid");
-            this.orientation = o.getString("orientation");
-            this.renderOrder = o.getString("renderorder");
-            this.tileWidth = o.getInt("tilewidth");
-            this.tileHeight = o.getInt("tileheight");
-            this.version = o.getInt("version");
+            height = o.getInt("height");
+            width = o.getInt("width");
+            nextObjectId = o.getInt("nextobjectid");
+            orientation = o.getString("orientation");
+            renderOrder = o.getString("renderorder");
+            tileWidth = o.getInt("tilewidth");
+            tileHeight = o.getInt("tileheight");
+            version = o.getInt("version");
 
             // Parse tilesets
             JsonArray tilesetsArray = o.getJsonArray("tilesets");
 
-            for(int t = 0; t < tilesetsArray.size(); t++)
-            {
+            for (int t = 0; t < tilesetsArray.size(); t++) {
                 JsonObject tilesetObject = tilesetsArray.getJsonObject(t);
 
                 Tileset tileset = new Tileset();
@@ -74,12 +72,9 @@ public class TileMap {
                 tileset.setTileHeight(tilesetObject.getInt("tileheight"));
                 tileset.setTileWidth(tilesetObject.getInt("tilewidth"));
 
-                try
-                {
+                try {
                     tileset.setTilesetImage(ImageIO.read(this.getClass().getResourceAsStream(tileset.getImagePath())));
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     System.out.println("Er mist een image: " + tileset.getImagePath());
                 }
 
@@ -87,12 +82,11 @@ public class TileMap {
 
                 // TODO: Add comments regarding what this code does
                 int index = tileset.getFirstgid();
-                while(this.tiles.size() < index + tileset.getTileCount())
-                {
+                while (this.tiles.size() < index + tileset.getTileCount()) {
                     this.tiles.add(null);
                 }
 
-                System.out.println("#"+t+" | Parse Tiles");
+                System.out.println("#" + t + " | Parse Tiles");
                 // Parse tiles
                 // TODO: Add comments regarding what this code does
                 for (int y = 0; y + tileset.getTileHeight() <= tileset.getImageHeight(); y += tileset.getTileHeight()) {
@@ -112,10 +106,9 @@ public class TileMap {
 
                 JsonObject jsonObject = jsonLayers.getJsonObject(i);
                 String type = jsonObject.getString("type");
-                switch(type)
-                {
+                switch (type) {
                     case "tilelayer":
-                        layer = new TileLayer(jsonObject, this);
+                        _tileLayers.add(new TileLayer(jsonObject, this));
                         break;
                     case "objectgroup":
                         layer = new ObjectLayer(jsonObject, this);
@@ -125,72 +118,24 @@ public class TileMap {
                         break;
                 }
 
-                if(layer != null){
-                    if(layer instanceof TileLayer) {
-                        this.layers.add((TileLayer) layer);
-                        layertiled = (TileLayer) layer;
-                    }
-                    else if (layer instanceof ObjectLayer){
-                        layerobjects = (ObjectLayer) layer;
-                    //this.layers.add((ObjectLayer) layer);
-                    //Moet er nog wat met de ObjectLayer
-                    }
-                    else
-                        System.out.println("Deze layer is aids");
-            }}
+                if (layer instanceof ObjectLayer) {
+                    layerobjects = (ObjectLayer) layer;
+                } else
+                    System.out.println("Deze layer is aids");
+            }
+        } catch (
+                Exception e)
 
-        } catch (IOException e) {
+        {
             e.printStackTrace();
         }
+    }
 
 
 
-//        JsonReader reader = null;
-//        try {
-//            reader = Json.createReader(new FileReader(resourcePath));
-//            JsonObject o = (JsonObject) reader.read();
-//
-//            this.height = o.getInt("height");
-//            this.width = o.getInt("width");
-//
-//            JsonArray tilesets = o.getJsonArray("tilesets");
-//
-//            for (int i = 0; i < tilesets.size(); i++) {
-//                JsonObject tileset = tilesets.getJsonObject(i);
-//                String tileFile = tileset.getString("image");
-//                tileFile = tileFile.replaceAll("\\.\\./", "/");
-//                BufferedImage img = ImageIO.read(getClass().getResource(tileFile));
-//
-//                int tilesetWidth = tileset.getInt("imagewidth");
-//                int tilesetHeight = tileset.getInt("imageheight");
-//                int tileWidth = tileset.getInt("tilewidth");
-//                int tileHeight = tileset.getInt("tileheight");
-//
-//                int index = tileset.getInt("firstgid");
-//                while (this.tiles.size() < index + tileset.getInt("tilecount")) {
-//                    this.tiles.add(null);
-//                }
-//
-//                for (int y = 0; y + tileHeight <= tilesetHeight; y += tileHeight) {
-//                    for (int x = 0; x + tileWidth <= tilesetWidth; x += tileWidth) {
-//                        this.tiles.set(index, img.getSubimage(x, y, tileWidth, tileHeight));
-//                        index++;
-//                    }
-//                }
-//            }
-//
-//            JsonArray jsonLayers = o.getJsonArray("layers");
-//            for (int i = 0; i < jsonLayers.size(); i++) {
-//                JsonObject layer = jsonLayers.getJsonObject(i);
-//                if(layer.getString("name").equals("Signs"))
-//                    continue;
-//                this.layers.add(new TileLayer(jsonLayers.getJsonObject(i), this));
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }printStackTrace
+
+    public ArrayList<TileLayer> getTileLayers() {
+        return _tileLayers;
     }
 
     public void draw(Graphics2D g2) {
