@@ -20,7 +20,6 @@ public class TileSet {
     private int tilecount, tileheight;
     private transient HashMap<Integer, BufferedImage> imageTiles;
     private transient HashMap<Integer, Short[]> tiles = new HashMap<>();
-    private transient BufferedImage biImage;
     private int tilewidth;
 
     public int getColumns() {
