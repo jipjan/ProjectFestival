@@ -62,7 +62,7 @@ public class MapViewer extends JPanel implements ActionListener {
     Random r = new Random();
 
     public MapViewer() {
-        map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1.json");
+        map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1 Test.json");
 
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
 
@@ -92,8 +92,7 @@ public class MapViewer extends JPanel implements ActionListener {
         {
             System.out.println(t.getName());
             TileSet s = map.getTilesets().getTileSetByGid(t.getGid());
-            if (!t.getName().contains("Podium"))
-                _myBodies.add(new MyBody(s.getTile(1), t.getX(), t.getY()));
+            _myBodies.add(new MyBody(s.getTile(1), t.getX(), t.getY()));
         }
 
         _NpcLogic = new NewNpcLogic(npcs, map);

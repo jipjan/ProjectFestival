@@ -14,7 +14,10 @@ public class MyBody extends Body {
 
     public MyBody(BufferedImage sprite, double x, double y) {
         Sprite = sprite;
-        addFixture(Geometry.createSquare(5));
+        if (sprite != null)
+            addFixture(Geometry.createRectangle(sprite.getWidth(), sprite.getHeight()));
+        else
+            addFixture(Geometry.createSquare(32));
         setMass(MassType.NORMAL);
         translate(x, y);
     }
