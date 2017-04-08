@@ -1,6 +1,9 @@
 package Mapviewer.TiledMapReader.JsonClasses;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,7 +18,8 @@ public class TileSet {
     private int spacing;
     private ArrayList<TileTerrain> terrains = new ArrayList<>();
     private int tilecount, tileheight;
-    private transient HashMap<Integer, BufferedImage> tiles = new HashMap<>();
+    private transient HashMap<Integer, BufferedImage> imageTiles;
+    private transient HashMap<Integer, Short[]> tiles = new HashMap<>();
     private int tilewidth;
 
     public int getColumns() {
@@ -62,11 +66,34 @@ public class TileSet {
         return tileheight;
     }
 
-    public void addTile(int id, BufferedImage image) {
+    public void addTile(int id, Short[] image) {
         tiles.put(id, image);
     }
 
-    public HashMap<Integer, BufferedImage> getTiles() {
+    public BufferedImage getTile(int id) {
+        if (imageTiles == null)
+            generateTiles();
+        return imageTiles.get(id);
+    }
+
+    private void generateTiles() {
+        try {
+            BufferedImage tileset = ImageIO.read(getClass().getResourceAsStream(image.replaceAll("\\.\\./", "/")));
+            imageTiles = new HashMap<>();
+            imageTiles.put(0, null);
+            int count = 1;
+            for (int y = 0; y < imageheight; y += tileheight) {
+                for (int x = 0; x < imagewidth; x += tilewidth) {
+                    imageTiles.put(count, tileset.getSubimage(x, y, tilewidth, tileheight));
+                    count++;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public HashMap<Integer, Short[]> getTiles() {
         return tiles;
     }
 

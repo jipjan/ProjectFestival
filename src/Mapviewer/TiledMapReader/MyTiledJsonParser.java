@@ -44,19 +44,18 @@ public class MyTiledJsonParser {
 
             array = obj.get("tilesets").getAsJsonArray();
             JsonObject tiles = array.get(0).getAsJsonObject().get("tiles").getAsJsonObject();
-            int x, y;
             for (Map.Entry<String, JsonElement> tile : tiles.entrySet()) {
-                /*
                 Short[] terrain = new Short[4];
                 int counter = 0;
                 for (JsonElement tItem : tile.getValue().getAsJsonObject().get("terrain").getAsJsonArray()) {
                     terrain[counter] = tItem.getAsShort();
                     counter++;
                 }
-                Map.getTilesets().get(0).getTiles().put(Integer.parseInt(tile.getKey()), terrain);
-                */
+                Map.getTilesets().get(0).addTile(Integer.parseInt(tile.getKey()), terrain);
             }
 
+            for (TileLayer layer : Map.getTileLayers())
+                layer.setDrawnLayer(Map.getTilesets().get(0));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

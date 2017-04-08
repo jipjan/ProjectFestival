@@ -1,5 +1,6 @@
 package Mapviewer.TiledMapReader.JsonClasses;
 
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 /**
@@ -13,10 +14,10 @@ public class TileData {
     }
 
     public void addTile(int x, int y, int id) {
-        _tiles.put(x*y, id);
+        _tiles.put(x+y, id);
     }
 
     public int getTileId(int x, int y) {
-        return _tiles.get(x*y);
+        return _tiles.get(x+y);
     }
 }

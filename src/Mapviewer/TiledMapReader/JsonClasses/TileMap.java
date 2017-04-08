@@ -62,4 +62,9 @@ public class TileMap {
     public int getWidth() {
         return width;
     }
+
+    public void drawLayers(Graphics2D g2) {
+        for (TileLayer layer : tilelayers)
+            g2.drawImage(layer.getDrawnLayer(), null, null);
+    }
 }

@@ -18,9 +18,7 @@ public class LayerDrawer {
         for (int y = 0; y < layer.getHeight(); y++) {
             for (int x = 0; x < layer.getWidth(); x++) {
                 System.out.println(layer.getData().getTileId(x, y));
-                //g2.drawImage()
-                //g2.drawImage(this.map.getTiles()[this.data[y][x]], x * this.tileWidth, y * this.tileHeight, null);
-                //g2.drawImage(tiles.getTiles().get(layer.getData()[y][x]), x * tiles.getTilewidth(), y * tiles.getTileheight(), null);
+                g2.drawImage(tiles.getTile(layer.getData().getTileId(x, y)), x * tiles.getTilewidth(), y * tiles.getTileheight(), null);
             }
         }
         return img;

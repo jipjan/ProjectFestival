@@ -2,6 +2,7 @@ package Mapviewer;
 
 import AI.NewNpcLogic;
 import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
+import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
 import Mapviewer.TiledMapReader.LayerDrawer;
@@ -64,13 +65,6 @@ public class MapViewer extends JPanel implements ActionListener {
 
     public MapViewer() {
         map = new MyTiledJsonParser("./resources/Festivalplanner Map V1.json").Map;
-
-        LayerDrawer.drawLayer(map.getTileLayers().get(1), map.getTilesets().get(0));
-
-
-
-
-
 
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
 
@@ -212,6 +206,9 @@ public class MapViewer extends JPanel implements ActionListener {
 
         // Camera transfom is needed for the map to draw and to keep correct ratio's
         //this.map.draw(g2d);
+        //for (TileLayer layer : map.getTileLayers())
+        //    LayerDrawer.drawLayer(g2d, layer, map.getTilesets().get(0));
+        map.drawLayers(g2d);
 
         // Reset camera transform
         g2d.scale(1 / this.camera.getZoom() , 1 / this.camera.getZoom());
