@@ -969,6 +969,39 @@
                  "width":48,
                  "x":2782,
                  "y":2008
+                }, 
+                {
+                 "height":161.333333333333,
+                 "id":126,
+                 "name":"Podium1",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":668,
+                 "x":1729.33333333333,
+                 "y":3042.66666666667
+                }, 
+                {
+                 "height":416,
+                 "id":129,
+                 "name":"Podium2",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":766.666666666667,
+                 "x":2401.33333333333,
+                 "y":2046.66666666667
+                }, 
+                {
+                 "height":478.666666666667,
+                 "id":130,
+                 "name":"Podium3",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":254.666666666667,
+                 "x":1377.33333333333,
+                 "y":2046.66666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -977,7 +1010,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":116,
+ "nextobjectid":131,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,
