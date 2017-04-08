@@ -1,6 +1,7 @@
 package Mapviewer.TiledMapReader.JsonClasses;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -14,10 +15,11 @@ public class TileMap {
     private String orientation;
     private String renderorder;
     private int tileheight;
-    private ArrayList<TileSet> tilesets = new ArrayList<>();
+    private TileSets tilesets = new TileSets();
     private int tilewidth;
     private int version;
     private int width;
+    private transient BufferedImage map;
 
     public int getHeight() {
         return height;
@@ -47,7 +49,7 @@ public class TileMap {
         return tileheight;
     }
 
-    public ArrayList<TileSet> getTilesets() {
+    public TileSets getTilesets() {
         return tilesets;
     }
 
@@ -63,8 +65,16 @@ public class TileMap {
         return width;
     }
 
-    public void drawLayers(Graphics2D g2) {
+    private void redrawLayers() {
+        map = new BufferedImage(width * tilewidth, height * tileheight, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g = map.createGraphics();
         for (TileLayer layer : tilelayers)
-            g2.drawImage(layer.getDrawnLayer(), null, null);
+            g.drawImage(layer.getDrawnLayer(), 0, 0, null);
+    }
+
+    public void drawMap(Graphics2D g2) {
+        if (map == null)
+            redrawLayers();
+        g2.drawImage(map, null, null);
     }
 }

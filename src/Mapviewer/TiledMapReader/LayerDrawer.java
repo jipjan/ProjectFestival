@@ -13,14 +13,10 @@ public class LayerDrawer {
 
     public static BufferedImage drawLayer(TileLayer layer, TileSet tiles) {
         BufferedImage img = new BufferedImage(layer.getWidth() * tiles.getTilewidth(), layer.getHeight() * tiles.getTileheight(), BufferedImage.TYPE_4BYTE_ABGR);
-
         Graphics2D g2 = img.createGraphics();
-        for (int y = 0; y < layer.getHeight(); y++) {
-            for (int x = 0; x < layer.getWidth(); x++) {
-                System.out.println(layer.getData().getTileId(x, y));
+        for (int y = 0; y < layer.getHeight(); y++)
+            for (int x = 0; x < layer.getWidth(); x++)
                 g2.drawImage(tiles.getTile(layer.getData().getTileId(x, y)), x * tiles.getTilewidth(), y * tiles.getTileheight(), null);
-            }
-        }
         return img;
     }
 }

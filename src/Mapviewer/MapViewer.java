@@ -1,10 +1,7 @@
 package Mapviewer;
 
 import AI.NewNpcLogic;
-import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
-import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
-import Mapviewer.TiledMapReader.JsonClasses.TileMap;
-import Mapviewer.TiledMapReader.JsonClasses.TileObject;
+import Mapviewer.TiledMapReader.JsonClasses.*;
 import Mapviewer.TiledMapReader.LayerDrawer;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import NewAI.*;
@@ -15,8 +12,8 @@ import Mapviewer.Mapviewer.DebugDraw;
 import Mapviewer.Mapviewer.Draw;
 import Mapviewer.Mapviewer.ObjectStats;
 import NewAI.BaseClasses.MyBodies;
+import NewAI.BaseClasses.MyBody;
 import NewAI.BaseClasses.MyNpcs;
-import NewAI.WorldObjects.Toilet;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Vector2;
 
@@ -93,8 +90,9 @@ public class MapViewer extends JPanel implements ActionListener {
         for(TileObject t : map.getObjectLayers().get(0).getObjects())
         {
             System.out.println(t.getName());
-            if (t.getName().contains("Toilet"))
-                _myBodies.add(new Toilet(t.getX(),t.getY()));
+            TileSet s = map.getTilesets().getTileSetByGid(t.getGid());
+            if (!t.getName().contains("Podium"))
+                _myBodies.add(new MyBody(s.getTile(1), t.getX(), t.getY()));
         }
 
         _NpcLogic = new NewNpcLogic(npcs, map);
@@ -208,7 +206,7 @@ public class MapViewer extends JPanel implements ActionListener {
         //this.map.draw(g2d);
         //for (TileLayer layer : map.getTileLayers())
         //    LayerDrawer.drawLayer(g2d, layer, map.getTilesets().get(0));
-        map.drawLayers(g2d);
+        map.drawMap(g2d);
 
         // Reset camera transform
         g2d.scale(1 / this.camera.getZoom() , 1 / this.camera.getZoom());

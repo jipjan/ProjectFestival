@@ -10,6 +10,7 @@ import java.util.Random;
 public class MyNpc extends MyBody {
 
     public MyNpc(double x, double y) {
+        super(null, x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         addFixture(Geometry.createCircle(Sprite.getHeight()));
         setMass(MassType.FIXED_ANGULAR_VELOCITY);
