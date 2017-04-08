@@ -16,17 +16,16 @@ import java.util.Map;
  * Created by Jaap-Jan on 7-4-2017.
  */
 public class MyTiledJsonParser {
-    public TileMap Map;
-
-    public MyTiledJsonParser(String file) {
+    public static TiledMapDrawer jsonToTileMap(String file) {
+        TiledMapDrawer Map = null;
         try {
             String json = new String(Files.readAllBytes(Paths.get(file)));
 
             Gson g = new Gson();
-            Map = g.fromJson(json, TileMap.class);
+            Map = g.fromJson(json, TiledMapDrawer.class);
 
-            //reader = new InputStreamReader(new FileInputStream(file));
             JsonObject obj = g.fromJson(json, JsonElement.class).getAsJsonObject();
+
             JsonArray array = obj.get("layers").getAsJsonArray();
             for (int i = 0; i < array.size(); i++) {
                 JsonObject layer = array.get(i).getAsJsonObject();
@@ -42,8 +41,7 @@ public class MyTiledJsonParser {
                 }
             }
 
-            array = obj.get("tilesets").getAsJsonArray();
-            JsonObject tiles = array.get(0).getAsJsonObject().get("tiles").getAsJsonObject();
+            JsonObject tiles = obj.get("tilesets").getAsJsonArray().get(0).getAsJsonObject().get("tiles").getAsJsonObject();
             for (Map.Entry<String, JsonElement> tile : tiles.entrySet()) {
                 Short[] terrain = new Short[4];
                 int counter = 0;
@@ -59,5 +57,6 @@ public class MyTiledJsonParser {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        return Map;
     }
 }

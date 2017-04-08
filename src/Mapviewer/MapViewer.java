@@ -4,6 +4,7 @@ import AI.NewNpcLogic;
 import Mapviewer.TiledMapReader.JsonClasses.*;
 import Mapviewer.TiledMapReader.LayerDrawer;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
+import Mapviewer.TiledMapReader.TiledMapDrawer;
 import NewAI.*;
 import AI.mood.moodless;
 import AI.pathFinding.DistanceGrid;
@@ -35,7 +36,7 @@ public class MapViewer extends JPanel implements ActionListener {
     private static final int AMOUNTOFNPCS = 50;
 
 
-    private TileMap map;
+    private TiledMapDrawer map;
     private Camera camera;
     private double lastTime = 0;
     private World w = new World();
@@ -61,7 +62,7 @@ public class MapViewer extends JPanel implements ActionListener {
     Random r = new Random();
 
     public MapViewer() {
-        map = new MyTiledJsonParser("./resources/Festivalplanner Map V1.json").Map;
+        map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1.json");
 
         this.camera = new Camera(this, 1.0d, new Point2D.Double(map.getWidth() / 2, map.getHeight() / 2));
 
