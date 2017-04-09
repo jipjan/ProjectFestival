@@ -72,7 +72,6 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     public void mouseWheelMoved(MouseWheelEvent e)
     {
         double z = zoom * (1.0F - e.getWheelRotation() / 25.0F);
-        System.out.println(z);
         if (z <= minZoom && z >= maxZoom) {
             zoom = z;
             repaint();
