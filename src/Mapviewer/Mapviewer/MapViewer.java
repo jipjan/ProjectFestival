@@ -31,8 +31,7 @@ public class MapViewer extends JPanel implements ActionListener {
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
 
-        new Timer(17, this).start();
-//        new Thread(() -> _world.updateNpcs()).start();
+        new Timer(16, this).start();
     }
 
     @Override
