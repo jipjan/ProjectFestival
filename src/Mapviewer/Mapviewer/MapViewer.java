@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 5000;
+    private static final int NPCs = 500;
 
     private TiledMapDrawer _map;
     private Camera _camera;
