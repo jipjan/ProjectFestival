@@ -53,6 +53,6 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
         _map.drawMap(g2d);
         _world.drawWorld(g2d, DEBUG);
-        Draw.drawHeatmap(g2d, _world.getNpcs(), _world.getWidth(), _world.getHeight(), 0.005f);
+        Draw.drawHeatmap(g2d, _world.getNpcs(), _world.getWidth(), _world.getHeight(), 0.004f);
     }
 }
