@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class Draw {
 
-    public static void drawHeatmap(Graphics2D g2d, MyNpcs npcs, int mapWidth, int mapHeight){
+    public static void drawHeatmap(Graphics2D g2d, MyNpcs npcs, int mapWidth, int mapHeight, float limit){
         BufferedImage img = new BufferedImage(mapWidth, mapHeight, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g = img.createGraphics();
 
@@ -36,7 +36,7 @@ public class Draw {
         for (MyNpc npc : npcs)
         {
             Vector2 loc = npc.getWorldCenter();
-            int fX = (int) loc.x % 32, fY = (int) loc.y % 32;
+            int fX = (int) loc.x / 32, fY = (int) loc.y / 32;
             Integer count = locations.get(fX, fY);
             if (count == null)
                 locations.add(fX, fY, 1);
@@ -44,11 +44,11 @@ public class Draw {
                 locations.add(fX, fY, count + 1);
         }
 
-        float total = npcs.size();
+        float total = npcs.size() * limit;
 
         for (Map.Entry<Integer, HashMap<Integer, Integer>> x : locations.entrySet()){
             for (Map.Entry<Integer, Integer> y : x.getValue().entrySet()) {
-                Color r = new Color(1f, 0f, 0f, Math.min(y.getValue() / total * 5, 1));
+                Color r = new Color(1f, 0f, 0f, Math.min(y.getValue() / total, 1));
                 g.setPaint(r);
                 g.fillRect(x.getKey() * 32, y.getKey() * 32, 32, 32);
             }
