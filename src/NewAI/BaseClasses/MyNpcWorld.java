@@ -29,7 +29,7 @@ public class MyNpcWorld extends World {
     private void setNpcs(int count) {
         _npcs = new MyNpcs(count);
         for (int i = 0; i < count; i++) {
-            MyNpc npc = new MyNpc(50, 50);
+            MyNpc npc = new MyNpc(50 + (i % 50) * 10, 50 + (i / 50) * 10);
             addBody(npc);
             _npcs.add(npc);
         }
@@ -50,5 +50,10 @@ public class MyNpcWorld extends World {
             DebugDraw.draw(g2d, this, 1);
         Draw.drawSprites(g2d, _myBodies, 1);
         Draw.drawSprites(g2d, _npcs, 1);
+    }
+
+    public void updateNpcs() {
+        for (MyNpc npc : _npcs)
+            npc.setDestination(500, 500);
     }
 }
