@@ -30,8 +30,8 @@ public class TileLayer {
             }
     }
 
-    public void setDrawnLayer(TileSet set) {
-        drawnLayer = LayerDrawer.drawLayer(this, set);
+    public void setDrawnLayer(BufferedImage img) {
+        drawnLayer = img;
     }
 
     public BufferedImage getDrawnLayer() {
