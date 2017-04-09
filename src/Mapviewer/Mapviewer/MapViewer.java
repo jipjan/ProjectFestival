@@ -17,7 +17,9 @@ import java.awt.geom.Point2D;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 5000;
+    private static final int NPCs = 500;
+    private static final boolean DEBUG = false;
+    private static final boolean GRID = false;
 
     private TiledMapDrawer _map;
     private Camera _camera;
@@ -48,11 +50,10 @@ public class MapViewer extends JPanel implements ActionListener {
     {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        Draw.drawGrid(this, _camera, g2d, 32);
-        AffineTransform origin = g2d.getTransform();
-        g2d.setTransform(this._camera.getTransform(getWidth(), getHeight()));
+        if (GRID)
+            Draw.drawGrid(this, _camera, g2d, 32);
+        g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
         _map.drawMap(g2d);
-        _world.drawWorld(g2d);
-        g2d.setTransform(origin);
+        _world.drawWorld(g2d, DEBUG);
     }
 }

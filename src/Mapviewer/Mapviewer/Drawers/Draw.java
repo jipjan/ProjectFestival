@@ -3,6 +3,7 @@ package Mapviewer.Mapviewer.Drawers;
 import Mapviewer.Mapviewer.Camera;
 import Mapviewer.Mapviewer.MapViewer;
 import NewAI.BaseClasses.MyBody;
+import NewAI.BaseClasses.MyNpcs;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
@@ -18,6 +19,12 @@ import java.util.ArrayList;
  * Created by Jaap-Jan on 15-3-2017.
  */
 public class Draw {
+
+    public static void drawHeatmap(Graphics2D g2d, MyNpcs npcs){
+
+    }
+
+
     public static void drawGrid(JPanel panel, Camera camera, Graphics2D g2d, int stepSize) {
         g2d.setColor(Color.lightGray);
         int centerX = (int) ((panel.getWidth() / 2) + (camera.getCenterPoint().getX() * camera.getZoom()));
