@@ -12,16 +12,19 @@ import java.awt.image.BufferedImage;
 public class TiledMapDrawer extends TileMap {
     private transient BufferedImage map;
 
-    private void redrawLayers() {
+    private void redrawMap() {
         map = new BufferedImage(width * tilewidth, height * tileheight, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g = map.createGraphics();
-        for (TileLayer layer : tilelayers)
+        for (TileLayer layer : tilelayers) {
+            if (layer.getDrawnLayer() == null)
+                layer.setDrawnLayer(tilesets.get(0));
             g.drawImage(layer.getDrawnLayer(), 0, 0, null);
+        }
     }
 
     public void drawMap(Graphics2D g2) {
         if (map == null)
-            redrawLayers();
+            redrawMap();
         g2.drawImage(map, null, null);
     }
 }

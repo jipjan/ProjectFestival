@@ -51,9 +51,6 @@ public class MyTiledJsonParser {
                 }
                 Map.getTilesets().get(0).addTile(Integer.parseInt(tile.getKey()), terrain);
             }
-
-            for (TileLayer layer : Map.getTileLayers())
-                layer.setDrawnLayer(Map.getTilesets().get(0));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

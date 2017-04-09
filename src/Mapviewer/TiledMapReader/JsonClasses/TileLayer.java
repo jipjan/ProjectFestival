@@ -18,7 +18,7 @@ public class TileLayer {
     private boolean visible;
     private int width;
     private int x, y;
-    private BufferedImage drawnLayer;
+    private transient BufferedImage drawnLayer;
 
     public void setData(JsonArray obj) {
         data = new TileData(height * width);
