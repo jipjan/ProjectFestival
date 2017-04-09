@@ -7,7 +7,10 @@ import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
 import NewAI.MyNpc;
 import Sprites.Sprites;
-import org.dyn4j.dynamics.World;
+import org.dyn4j.collision.manifold.Manifold;
+import org.dyn4j.collision.narrowphase.Penetration;
+import org.dyn4j.dynamics.*;
+import org.dyn4j.dynamics.contact.*;
 import org.dyn4j.geometry.Vector2;
 
 import java.awt.*;
@@ -21,6 +24,7 @@ public class MyNpcWorld extends World {
 
     public MyNpcWorld(int npcs, TiledMapDrawer map) {
         setGravity(new Vector2(0, 0));
+        setBounds(null);
         Sprites.Init();
         setNpcs(npcs);
         setObjects(map);

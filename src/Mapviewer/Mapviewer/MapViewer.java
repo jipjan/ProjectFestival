@@ -4,6 +4,7 @@ import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
 import NewAI.BaseClasses.MyNpcWorld;
+import NewAI.PerfDebugger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +17,7 @@ import java.awt.geom.Point2D;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 500;
+    private static final int NPCs = 5000;
 
     private TiledMapDrawer _map;
     private Camera _camera;
@@ -28,7 +29,7 @@ public class MapViewer extends JPanel implements ActionListener {
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
 
-        new Timer(15, this).start();
+        new Timer(17, this).start();
 //        new Thread(() -> _world.updateNpcs()).start();
     }
 
@@ -37,6 +38,7 @@ public class MapViewer extends JPanel implements ActionListener {
         long time = System.nanoTime();
         double elapsedTime = (time-lastTime) / 1e9;
         lastTime = time;
+        _world.updateNpcs();
         _world.update(elapsedTime);
         repaint();
     }

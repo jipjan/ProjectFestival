@@ -13,9 +13,7 @@ public class MyNpc extends MyBody {
     public MyNpc(double x, double y) {
         super(null, x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
-        BodyFixture f = new BodyFixture(Geometry.createCircle(Sprite.getWidth()));
-        f.setSensor(true);
-        addFixture(f);
+        addFixture(Geometry.createCircle(Sprite.getWidth()));
         setMass(MassType.INFINITE);
         translate(x, y);
     }
