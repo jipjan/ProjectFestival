@@ -21,6 +21,7 @@ import java.awt.*;
 public class MyNpcWorld extends World {
     private MyNpcs _npcs;
     private MyBodies _myBodies = new MyBodies();
+    private int _width, _height;
 
     public MyNpcWorld(int npcs, TiledMapDrawer map) {
         setGravity(new Vector2(0, 0));
@@ -28,6 +29,9 @@ public class MyNpcWorld extends World {
         Sprites.Init();
         setNpcs(npcs);
         setObjects(map);
+
+        _width = map.getWidth() * map.getTilewidth();
+        _height = map.getHeight() * map.getTileheight();
     }
 
     public MyNpcs getNpcs() {
@@ -64,4 +68,7 @@ public class MyNpcWorld extends World {
         for (MyNpc npc : _npcs)
             npc.setDestination(500, 500);
     }
+
+    public int getWidth() { return _width; }
+    public int getHeight() { return _height; }
 }

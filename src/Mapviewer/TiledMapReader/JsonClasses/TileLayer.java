@@ -1,5 +1,6 @@
 package Mapviewer.TiledMapReader.JsonClasses;
 
+import HelperClasses.PairingHashMap;
 import com.google.gson.JsonArray;
 import java.awt.image.BufferedImage;
 
@@ -7,7 +8,7 @@ import java.awt.image.BufferedImage;
  * Created by Jaap-Jan on 7-4-2017.
  */
 public class TileLayer {
-    private transient TileData data;
+    private transient PairingHashMap data;
     private int height;
     private String name;
     private int opacity;
@@ -18,11 +19,11 @@ public class TileLayer {
     private transient BufferedImage drawnLayer;
 
     public void setData(JsonArray obj) {
-        data = new TileData(height * width);
+        data = new PairingHashMap(height * width);
         int i = 0;
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++) {
-                data.addTile(x, y, obj.get(i).getAsInt());
+                data.add(x, y, obj.get(i).getAsInt());
                 i++;
             }
     }
@@ -35,7 +36,7 @@ public class TileLayer {
         return drawnLayer;
     }
 
-    public TileData getData() {
+    public PairingHashMap<Integer> getData() {
         return data;
     }
 

@@ -1,7 +1,6 @@
 package NewAI;
 
-import Mapviewer.TiledMapReader.JsonClasses.TileData;
-import NewAI.NewNotUsedPathfinder.PathfinderGrid;
+import HelperClasses.PairingHashMap;
 
 import java.util.Random;
 
@@ -18,10 +17,10 @@ public class PerfTest {
                 grid[i][j] = 1;
         }
 
-        TileData gridPoints = new TileData(100*100);
+        PairingHashMap<Integer> gridPoints = new PairingHashMap(100*100);
         for (int i = 0; i < 100; i++)
             for (int j = 0; j < 100; j++)
-                gridPoints.addTile(i, j, 1);
+                gridPoints.add(i, j, 1);
 
 
 
@@ -43,7 +42,7 @@ public class PerfTest {
         for (int i = 0; i < amountOfLookups; i++) {
             x = r.nextInt(100);
             y = r.nextInt(100);
-            out = gridPoints.getTileId(x, y);
+            out = gridPoints.get(x, y);
         }
         System.out.println("Pairing List: " + String.valueOf(System.nanoTime() - start));
 

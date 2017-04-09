@@ -14,7 +14,7 @@ public class MyNpc extends MyBody {
         super(null, x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         addFixture(Geometry.createCircle(Sprite.getWidth()));
-        setMass(MassType.INFINITE);
+        setMass(MassType.NORMAL);
         translate(x, y);
     }
 

@@ -1,10 +1,9 @@
 package NewAI.NewNotUsedPathfinder;
 
-import Mapviewer.TiledMapReader.JsonClasses.TileData;
+import HelperClasses.PairingHashMap;
 import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
 import org.dyn4j.geometry.Vector2;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -19,10 +18,10 @@ public class PathfinderGrid {
     public PathfinderGrid(TileLayer pathLayer) {
         _grid = new boolean[pathLayer.getWidth()][pathLayer.getHeight()];
 
-        TileData data = pathLayer.getData();
+        PairingHashMap<Integer> data = pathLayer.getData();
         for (int x = 0; x < pathLayer.getWidth(); x++)
             for (int y = 0; y < pathLayer.getHeight(); y++)
-                _grid[x][y] = data.getTileId(x, y) == PATHID;
+                _grid[x][y] = data.get(x, y) == PATHID;
     }
 
     public Queue<Vector2> getPathToLocation(int x, int y) {

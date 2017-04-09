@@ -1,5 +1,7 @@
 package Mapviewer.Mapviewer.Drawers;
 
+import HelperClasses.PairHashMap;
+import HelperClasses.PairingHashMap;
 import Mapviewer.Mapviewer.Camera;
 import Mapviewer.Mapviewer.MapViewer;
 import NewAI.BaseClasses.MyBody;
@@ -11,14 +13,14 @@ import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Jaap-Jan on 15-3-2017.
@@ -28,19 +30,27 @@ public class Draw {
     public static void drawHeatmap(Graphics2D g2d, MyNpcs npcs, int mapWidth, int mapHeight){
         BufferedImage img = new BufferedImage(mapWidth, mapHeight, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g = img.createGraphics();
+
+        PairHashMap<Integer, Integer> locations = new PairHashMap<>();
+
+        for (MyNpc npc : npcs)
+        {
+            Vector2 loc = npc.getWorldCenter();
+            int fX = (int) loc.x % 32, fY = (int) loc.y % 32;
+            Integer count = locations.get(fX, fY);
+            if (count == null)
+                locations.add(fX, fY, 1);
+            else
+                locations.add(fX, fY, count + 1);
+        }
+
         float total = npcs.size();
-        for (int x = 0; x < mapWidth; x += 32) {
-            for (int y = 0; y < mapHeight; y += 32) {
-                float amount = 0;
-                for (MyNpc npc : npcs) {
-                    Vector2 center = npc.getWorldCenter();
-                    if (center.x > x && center.x < x + 32)
-                        if (center.y > y && center.y < y + 32)
-                            amount++;
-                }
-                Color r = new Color(1f, 0f, 0f, Math.min(amount/total * 5, 1));
+
+        for (Map.Entry<Integer, HashMap<Integer, Integer>> x : locations.entrySet()){
+            for (Map.Entry<Integer, Integer> y : x.getValue().entrySet()) {
+                Color r = new Color(1f, 0f, 0f, Math.min(y.getValue() / total * 5, 1));
                 g.setPaint(r);
-                g.fillRect(x, y, 32, 32);
+                g.fillRect(x.getKey() * 32, y.getKey() * 32, 32, 32);
             }
         }
         g2d.drawImage(img, null, null);

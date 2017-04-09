@@ -34,7 +34,7 @@ public class TiledMapDrawer extends TileMap {
         Graphics2D g2 = img.createGraphics();
         for (int y = 0; y < layer.getHeight(); y++)
             for (int x = 0; x < layer.getWidth(); x++)
-                g2.drawImage(tiles.getTile(layer.getData().getTileId(x, y)), x * tiles.getTilewidth(), y * tiles.getTileheight(), null);
+                g2.drawImage(tiles.getTile(layer.getData().get(x, y)), x * tiles.getTilewidth(), y * tiles.getTileheight(), null);
         return img;
     }
 }

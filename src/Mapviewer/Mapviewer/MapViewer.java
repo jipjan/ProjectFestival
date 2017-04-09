@@ -10,12 +10,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 50;
+    private static final int NPCs = 1;
     private static final boolean DEBUG = false;
     private static final boolean GRID = false;
 
@@ -24,12 +25,26 @@ public class MapViewer extends JPanel implements ActionListener {
     private MyNpcWorld _world;
     private double _lastTime = 0;
 
+    private volatile BufferedImage _heatMap;
+
     public MapViewer() {
         _map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1 Test.json");
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
 
         new Timer(16, this).start();
+        /*
+        new Thread(() -> {
+            while (true) {
+                try {
+                    _heatMap = Draw.drawHeatmap(_world.getNpcs(), _map.getWidth() * _map.getTilewidth(), _map.getHeight() * _map.getTileheight());
+                    Thread.sleep(100);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+        */
     }
 
     @Override
@@ -52,6 +67,7 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
         _map.drawMap(g2d);
         _world.drawWorld(g2d, DEBUG);
-        Draw.drawHeatmap(g2d, _world.getNpcs(), _map.getWidth()*_map.getTilewidth(), _map.getHeight()*_map.getTileheight());
+        g2d.drawImage(_heatMap, null, null);
+        Draw.drawHeatmap(g2d, _world.getNpcs(), _world.getWidth(), _world.getHeight());
     }
 }
