@@ -19,6 +19,7 @@ public class MapViewer extends JPanel implements ActionListener {
     private static final int NPCs = 2000;
     private static final boolean DEBUG = false;
     private static final boolean GRID = false;
+    private static final boolean HEATMAP = true;
 
     private TiledMapDrawer _map;
     private Camera _camera;
@@ -48,11 +49,15 @@ public class MapViewer extends JPanel implements ActionListener {
     {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        
         if (GRID)
             Draw.drawGrid(this, _camera, g2d, 32);
+
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
         _map.drawMap(g2d);
         _world.drawWorld(g2d, DEBUG);
-        Draw.drawHeatmap(g2d, _world.getNpcs(), _world.getWidth(), _world.getHeight(), 0.004f);
+
+        if (HEATMAP)
+            Draw.drawHeatmap(g2d, _world.getNpcs(), _world.getWidth(), _world.getHeight(), 0.004f);
     }
 }
