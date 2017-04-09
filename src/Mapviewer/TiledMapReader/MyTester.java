@@ -1,6 +1,6 @@
 package Mapviewer.TiledMapReader;
 
-import Mapviewer.TiledMapReader.JsonClasses.TileMap;
+import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 
 /**
  * Created by Jaap-Jan on 7-4-2017.

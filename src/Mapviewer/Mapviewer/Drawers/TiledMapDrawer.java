@@ -1,4 +1,4 @@
-package Mapviewer.TiledMapReader;
+package Mapviewer.Mapviewer.Drawers;
 
 import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileMap;

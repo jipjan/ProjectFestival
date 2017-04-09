@@ -1,9 +1,9 @@
 package Mapviewer.TiledMapReader;
 
 
+import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
-import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

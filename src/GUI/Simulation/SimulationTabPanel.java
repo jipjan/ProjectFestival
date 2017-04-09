@@ -1,7 +1,7 @@
 package GUI.Simulation;
 
 import GUI.ColoredJPanel;
-import Mapviewer.MapViewer;
+import Mapviewer.Mapviewer.MapViewer;
 
 import javax.swing.*;
 import java.awt.*;

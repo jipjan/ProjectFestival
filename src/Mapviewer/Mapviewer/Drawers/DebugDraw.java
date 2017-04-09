@@ -1,4 +1,4 @@
-package Mapviewer.Mapviewer;
+package Mapviewer.Mapviewer.Drawers;
 
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.dynamics.Body;

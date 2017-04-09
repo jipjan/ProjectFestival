@@ -1,15 +1,12 @@
-package Mapviewer;
+package Mapviewer.Mapviewer;
 
 import AI.NewNpcLogic;
 import Mapviewer.TiledMapReader.JsonClasses.*;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
-import Mapviewer.TiledMapReader.TiledMapDrawer;
+import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import NewAI.*;
-import AI.pathFinding.DistanceGrid;
-import Mapviewer.Mapviewer.Camera;
-import Mapviewer.Mapviewer.DebugDraw;
-import Mapviewer.Mapviewer.Draw;
-import Mapviewer.Mapviewer.ObjectStats;
+import Mapviewer.Mapviewer.Drawers.DebugDraw;
+import Mapviewer.Mapviewer.Drawers.Draw;
 import NewAI.BaseClasses.MyBodies;
 import NewAI.BaseClasses.MyBody;
 import NewAI.BaseClasses.MyNpcs;
@@ -22,8 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Random;
 
 import Sprites.*;
 
@@ -40,7 +35,6 @@ public class MapViewer extends JPanel implements ActionListener {
     private MyNpcs npcs;
     private MyBodies _myBodies;
     private static Graphics2D g2d;
-    private NewNpcLogic _NpcLogic;
 
     public static void main(String[] args)
     {
@@ -80,38 +74,13 @@ public class MapViewer extends JPanel implements ActionListener {
             _myBodies.add(new MyBody(s.getTile(1), t.getX(), t.getY()));
         }
 
-        _NpcLogic = new NewNpcLogic(npcs, map);
         new Timer(10, this).start();
-    }
-
-
-    private void drawGrid(Graphics2D g2d)
-    {
-        int stepSize = 32;
-
-        g2d.setColor(Color.lightGray);
-        int centerX = (int) ((this.getWidth() / 2) + (this.camera.getCenterPoint().getX() * this.camera.getZoom()));
-        int centerY = (int) ((this.getHeight() / 2) + (this.camera.getCenterPoint().getY() * this.camera.getZoom()));
-
-        // Draw rows
-        for(int y = 0; y < this.getHeight(); y+=(stepSize * this.camera.getZoom()))
-        {
-            g2d.drawLine(0, centerY + y, this.getWidth(), centerY + y);
-            g2d.drawLine(0, centerY - y, this.getWidth(), centerY - y);
-        }
-
-        // Draw columns
-        for(int x = 0; x < this.getWidth(); x+=(stepSize * this.camera.getZoom()))
-        {
-            g2d.drawLine(centerX + x, 0, centerX + x, this.getHeight());
-            g2d.drawLine(centerX - x, 0, centerX - x, this.getHeight());
-        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         long time = System.nanoTime();
-        double elapsedTime = (time-lastTime) / 1000000000.0;
+        double elapsedTime = (time-lastTime) / 1e9;
         lastTime = time;
         w.update(elapsedTime);
         repaint();
@@ -122,13 +91,13 @@ public class MapViewer extends JPanel implements ActionListener {
     {
         super.paintComponent(g);
         g2d = (Graphics2D) g;
-        drawGrid(g2d);
+        Draw.drawGrid(this, camera, g2d, 32);
         AffineTransform origin = g2d.getTransform();
         g2d.setTransform(this.camera.getTransform(getWidth(), getHeight()));
         map.drawMap(g2d);
         DebugDraw.draw(g2d, w, 1);
-        Draw.draw(g2d, _myBodies, 1);
-        Draw.draw(g2d, npcs, 1);
+        Draw.drawSprites(g2d, _myBodies, 1);
+        Draw.drawSprites(g2d, npcs, 1);
         g2d.setTransform(origin);
     }
 }
