@@ -2,11 +2,9 @@ package Mapviewer;
 
 import AI.NewNpcLogic;
 import Mapviewer.TiledMapReader.JsonClasses.*;
-import Mapviewer.TiledMapReader.LayerDrawer;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import Mapviewer.TiledMapReader.TiledMapDrawer;
 import NewAI.*;
-import AI.mood.moodless;
 import AI.pathFinding.DistanceGrid;
 import Mapviewer.Mapviewer.Camera;
 import Mapviewer.Mapviewer.DebugDraw;

@@ -76,6 +76,8 @@ public class TileSet {
         return imageTiles.get(id);
     }
 
+
+    // TODO; Eigenlijk dit ook naar een drawer class ipv json class.
     private void generateTiles() {
         try {
             BufferedImage tileset = ImageIO.read(getClass().getResourceAsStream(image.replaceAll("\\.\\./", "/")));

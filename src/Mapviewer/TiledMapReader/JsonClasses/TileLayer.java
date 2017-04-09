@@ -1,9 +1,6 @@
 package Mapviewer.TiledMapReader.JsonClasses;
 
-import Mapviewer.TiledMapReader.LayerDrawer;
 import com.google.gson.JsonArray;
-import sun.plugin.javascript.navig4.Layer;
-
 import java.awt.image.BufferedImage;
 
 /**
