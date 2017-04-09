@@ -30,6 +30,10 @@ public class MyNpcWorld extends World {
         setObjects(map);
     }
 
+    public MyNpcs getNpcs() {
+        return _npcs;
+    }
+
     private void setNpcs(int count) {
         _npcs = new MyNpcs(count);
         for (int i = 0; i < count; i++) {
