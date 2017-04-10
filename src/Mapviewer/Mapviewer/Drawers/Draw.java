@@ -26,8 +26,24 @@ import java.util.Map;
  * Created by Jaap-Jan on 15-3-2017.
  */
 public class Draw {
+    private static volatile BufferedImage _heatmap;
 
-    public static void drawHeatmap(Graphics2D g2d, MyNpcs npcs, int mapWidth, int mapHeight, float limit){
+    public static void startHeatmapDrawer(MyNpcs npcs, int width, int height, int timeout) {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    _heatmap = Draw.getHeatmap(npcs, width, height, 0.004f);
+                    Thread.sleep(timeout);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    public static BufferedImage getHeapmap() { return _heatmap; }
+
+    private static BufferedImage getHeatmap(MyNpcs npcs, int mapWidth, int mapHeight, float limit){
         BufferedImage img = new BufferedImage(mapWidth, mapHeight, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D g = img.createGraphics();
 
@@ -53,7 +69,7 @@ public class Draw {
                 g.fillRect(x.getKey() * 32, y.getKey() * 32, 32, 32);
             }
         }
-        g2d.drawImage(img, null, null);
+        return img;
     }
 
 

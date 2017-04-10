@@ -19,7 +19,7 @@ import java.awt.*;
  * Created by Jaap-Jan on 9-4-2017.
  */
 public class MyNpcWorld extends World {
-    private MyNpcs _npcs;
+    private volatile MyNpcs _npcs;
     private MyBodies _myBodies = new MyBodies();
     private int _width, _height;
 

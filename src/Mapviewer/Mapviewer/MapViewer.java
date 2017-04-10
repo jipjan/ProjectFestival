@@ -4,6 +4,7 @@ import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
 import NewAI.BaseClasses.MyNpcWorld;
+import NewAI.BaseClasses.MyNpcs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,6 +33,9 @@ public class MapViewer extends JPanel implements ActionListener {
         _world = new MyNpcWorld(NPCs, _map);
 
         new Timer(16, this).start();
+
+        if (HEATMAP)
+            Draw.startHeatmapDrawer(_world.getNpcs(), _world.getWidth(), _world.getHeight(), 250);
     }
 
     @Override
@@ -56,8 +60,7 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
         _map.drawMap(g2d);
         _world.drawWorld(g2d, DEBUG);
-
         if (HEATMAP)
-            Draw.drawHeatmap(g2d, _world.getNpcs(), _world.getWidth(), _world.getHeight(), 0.004f);
+            g2d.drawImage(Draw.getHeapmap(), null, null);
     }
 }
