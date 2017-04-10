@@ -1,6 +1,7 @@
 package NewAI;
 
 import NewAI.BaseClasses.MyBody;
+import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
@@ -12,8 +13,8 @@ public class MyNpc extends MyBody {
     public MyNpc(double x, double y) {
         super(null, x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
-        addFixture(Geometry.createCircle(Sprite.getHeight()));
-        setMass(MassType.FIXED_ANGULAR_VELOCITY);
+        addFixture(Geometry.createCircle(Sprite.getWidth()));
+        setMass(MassType.NORMAL);
         translate(x, y);
     }
 
@@ -23,6 +24,8 @@ public class MyNpc extends MyBody {
 
     public void setDestination(Vector2 destination)
     {
-        setLinearVelocity(new Vector2(getWorldCenter(), destination));
+        Vector2 vector = new Vector2(getWorldCenter(), destination);
+        rotate(0, vector);
+        setLinearVelocity(vector);
     }
 }

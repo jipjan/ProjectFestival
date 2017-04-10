@@ -12,12 +12,16 @@ import java.awt.image.BufferedImage;
 public class MyBody extends Body {
     public BufferedImage Sprite;
 
+    /***
+     * Make a MyBody object, if the sprite is null, there will be no fixture made, so you will have to add that one yourself.
+     * @param sprite Sprite to use to view object
+     * @param x X-location to place object
+     * @param y Y-location to place object
+     */
     public MyBody(BufferedImage sprite, double x, double y) {
         Sprite = sprite;
         if (sprite != null)
             addFixture(Geometry.createRectangle(sprite.getWidth(), sprite.getHeight()));
-        else
-            addFixture(Geometry.createSquare(32));
         setMass(MassType.NORMAL);
         translate(x, y);
     }

@@ -1,23 +1,78 @@
 package Mapviewer.Mapviewer.Drawers;
 
+import HelperClasses.PairHashMap;
+import HelperClasses.PairingHashMap;
 import Mapviewer.Mapviewer.Camera;
 import Mapviewer.Mapviewer.MapViewer;
 import NewAI.BaseClasses.MyBody;
+import NewAI.BaseClasses.MyNpcs;
+import NewAI.MyNpc;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Jaap-Jan on 15-3-2017.
  */
 public class Draw {
+    private static volatile BufferedImage _heatmap;
+
+    public static void startHeatmapDrawer(MyNpcs npcs, int width, int height, int timeout) {
+        new Thread(() -> {
+            try {
+                while (true) {
+                    _heatmap = Draw.getHeatmap(npcs, width, height, 0.004f);
+                    Thread.sleep(timeout);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    public static BufferedImage getHeapmap() { return _heatmap; }
+
+    private static BufferedImage getHeatmap(MyNpcs npcs, int mapWidth, int mapHeight, float limit){
+        BufferedImage img = new BufferedImage(mapWidth, mapHeight, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g = img.createGraphics();
+
+        PairHashMap<Integer, Integer> locations = new PairHashMap<>();
+
+        for (MyNpc npc : npcs)
+        {
+            Vector2 loc = npc.getWorldCenter();
+            int fX = (int) loc.x / 32, fY = (int) loc.y / 32;
+            Integer count = locations.get(fX, fY);
+            if (count == null)
+                locations.add(fX, fY, 1);
+            else
+                locations.add(fX, fY, count + 1);
+        }
+
+        float total = npcs.size() * limit;
+
+        for (Map.Entry<Integer, HashMap<Integer, Integer>> x : locations.entrySet()){
+            for (Map.Entry<Integer, Integer> y : x.getValue().entrySet()) {
+                Color r = new Color(1f, 0f, 0f, Math.min(y.getValue() / total, 1));
+                g.setPaint(r);
+                g.fillRect(x.getKey() * 32, y.getKey() * 32, 32, 32);
+            }
+        }
+        return img;
+    }
+
+
     public static void drawGrid(JPanel panel, Camera camera, Graphics2D g2d, int stepSize) {
         g2d.setColor(Color.lightGray);
         int centerX = (int) ((panel.getWidth() / 2) + (camera.getCenterPoint().getX() * camera.getZoom()));
@@ -40,15 +95,14 @@ public class Draw {
 
 
     public static<T extends MyBody> void  drawSprites(Graphics2D g2d, ArrayList<T> bodies, double scale) {
+
         for(MyBody b : bodies)
         {
             AffineTransform originalTransform = g2d.getTransform();
-
             AffineTransform bodyTransform = new AffineTransform();
             bodyTransform.translate(b.getTransform().getTranslationX() * scale, b.getTransform().getTranslationY() * scale);
             bodyTransform.rotate(b.getTransform().getRotation());
             g2d.transform(bodyTransform);
-
 
             for(Fixture f : b.getFixtures()) {
                 Convex s = f.getShape();
@@ -74,8 +128,8 @@ public class Draw {
                     g2d.drawImage(b.Sprite, x, y, w, w, null);
                 }
             }
-
             g2d.setTransform(originalTransform);
         }
+
     }
 }
