@@ -1,4 +1,4 @@
-package AI.pathFinding;
+package NewAI.Pathfinding;
 
 import org.dyn4j.geometry.Vector2;
 

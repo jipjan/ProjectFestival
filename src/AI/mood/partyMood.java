@@ -1,6 +1,6 @@
 package AI.mood;
 
-import AI.pathFinding.GridLocation;
+import NewAI.Pathfinding.GridLocation;
 import Events.*;
 import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 

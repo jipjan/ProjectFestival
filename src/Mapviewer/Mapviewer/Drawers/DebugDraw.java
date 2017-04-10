@@ -1,23 +1,43 @@
 package Mapviewer.Mapviewer.Drawers;
 
+import HelperClasses.PairHashMap;
+import HelperClasses.PairingHashMap;
+import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
+import NewAI.MyNpc;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.Circle;
-import org.dyn4j.geometry.Convex;
+import org.dyn4j.geometry.*;
 import org.dyn4j.geometry.Polygon;
-import org.dyn4j.geometry.Vector2;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by johan on 2017-03-08.
  */
 public class DebugDraw {
+	public static BufferedImage drawPathLayer(TileLayer layer, int mapWidth, int mapHeight) {
+		BufferedImage img = new BufferedImage(mapWidth, mapHeight, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = img.createGraphics();
+
+		PairingHashMap<Integer> data = layer.getData();
+		g.setPaint(new Color(0, 0, 0, 0.5f));
+
+		for (int x = 0; x < mapWidth / 32; x++)
+			for (int y = 0; y < mapHeight / 32; y++)
+				if (data.get(x, y) == 1026)
+					g.fill(new Rectangle2D.Double(x * 32, y * 32, 32, 32));
+		return img;
+	}
+
 	public static void draw(Graphics2D g2d, World world, double scale) {
 		for(Body b : world.getBodies())
 		{
@@ -46,7 +66,6 @@ public class DebugDraw {
 			System.out.println("Unsupported shape: " + shape);
 		return null;
 	}
-
 
 	private static Shape drawShape(Polygon shape, double scale) {
 		GeneralPath path = new GeneralPath();

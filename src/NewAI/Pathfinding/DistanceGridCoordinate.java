@@ -1,4 +1,4 @@
-package AI.pathFinding;
+package NewAI.Pathfinding;
 
 /**
  * Created by jacco on 20/03/2017.

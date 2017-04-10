@@ -1,5 +1,6 @@
 package Mapviewer.Mapviewer;
 
+import Mapviewer.Mapviewer.Drawers.DebugDraw;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
@@ -24,6 +25,7 @@ public class MapViewer extends JPanel implements ActionListener {
     private Camera _camera;
     private MyNpcWorld _world;
     private double _lastTime = 0;
+    private BufferedImage pathLayer;
 
     public MapViewer() {
         _map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1 Test.json");
@@ -38,6 +40,13 @@ public class MapViewer extends JPanel implements ActionListener {
             Draw.startHeatmapDrawer(_world.getNpcs(), _world.getWidth(), _world.getHeight(), 250);
         else
             Draw.stopHeatmapDrawer();
+    }
+
+    public void setPathlayerVisualization(boolean on) {
+        if (on)
+            pathLayer = DebugDraw.drawPathLayer(_map.getTileLayers().get(0), _world.getWidth(), _world.getHeight());
+        else
+            pathLayer = null;
     }
 
     public void setDebug(boolean on) {
@@ -67,5 +76,6 @@ public class MapViewer extends JPanel implements ActionListener {
         _map.drawMap(g2d);
         _world.drawWorld(g2d, _debug);
         g2d.drawImage(Draw.getHeapmap(), null, null);
+        g2d.drawImage(pathLayer, null, null);
     }
 }

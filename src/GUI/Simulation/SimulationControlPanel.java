@@ -26,10 +26,15 @@ public class SimulationControlPanel extends ColoredJPanel {
         c.gridy = 1;
         add(chkHeatmap, c);
 
+        JCheckBox chkPathlayer = new JCheckBox("Pathlayer drawer");
+        chkPathlayer.addActionListener((e) -> viewer.setPathlayerVisualization(chkPathlayer.isSelected()));
+        c.gridy = 2;
+        add(chkPathlayer, c);
+
         c.gridwidth = 1;
 
         JButton reset = new JButton("Reset");
-        c.gridy = 2;
+        c.gridy = 3;
         add(reset, c);
 
         JButton playpause = new JButton("Play");

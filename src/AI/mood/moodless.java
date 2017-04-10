@@ -1,7 +1,7 @@
 package AI.mood;
 
 import Events.Events;
-import AI.pathFinding.GridLocation;
+import NewAI.Pathfinding.GridLocation;
 import Events.Time;
 import Mapviewer.TiledMapReader.JsonClasses.TileMap;
 

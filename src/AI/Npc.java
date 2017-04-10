@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 
 import AI.mood.*;
-import AI.pathFinding.DistanceGrid;
-import AI.pathFinding.GridLocation;
+import NewAI.Pathfinding.DistanceGrid;
+import NewAI.Pathfinding.GridLocation;
 
 import javax.imageio.ImageIO;
 

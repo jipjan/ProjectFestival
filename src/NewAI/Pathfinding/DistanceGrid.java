@@ -1,4 +1,4 @@
-package AI.pathFinding;
+package NewAI.Pathfinding;
 
 
 import Mapviewer.TiledMapReader.JsonClasses.TileLayer;
