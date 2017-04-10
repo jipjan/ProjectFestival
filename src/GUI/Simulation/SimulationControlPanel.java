@@ -1,6 +1,7 @@
 package GUI.Simulation;
 
 import GUI.ColoredJPanel;
+import Mapviewer.Mapviewer.MapViewer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,22 +10,26 @@ import java.awt.*;
  * Created by Jaap-Jan on 21-3-2017.
  */
 public class SimulationControlPanel extends ColoredJPanel {
-    public SimulationControlPanel() {
+    public SimulationControlPanel(MapViewer viewer) {
         super(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        c.fill = 1;
-        c.gridwidth = 2;
 
-        JSlider s = new JSlider();
+        JCheckBox chkDebug = new JCheckBox("Debug drawer");
+        chkDebug.addActionListener((e) -> viewer.setDebug(chkDebug.isSelected()));
         c.gridx = 0;
         c.gridy = 0;
-        add(s, c);
+        add(chkDebug, c);
+
+        JCheckBox chkHeatmap = new JCheckBox("Heatmap drawer");
+        chkHeatmap.addActionListener((e) -> viewer.setHeatmap(chkHeatmap.isSelected()));
+        c.gridy = 1;
+        add(chkHeatmap, c);
 
         c.gridwidth = 1;
 
         JButton reset = new JButton("Reset");
-        c.gridy = 1;
+        c.gridy = 2;
         add(reset, c);
 
         JButton playpause = new JButton("Play");

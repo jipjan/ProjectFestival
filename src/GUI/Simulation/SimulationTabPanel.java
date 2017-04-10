@@ -18,7 +18,8 @@ public class SimulationTabPanel extends ColoredJPanel {
 
         setName("Simulator");
 
-        splitPane.setTopComponent(new SimulationControlPanel());
-        splitPane.setBottomComponent(new MapViewer());
+        MapViewer viewer = new MapViewer();
+        splitPane.setTopComponent(new SimulationControlPanel(viewer));
+        splitPane.setBottomComponent(viewer);
     }
 }

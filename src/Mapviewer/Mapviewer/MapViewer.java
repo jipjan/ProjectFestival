@@ -18,9 +18,7 @@ import java.awt.image.BufferedImage;
  */
 public class MapViewer extends JPanel implements ActionListener {
     private static final int NPCs = 2000;
-    private static final boolean DEBUG = false;
-    private static final boolean GRID = false;
-    private static final boolean HEATMAP = true;
+    private boolean _debug, _grid = false;
 
     private TiledMapDrawer _map;
     private Camera _camera;
@@ -33,9 +31,17 @@ public class MapViewer extends JPanel implements ActionListener {
         _world = new MyNpcWorld(NPCs, _map);
 
         new Timer(16, this).start();
+    }
 
-        if (HEATMAP)
+    public void setHeatmap(boolean on) {
+        if (on)
             Draw.startHeatmapDrawer(_world.getNpcs(), _world.getWidth(), _world.getHeight(), 250);
+        else
+            Draw.stopHeatmapDrawer();
+    }
+
+    public void setDebug(boolean on) {
+        _debug = on;
     }
 
     @Override
@@ -54,13 +60,12 @@ public class MapViewer extends JPanel implements ActionListener {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         
-        if (GRID)
+        if (_grid)
             Draw.drawGrid(this, _camera, g2d, 32);
 
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
         _map.drawMap(g2d);
-        _world.drawWorld(g2d, DEBUG);
-        if (HEATMAP)
-            g2d.drawImage(Draw.getHeapmap(), null, null);
+        _world.drawWorld(g2d, _debug);
+        g2d.drawImage(Draw.getHeapmap(), null, null);
     }
 }

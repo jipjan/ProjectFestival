@@ -27,18 +27,27 @@ import java.util.Map;
  */
 public class Draw {
     private static volatile BufferedImage _heatmap;
+    private static Thread _heatmapDrawer;
 
     public static void startHeatmapDrawer(MyNpcs npcs, int width, int height, int timeout) {
-        new Thread(() -> {
+        _heatmapDrawer = new Thread(() -> {
             try {
                 while (true) {
                     _heatmap = Draw.getHeatmap(npcs, width, height, 0.004f);
                     Thread.sleep(timeout);
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
             }
-        }).start();
+        });
+        _heatmapDrawer.start();
+    }
+
+    public static void stopHeatmapDrawer() {
+        if (_heatmapDrawer != null) {
+            _heatmapDrawer.interrupt();
+            _heatmapDrawer = null;
+        }
+        _heatmap = null;
     }
 
     public static BufferedImage getHeapmap() { return _heatmap; }
