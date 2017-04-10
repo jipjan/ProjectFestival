@@ -6,6 +6,7 @@ import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
 import NewAI.MyNpc;
+import NewAI.MyOneTilePathfinding;
 import Sprites.Sprites;
 import org.dyn4j.collision.manifold.Manifold;
 import org.dyn4j.collision.narrowphase.Penetration;
@@ -23,6 +24,8 @@ public class MyNpcWorld extends World {
     private MyBodies _myBodies = new MyBodies();
     private int _width, _height;
 
+    private MyOneTilePathfinding _pathFinder;
+
     public MyNpcWorld(int npcs, TiledMapDrawer map) {
         setGravity(new Vector2(0, 0));
         setBounds(null);
@@ -32,6 +35,8 @@ public class MyNpcWorld extends World {
 
         _width = map.getWidth() * map.getTilewidth();
         _height = map.getHeight() * map.getTileheight();
+
+        _pathFinder = new MyOneTilePathfinding(map.getTileLayers().get(0), map.getTilewidth());
     }
 
     public MyNpcs getNpcs() {

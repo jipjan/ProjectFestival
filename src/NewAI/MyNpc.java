@@ -1,7 +1,6 @@
 package NewAI;
 
 import NewAI.BaseClasses.MyBody;
-import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
