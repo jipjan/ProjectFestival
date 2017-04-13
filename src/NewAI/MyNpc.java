@@ -13,7 +13,8 @@ public class MyNpc extends MyBody {
         super(null, x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         addFixture(Geometry.createCircle(Sprite.getWidth()));
-        setMass(MassType.NORMAL);
+        setMass(MassType.FIXED_ANGULAR_VELOCITY);
+        setAutoSleepingEnabled(false);
         translate(x, y);
     }
 
@@ -24,7 +25,7 @@ public class MyNpc extends MyBody {
     public void setDestination(Vector2 destination)
     {
         Vector2 vector = new Vector2(getWorldCenter(), destination);
-        rotate(0, vector);
+        transform.setRotation(vector.getDirection());
         setLinearVelocity(vector);
     }
 }

@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 2000;
+    private static final int NPCs = 1000;
     private boolean _debug, _grid = false;
 
     private TiledMapDrawer _map;
