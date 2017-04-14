@@ -24,16 +24,13 @@ import java.util.Map;
  * Created by johan on 2017-03-08.
  */
 public class DebugDraw {
-	public static BufferedImage drawPathLayer(TileLayer layer, int mapWidth, int mapHeight) {
+	public static BufferedImage drawPathLayer(boolean[][] grid, int mapWidth, int mapHeight) {
 		BufferedImage img = new BufferedImage(mapWidth, mapHeight, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = img.createGraphics();
-
-		PairingHashMap<Integer> data = layer.getData();
 		g.setPaint(new Color(0, 0, 0, 0.5f));
-
-		for (int x = 0; x < mapWidth / 32; x++)
-			for (int y = 0; y < mapHeight / 32; y++)
-				if (data.get(x, y) == 1026)
+		for (int x = 0; x < 100; x++)
+			for (int y = 0; y < 100; y++)
+				if (grid[x][y])
 					g.fill(new Rectangle2D.Double(x * 32, y * 32, 32, 32));
 		return img;
 	}
