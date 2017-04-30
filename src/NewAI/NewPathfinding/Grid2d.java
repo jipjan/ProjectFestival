@@ -13,12 +13,6 @@ public class Grid2d {
     private final double[][] map;
     private final boolean allowDiagonal;
 
-    /**
-     * A node in a 2d map. This is simply the coordinates of the point.
-     *
-     * @author Ben Ruijl
-     *
-     */
     public class MapNode implements Node<MapNode> {
         private final int x, y;
 

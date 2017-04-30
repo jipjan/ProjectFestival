@@ -61,7 +61,7 @@ public class MyNpcWorld extends World {
 
     public void updateNpcs() {
         for (MyNpc npc : _npcs)
-            npc.setDestination(-50, -2000);
+            ; // Doet iets met de pathfinding
     }
 
     public int getWidth() { return _width; }
