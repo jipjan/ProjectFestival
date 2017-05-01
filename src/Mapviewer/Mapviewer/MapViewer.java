@@ -1,6 +1,5 @@
 package Mapviewer.Mapviewer;
 
-import Mapviewer.Mapviewer.Drawers.DebugDraw;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
@@ -18,7 +17,7 @@ import java.awt.image.BufferedImage;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 1000;
+    private static final int NPCs = 1;
     private boolean _debug, _grid = false;
 
     private TiledMapDrawer _map;
@@ -34,6 +33,7 @@ public class MapViewer extends JPanel implements ActionListener {
         _world = new MyNpcWorld(NPCs, _map);
 
         _pathfinder = new Grid2d(_map.getTileLayers().get(0), false);
+        _world.testPath(_pathfinder);
 
         new Timer(16, this).start();
     }

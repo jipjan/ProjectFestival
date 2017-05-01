@@ -7,6 +7,8 @@ import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
 import NewAI.MyNpc;
 import NewAI.MyOneTilePathfinding;
+import NewAI.NewPathfinding.Grid2d;
+import NewAI.NewPathfinding.Node;
 import Sprites.Sprites;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.*;
@@ -14,6 +16,8 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.Vector2;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Jaap-Jan on 9-4-2017.
@@ -40,7 +44,7 @@ public class MyNpcWorld extends World {
     private void setNpcs(int count) {
         _npcs = new MyNpcs(count);
         for (int i = 0; i < count; i++) {
-            MyNpc npc = new MyNpc(50 + (i % 50) * 10, 50 + (i / 50) * 10);
+            MyNpc npc = new MyNpc(50 + (i % 50) * 10, 250 + (i / 50) * 10);
             addBody(npc);
             _npcs.add(npc);
         }
@@ -61,7 +65,15 @@ public class MyNpcWorld extends World {
 
     public void updateNpcs() {
         for (MyNpc npc : _npcs)
-            ; // Doet iets met de pathfinding
+            npc.update();
+    }
+
+    public void testPath(Grid2d p) {
+        for (MyNpc npc : _npcs) {
+            Vector2 center = npc.getWorldCenter();
+            List<Grid2d.MapNode> path = p.findPath((int) center.x%32, (int) center.y%32, (int) center.x%32 + 35, (int) center.y%32 + 50);
+            npc.setPath(path);
+        }
     }
 
     public int getWidth() { return _width; }

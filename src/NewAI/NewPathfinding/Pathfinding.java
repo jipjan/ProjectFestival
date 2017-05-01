@@ -1,8 +1,5 @@
 package NewAI.NewPathfinding;
 
-/**
- * Created by Jaap-Jan on 14-4-2017.
- */
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,12 +9,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-/**
- * Helper class containing pathfinding algorithms.
- *
- * @author Ben Ruijl
- *
- */
 public class Pathfinding {
 
     /**

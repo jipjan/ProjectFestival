@@ -16,6 +16,9 @@ public class Grid2d {
     public class MapNode implements Node<MapNode> {
         private final int x, y;
 
+        public int getX() { return this.x; }
+        public int getY() { return this.y; }
+
         public MapNode(int x, int y) {
             this.x = x;
             this.y = y;
@@ -103,7 +106,7 @@ public class Grid2d {
         this.map = new double[100][100];
         for (int x = 0; x < 100; x++)
             for (int y = 0; y < 100; y++)
-                this.map[x][y] = map.getData().get(x , y) == 1026 ? -1 : 1;
+                this.map[y][x] = map.getData().get(x , y) == 1026 ? -1 : 1;
 
         this.allowDiagonal = allowDiagonal;
     }
