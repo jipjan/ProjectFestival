@@ -7,7 +7,6 @@ import de.jaret.util.date.JaretDate;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class CurrentSetup {
     public static int Podia = 3;

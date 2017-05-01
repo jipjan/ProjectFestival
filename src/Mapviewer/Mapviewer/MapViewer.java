@@ -1,9 +1,9 @@
 package Mapviewer.Mapviewer;
 
-import Mapviewer.Mapviewer.Drawers.DebugDraw;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
+import NewAI.AILogic.AILogicRunner;
 import NewAI.BaseClasses.MyNpcWorld;
 import NewAI.NewPathfinding.Grid2d;
 
@@ -27,6 +27,7 @@ public class MapViewer extends JPanel implements ActionListener {
     private double _lastTime = 0;
     private BufferedImage _pathLayer;
     private Grid2d _pathfinder;
+    private AILogicRunner _aiLogicRunner;
 
     public MapViewer() {
         _map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1 Test.json");
@@ -34,7 +35,7 @@ public class MapViewer extends JPanel implements ActionListener {
         _world = new MyNpcWorld(NPCs, _map);
 
         _pathfinder = new Grid2d(_map.getTileLayers().get(0), false);
-
+        _aiLogicRunner = new AILogicRunner(_map.getObjectLayers());
         new Timer(16, this).start();
     }
 
