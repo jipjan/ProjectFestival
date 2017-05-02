@@ -1,5 +1,8 @@
 package NewAI;
 
+import GUI.CurrentSetup;
+import Mapviewer.TiledMapReader.JsonClasses.TileObject;
+import NewAI.AILogic.AILogicRunner;
 import NewAI.BaseClasses.MyBody;
 import NewAI.NewPathfinding.Grid2d;
 import Sprites.Sprites;
@@ -16,7 +19,9 @@ public class MyNpc extends MyBody {
     private Grid2d.MapNode _cDestination;
     private Grid2d _pathfinder;
     private Thread _pathGen = new Thread();
-    private final boolean _debugOn = true;
+    private final boolean _debugOn = false;
+    private int _peedomiter;
+    private static int _peedomiterMax = 1000000;
 
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
@@ -24,6 +29,7 @@ public class MyNpc extends MyBody {
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         _pathfinder = pathfinder;
 
+        _peedomiter = (int) (Math.random() + _peedomiterMax);
 
         addFixture(Geometry.createCircle(Sprite.getWidth()));
         setMass(MassType.FIXED_ANGULAR_VELOCITY);
@@ -44,7 +50,17 @@ public class MyNpc extends MyBody {
 
     private MyPoint whereDoIWantToGo() {
         if (_debugOn) System.out.println("updating whereDoIWantToGo");
-        return new MyPoint((int) (Math.random()*100), (int) (Math.random()*100));
+        AILogicRunner aiLogicRunner = CurrentSetup.aiLogicRunner;
+        TileObject ObjectToGoTo = null;
+        if (_peedomiter > _peedomiterMax)
+        {
+            ObjectToGoTo = aiLogicRunner.returnRandomToilet();
+            _peedomiter = 0;
+        } else {
+            ObjectToGoTo = aiLogicRunner.returnRandomPodium();
+        }
+
+        return new MyPoint(ObjectToGoTo.getX()/32, ObjectToGoTo.getY()/32);
     }
 
     private void generatePath() {
@@ -64,7 +80,8 @@ public class MyNpc extends MyBody {
     }
 
     public void update() {
-        if (_path == null)
+        _peedomiter++;
+        if (_path == null|| _peedomiter > _peedomiterMax)//todo kijken of hier bugs ontstaan
             generatePath();
         else {
             if (_cDestination == null)

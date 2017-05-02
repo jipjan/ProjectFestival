@@ -4,6 +4,7 @@ import Events.*;
 import GUI.CurrentSetup;
 import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
+import sun.util.resources.cldr.teo.CalendarData_teo_UG;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ public class AILogicRunner{
     private ArrayList<TileObject> _toilets;
     private ArrayList<TileObject> _podia;
     private Events _events;
+    private final int tileSize = 32;
 
     public AILogicRunner(ArrayList<ObjectLayer> mapObjectLayers)
     {
@@ -55,5 +57,15 @@ public class AILogicRunner{
                 System.out.println(event.getPerformer() + " - " +  event.toString());
             }
         }
+    }
+
+    public TileObject returnRandomToilet()
+    {
+        return _toilets.get((int) (Math.random() *_toilets.size()));
+    }
+
+    public TileObject returnRandomPodium()
+    {
+        return _podia.get((int) (Math.random() *_podia.size()));
     }
 }
