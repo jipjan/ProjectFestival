@@ -26,6 +26,7 @@ public class MyNpcWorld extends World {
     private volatile MyNpcs _npcs;
     private MyBodies _myBodies = new MyBodies();
     private int _width, _height;
+    private Grid2d _pathfinder;
 
     public MyNpcWorld(int npcs, TiledMapDrawer map) {
         _width = map.getWidth() * map.getTilewidth();
@@ -35,6 +36,8 @@ public class MyNpcWorld extends World {
         Sprites.Init();
         setNpcs(npcs);
         setObjects(map);
+
+        _pathfinder = new Grid2d(map.getTileLayers().get(0), true);
     }
 
     public MyNpcs getNpcs() {
@@ -44,7 +47,7 @@ public class MyNpcWorld extends World {
     private void setNpcs(int count) {
         _npcs = new MyNpcs(count);
         for (int i = 0; i < count; i++) {
-            MyNpc npc = new MyNpc(50 + (i % 50) * 10, 250 + (i / 50) * 10);
+            MyNpc npc = new MyNpc(50 + (i % 50) * 10, 250 + (i / 50) * 10, _pathfinder);
             addBody(npc);
             _npcs.add(npc);
         }

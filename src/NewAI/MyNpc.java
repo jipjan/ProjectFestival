@@ -13,11 +13,14 @@ import java.util.Random;
 
 public class MyNpc extends MyBody {
 
-    private List<Grid2d.MapNode> _path;
+    private volatile List<Grid2d.MapNode> _path;
+    private Grid2d.MapNode _cDestination;
+    private Grid2d _pathfinder;
 
-    public MyNpc(double x, double y) {
+    public MyNpc(double x, double y, Grid2d pathfinder) {
         super(null, x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
+        _pathfinder = pathfinder;
         addFixture(Geometry.createCircle(Sprite.getWidth()));
         setMass(MassType.FIXED_ANGULAR_VELOCITY);
         setAutoSleepingEnabled(false);
@@ -35,11 +38,28 @@ public class MyNpc extends MyBody {
         setLinearVelocity(vector.multiply(25));
     }
 
-    private Grid2d.MapNode _cDestination;
+    private volatile boolean _generating;
+
+    private void generatePath() {
+        if (!_generating)
+            new Thread(() -> {
+                _generating = true;
+
+                System.out.println("Generating");
+                int xStart = (int) getWorldCenter().x / 32;
+                int yStart = (int) getWorldCenter().y / 32;
+                _pathfinder.findPath(xStart, yStart, 20, 20);
+                _path = _pathfinder.findPath(xStart, yStart, 20, 20);
+                if (_path == null)
+                    System.out.println("No path found");
+
+                _generating = false;
+            }).start();
+    }
 
     public void update() {
         if (_path == null)
-            ; // maak hier een nieuwe path
+            generatePath();
         else {
             if (_cDestination == null)
                 _cDestination = _path.get(0);
