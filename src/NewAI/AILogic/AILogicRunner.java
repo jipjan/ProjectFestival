@@ -41,7 +41,7 @@ public class AILogicRunner{
             }
             if (debugOn) {
                 System.out.print(
-                        object.getName() + " type: " + object.getType() + '\n'
+                        object.getName() + " type: " + object.getType() + " x: "+ object.getX()+ " y: "+ object.getY()+ '\n'
                 );
             }
         }
@@ -52,7 +52,7 @@ public class AILogicRunner{
             Iterator<Event> eventIterator = _events.listIterator();
             while (eventIterator.hasNext()) {
                 Event event = eventIterator.next();
-                System.out.println(event.getPerformer() + " - " +  event.getName());
+                System.out.println(event.getPerformer() + " - " +  event.toString());
             }
         }
     }

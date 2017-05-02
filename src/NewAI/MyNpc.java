@@ -16,7 +16,7 @@ public class MyNpc extends MyBody {
     private Grid2d.MapNode _cDestination;
     private Grid2d _pathfinder;
     private Thread _pathGen = new Thread();
-    private final boolean _debugOn = false;
+    private final boolean _debugOn = true;
 
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
@@ -43,7 +43,8 @@ public class MyNpc extends MyBody {
     }
 
     private MyPoint whereDoIWantToGo() {
-        return new MyPoint(22, 14);
+        if (_debugOn) System.out.println("updating whereDoIWantToGo");
+        return new MyPoint((int) (Math.random()*100), (int) (Math.random()*100));
     }
 
     private void generatePath() {

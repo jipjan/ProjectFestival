@@ -2,6 +2,9 @@ package GUI;
 
 import AI.Npc;
 import Events.*;
+import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
+import Mapviewer.TiledMapReader.MyTiledJsonParser;
+import NewAI.AILogic.AILogicRunner;
 import de.jaret.util.date.JaretDate;
 
 import java.awt.geom.Point2D;
@@ -21,6 +24,9 @@ public class CurrentSetup {
 
     public static void reset() {
         Events.clear();
-
     }
+
+    public static TiledMapDrawer map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1.json");
+
+    public static AILogicRunner aiLogicRunner = new AILogicRunner(map.getObjectLayers());
 }
