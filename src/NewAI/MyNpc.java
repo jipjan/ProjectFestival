@@ -1,15 +1,12 @@
 package NewAI;
 
-import Mapviewer.Mapviewer.MapViewer;
 import NewAI.BaseClasses.MyBody;
 import NewAI.NewPathfinding.Grid2d;
+import Sprites.Sprites;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
-import Sprites.*;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -22,7 +19,7 @@ public class MyNpc extends MyBody {
 
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
-        super(null, x, y);
+        super(x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         _pathfinder = pathfinder;
 

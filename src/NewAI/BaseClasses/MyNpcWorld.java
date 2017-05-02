@@ -54,8 +54,11 @@ public class MyNpcWorld extends World {
 
     private void setObjects(TiledMapDrawer map) {
         for (ObjectLayer l : map.getObjectLayers())
-            for (TileObject t : l.getObjects())
-                _myBodies.add(new MyBody(map.getTilesets().getTileSetByGid(t.getGid()).getTile(1), t.getX(), t.getY()));
+            for (TileObject t : l.getObjects()) {
+                if (t.getName().contains("Podium"))
+                    System.out.println("Swag");
+                _myBodies.add(new MyBody(map.getTilesets().getTileSetByGid(t.getGid()).getTile(1), t.getWidth(), t.getHeight(), t.getX(), t.getY()));
+            }
     }
 
     public void drawWorld(Graphics2D g2d, boolean debug) {
