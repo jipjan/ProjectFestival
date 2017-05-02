@@ -2,14 +2,15 @@ package UnitTests.ImportExport;
 
 import Events.*;
 import de.jaret.util.date.JaretDate;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Test;
 
 import java.util.Date;
 
 import static ImportExport.Export.*;
 import static ImportExport.Import.ImportJsonObject;
 import static ImportExport.Import.ImportObject;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ImportExportTest {
     @Test
