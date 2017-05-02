@@ -16,6 +16,7 @@ public class MyNpc extends MyBody {
     private Grid2d.MapNode _cDestination;
     private Grid2d _pathfinder;
     private Thread _pathGen = new Thread();
+    private final boolean _debugOn = false;
 
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
@@ -54,7 +55,7 @@ public class MyNpc extends MyBody {
                 int xStart = (int) getWorldCenter().x / 32;
                 int yStart = (int) getWorldCenter().y / 32;
                 _path = _pathfinder.findPath(xStart, yStart, togoto.x, togoto.y);
-                if (_path == null)
+                if (_path == null && _debugOn)
                     System.out.println("No path found");
             });
             _pathGen.start();
