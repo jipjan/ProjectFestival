@@ -32,7 +32,7 @@ public class MapViewer extends JPanel implements ActionListener {
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
 
-        _pathfinder = new Grid2d(_map.getTileLayers().get(0), false);
+        _pathfinder = new Grid2d(_map.getTileLayers().get(0), true);
         _world.testPath(_pathfinder);
 
         new Timer(16, this).start();
