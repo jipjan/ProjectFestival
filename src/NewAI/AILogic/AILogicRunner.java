@@ -11,7 +11,7 @@ import java.util.Iterator;
 /**
  * Created by jacco on 30/04/2017.
  */
-public class AILogicRunner implements EventChangeActionListener{
+public class AILogicRunner{
     private static final boolean debugOn = true;
     private ArrayList<TileObject> _toilets;
     private ArrayList<TileObject> _podia;
@@ -21,6 +21,9 @@ public class AILogicRunner implements EventChangeActionListener{
     {
         ArrayList<TileObject> objects;
         objects = mapObjectLayers.get(0).getObjects();
+
+        _toilets = new ArrayList<>();
+        _podia = new ArrayList<>();
 
         Iterator<TileObject> objectIterator = objects.listIterator();
         while (objectIterator.hasNext()) {
@@ -49,13 +52,8 @@ public class AILogicRunner implements EventChangeActionListener{
             Iterator<Event> eventIterator = _events.listIterator();
             while (eventIterator.hasNext()) {
                 Event event = eventIterator.next();
-                System.out.println(event.getPerformer() + "--" +  event.getName()+'\n');
+                System.out.println(event.getPerformer() + " - " +  event.getName());
             }
         }
-    }
-
-    @Override
-    public void eventChange(Events events) {
-        _events = events;
     }
 }
