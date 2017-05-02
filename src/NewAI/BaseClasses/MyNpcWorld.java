@@ -31,13 +31,12 @@ public class MyNpcWorld extends World {
     public MyNpcWorld(int npcs, TiledMapDrawer map) {
         _width = map.getWidth() * map.getTilewidth();
         _height = map.getHeight() * map.getTileheight();
+        _pathfinder = new Grid2d(map.getTileLayers().get(0), true);
 
         setGravity(new Vector2(0, 0));
         Sprites.Init();
         setNpcs(npcs);
         setObjects(map);
-
-        _pathfinder = new Grid2d(map.getTileLayers().get(0), true);
     }
 
     public MyNpcs getNpcs() {
@@ -69,14 +68,6 @@ public class MyNpcWorld extends World {
     public void updateNpcs() {
         for (MyNpc npc : _npcs)
             npc.update();
-    }
-
-    public void testPath(Grid2d p) {
-        for (MyNpc npc : _npcs) {
-            Vector2 center = npc.getWorldCenter();
-            List<Grid2d.MapNode> path = p.findPath((int) center.x%32, (int) center.y%32, (int) center.x%32 + 35, (int) center.y%32 + 50);
-            npc.setPath(path);
-        }
     }
 
     public int getWidth() { return _width; }

@@ -25,14 +25,11 @@ public class MapViewer extends JPanel implements ActionListener {
     private MyNpcWorld _world;
     private double _lastTime = 0;
     private BufferedImage _pathLayer;
-    private Grid2d _pathfinder;
 
     public MapViewer() {
         _map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1 Test.json");
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
-
-        _pathfinder = new Grid2d(_map.getTileLayers().get(0), true);
         new Timer(16, this).start();
     }
 
