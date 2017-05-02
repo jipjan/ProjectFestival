@@ -1,5 +1,6 @@
 package NewAI;
 
+import Mapviewer.Mapviewer.MapViewer;
 import NewAI.BaseClasses.MyBody;
 import NewAI.NewPathfinding.Grid2d;
 import org.dyn4j.geometry.Geometry;
@@ -53,7 +54,6 @@ public class MyNpc extends MyBody {
 
         if (!_pathGen.isAlive()) {
             _pathGen = new Thread(() -> {
-                System.out.println("Generating");
                 int xStart = (int) getWorldCenter().x / 32;
                 int yStart = (int) getWorldCenter().y / 32;
                 _path = _pathfinder.findPath(xStart, yStart, togoto.x, togoto.y);
@@ -74,11 +74,10 @@ public class MyNpc extends MyBody {
             if (inArea(_cDestination.getX(), _cDestination.getY())) {
                 setLinearVelocity(0, 0);
                 _path.remove(0);
-                if (_path.size() > 0) {
+                if (_path.size() > 0)
                     _cDestination = _path.get(0);
-                } else {
+                else
                     _path = null;
-                }
             }
         }
         if (_cDestination != null)
@@ -91,13 +90,6 @@ public class MyNpc extends MyBody {
         double mY = Math.round(center.y / 32);
         return mX == x && mY == y;
     }
-
-
-
-    public void setPath(List<Grid2d.MapNode> path) {
-        _path = path;
-    }
-
 
     class MyPoint {
         int x, y;
