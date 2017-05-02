@@ -4,8 +4,8 @@ import Events.*;
 import GUI.CurrentSetup;
 import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
-import sun.util.resources.cldr.teo.CalendarData_teo_UG;
 
+import java.time.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -17,7 +17,9 @@ public class AILogicRunner{
     private ArrayList<TileObject> _toilets;
     private ArrayList<TileObject> _podia;
     private Events _events;
-    private final int tileSize = 32;
+    public LocalTime _time;
+    private static int _TimeMiltiplier = 100;
+    private LocalTime _nextSecond;
 
     public AILogicRunner(ArrayList<ObjectLayer> mapObjectLayers)
     {
@@ -55,6 +57,20 @@ public class AILogicRunner{
             while (eventIterator.hasNext()) {
                 Event event = eventIterator.next();
                 System.out.println(event.getPerformer() + " - " +  event.toString());
+            }
+        }
+        _time = LocalTime.of(0,0);
+        _nextSecond = LocalTime.now();
+    }
+
+    public void updateTime()
+    {
+        if (_nextSecond.isBefore(LocalTime.now()) ) {
+            _nextSecond = LocalTime.now().plusSeconds(1);
+            _time = _time.plusSeconds(_TimeMiltiplier);
+            if (debugOn)
+            {
+                System.out.println(_time.getSecond()+ " "+ _time.getMinute());
             }
         }
     }

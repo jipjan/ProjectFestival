@@ -56,10 +56,11 @@ public class MapViewer extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         long time = System.nanoTime();
-        double elapsedTime = (time- _lastTime) / 1e9;
+        double elapsedTime = (time- _lastTime) ;
         _lastTime = time;
+        CurrentSetup.aiLogicRunner.updateTime();
         _world.updateNpcs();
-        _world.update(elapsedTime);
+        _world.update(elapsedTime/ 1e9);
         repaint();
     }
 
