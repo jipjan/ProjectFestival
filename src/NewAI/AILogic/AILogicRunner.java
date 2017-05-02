@@ -49,7 +49,7 @@ public class AILogicRunner implements EventChangeActionListener{
             Iterator<Event> eventIterator = _events.listIterator();
             while (eventIterator.hasNext()) {
                 Event event = eventIterator.next();
-                Sys
+                System.out.println(event.getPerformer() + "--" +  event.getName()+'\n');
             }
         }
     }
