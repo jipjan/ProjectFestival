@@ -116,4 +116,7 @@ public class Grid2d {
                 xGoal, yGoal));
     }
 
+    public double[][] getPathfinderGrid() {
+        return map;
+    }
 }

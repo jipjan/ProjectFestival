@@ -1,5 +1,6 @@
 package Mapviewer.Mapviewer;
 
+import Mapviewer.Mapviewer.Drawers.DebugDraw;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
@@ -42,7 +43,7 @@ public class MapViewer extends JPanel implements ActionListener {
 
     public void setPathlayerVisualization(boolean on) {
         if (on)
-            ;//_pathLayer = DebugDraw.drawPathLayer(_pathfinder.getPathfinderGrid(), _world.getWidth(), _world.getHeight());
+            _pathLayer = DebugDraw.drawPathLayer(_world.getPathfinderGrid(), _world.getWidth(), _world.getHeight());
         else
             _pathLayer = null;
     }

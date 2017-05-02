@@ -70,6 +70,10 @@ public class MyNpcWorld extends World {
             npc.update();
     }
 
+    public double[][] getPathfinderGrid() {
+        return _pathfinder.getPathfinderGrid();
+    }
+
     public int getWidth() { return _width; }
     public int getHeight() { return _height; }
 }
