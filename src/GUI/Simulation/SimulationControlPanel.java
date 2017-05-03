@@ -31,10 +31,16 @@ public class SimulationControlPanel extends ColoredJPanel {
         c.gridy = 2;
         add(chkPathlayer, c);
 
+        JCheckBox chkCollision = new JCheckBox("Collision");
+        chkCollision.addActionListener((e) -> viewer.setCollision(chkCollision.isSelected()));
+        chkCollision.setSelected(true);
+        c.gridy = 3;
+        add(chkCollision, c);
+
         c.gridwidth = 1;
 
         JButton reset = new JButton("Reset");
-        c.gridy = 3;
+        c.gridy = 4;
         add(reset, c);
 
         JButton playpause = new JButton("Play");

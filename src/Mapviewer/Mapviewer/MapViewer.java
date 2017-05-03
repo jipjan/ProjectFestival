@@ -27,14 +27,20 @@ public class MapViewer extends JPanel implements ActionListener {
     private MyNpcWorld _world;
     private double _lastTime = 0;
     private BufferedImage _pathLayer;
+    private MyCollisionListener _collision = new MyCollisionListener();
 
     public MapViewer() {
         _map = CurrentSetup.map;
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
-        _world.addListener(new MyCollisionListener());
-
         new Timer(16, this).start();
+    }
+
+    public void setCollision(boolean on) {
+        if (on)
+            _world.removeListener(_collision);
+        else
+            _world.addListener(_collision);
     }
 
     public void setHeatmap(boolean on) {
