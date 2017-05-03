@@ -88,8 +88,9 @@ public class AILogicRunner{
             {
                 LocalTime eventBeginTime = jaredDateToLocalTime(event.getTime().getBeginDate());
                 LocalTime eventEndTime = jaredDateToLocalTime(event.getTime().getEndDate());
-                if (_time.isAfter(eventBeginTime)&& _time.isBefore(eventEndTime))
+                if (_time.isAfter(eventBeginTime)&& _time.isBefore(eventEndTime)&&event.isScagueld)
                 {
+                    //DE DICK IS UNCHAGUELD !!!! HEE BARRY!
                     _currentOngoingEvents.add(event);
                     _totalEventPopulairity += event.getPopularity();
                     if (debugOn) printEvent(event);

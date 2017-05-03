@@ -14,6 +14,7 @@ public class Event extends PropertyObservableBase implements GUI.MyPanel.ITableO
     private String _name;
     private int _podium = -1;
     private Time _time;
+    public boolean isScagueld;
 
     public Event(String name, String performer, short popularity, Time time) {
         _name = name;
