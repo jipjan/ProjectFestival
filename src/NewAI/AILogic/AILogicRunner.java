@@ -22,6 +22,8 @@ public class AILogicRunner{
     private static int _TimeMiltiplier = 100;// miltiplier per second
     private LocalTime _nextSecond;
     Events _currentOngoingEvents = new Events();
+    private int _totalEventPopulairity;
+    private int _populairityCounter;
 
     public AILogicRunner(ArrayList<ObjectLayer> mapObjectLayers)
     {
@@ -58,11 +60,17 @@ public class AILogicRunner{
             Iterator<Event> eventIterator = _events.listIterator();
             while (eventIterator.hasNext()) {
                 Event event = eventIterator.next();
-                System.out.println(event.getPerformer() + " - " +  event.toString());
+                printEvent(event);
             }
         }
         _time = LocalTime.of(0,0);
         _nextSecond = LocalTime.now();
+        _totalEventPopulairity = 0;
+    }
+
+    private static void printEvent(Event event)
+    {
+        System.out.println(event.getPerformer() + " - " +  event.toString());
     }
 
     public void updateTime()
@@ -71,6 +79,8 @@ public class AILogicRunner{
             _nextSecond = LocalTime.now().plusSeconds(1);
             _time = _time.plusSeconds(_TimeMiltiplier);
 
+            _totalEventPopulairity = 0;
+            _currentOngoingEvents.clear();
             for (Event event: _events)//todo fix for when events end goes past or events Begin goes before 12 O'clock
             {
                 LocalTime eventBeginTime = jaredDateToLocalTime(event.getTime().getBeginDate());
@@ -78,13 +88,11 @@ public class AILogicRunner{
                 if (_time.isAfter(eventBeginTime)&& _time.isBefore(eventEndTime))
                 {
                     _currentOngoingEvents.add(event);
+                    _totalEventPopulairity =+ event.getPopularity();
+                    if (debugOn) printEvent(event);
                 }
             }
-
-            if (debugOn)
-            {
-                System.out.println(_time.getSecond()+ " "+ _time.getMinute());
-            }
+            if (debugOn) System.out.println("h"+ _time.getHour()+ " m"+ _time.getMinute()+ "s "+ _time.getSecond());
         }
     }
 
@@ -94,10 +102,18 @@ public class AILogicRunner{
      */
     public TileObject giveActualEventDestination()
     {
-
-        ArrayList<TileObject> viableEvents= new ArrayList<>();
-
-        return viableEvents.get(0);//todo randomize based on likelyhood percent
+        int eventPopulairityTotal = 0;
+        for (Event event: _currentOngoingEvents)
+        {
+            eventPopulairityTotal += event.getPopularity();
+            if (_populairityCounter - eventPopulairityTotal<0)
+            {
+                if (_totalEventPopulairity!= 0)_populairityCounter = (_populairityCounter++) % _totalEventPopulairity;
+                else System.out.println("weird given actualeventdestination in AILogicRunner is ergens waar ik hem niet verwacht had");
+                return _podia.get(event.getPodium()-1);
+            }
+        }
+        return null; //viableEvents.get(0);
     }
 
 

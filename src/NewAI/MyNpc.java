@@ -57,9 +57,10 @@ public class MyNpc extends MyBody {
             ObjectToGoTo = aiLogicRunner.returnRandomToilet();
             _peedomiter = 0;
         } else {
-            ObjectToGoTo = aiLogicRunner.returnRandomPodium();
+            ObjectToGoTo = aiLogicRunner.giveActualEventDestination();
         }
 
+        if (ObjectToGoTo == null) return new MyPoint((int)Math.random()*100, (int)Math.random()*100);
         return new MyPoint(ObjectToGoTo.getX()/32, ObjectToGoTo.getY()/32);
     }
 
