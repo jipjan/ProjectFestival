@@ -5,6 +5,7 @@ import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
 import Mapviewer.Mapviewer.Drawers.DebugDraw;
 import NewAI.AILogic.AILogicRunner;
+import NewAI.BaseClasses.MyCollisionListener;
 import NewAI.BaseClasses.MyNpcWorld;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ import java.awt.image.BufferedImage;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 1000;
+    private static final int NPCs = 25;
     private boolean _debug, _grid = false;
 
     private TiledMapDrawer _map;
@@ -31,6 +32,7 @@ public class MapViewer extends JPanel implements ActionListener {
         _map = CurrentSetup.map;
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
+        _world.addListener(new MyCollisionListener());
 
         new Timer(16, this).start();
     }
