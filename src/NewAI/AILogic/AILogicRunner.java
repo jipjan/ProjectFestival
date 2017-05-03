@@ -81,19 +81,16 @@ public class AILogicRunner{
 
             _totalEventPopulairity = 0;
             _currentOngoingEvents.clear();
-            Events newOngoingEvents = new Events();
             for (Event event: _events)//todo fix for when events end goes past or events Begin goes before 12 O'clock
             {
                 LocalTime eventBeginTime = jaredDateToLocalTime(event.getTime().getBeginDate());
                 LocalTime eventEndTime = jaredDateToLocalTime(event.getTime().getEndDate());
                 if (_time.isAfter(eventBeginTime)&& _time.isBefore(eventEndTime))
                 {
-                    newOngoingEvents.add(event);
-                    _totalEventPopulairity += event.getPopularity();
+                    _currentOngoingEvents.add(event);
+                    _totalEventPopulairity =+ event.getPopularity();
                     if (debugOn) printEvent(event);
                 }
-                if (! _currentOngoingEvents.equals(newOngoingEvents))
-                    _currentOngoingEvents = newOngoingEvents;
             }
             if (debugOn) System.out.println("h"+ _time.getHour()+ " m"+ _time.getMinute()+ "s "+ _time.getSecond());
         }
@@ -109,7 +106,7 @@ public class AILogicRunner{
         for (Event event: _currentOngoingEvents)
         {
             eventPopulairityTotal += event.getPopularity();
-            if (eventPopulairityTotal -_populairityCounter<0)
+            if (_populairityCounter - eventPopulairityTotal<0)
             {
                 if (_totalEventPopulairity!= 0)_populairityCounter = (_populairityCounter++) % _totalEventPopulairity;
                 else System.out.println("weird given actualeventdestination in AILogicRunner is ergens waar ik hem niet verwacht had");
