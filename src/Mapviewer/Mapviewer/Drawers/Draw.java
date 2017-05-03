@@ -122,8 +122,8 @@ public class Draw {
                     double w = r.getWidth();
                     double h = r.getHeight();
                     g2d.drawImage(b.Sprite,
-                            (int) Math.ceil((c.x - w / 2.0) * scale),
-                            (int) Math.ceil((c.y - h / 2.0) * scale),
+                            (int) Math.ceil((c.x) * scale),
+                            (int) Math.ceil((c.y - h) * scale),
                             (int) Math.ceil(w * scale),
                             (int) Math.ceil(h * scale),
                             null);

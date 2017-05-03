@@ -18,10 +18,14 @@ public class MyBody extends Body {
      * @param x X-location to place object
      * @param y Y-location to place object
      */
-    public MyBody(BufferedImage sprite, double x, double y) {
+    public MyBody(BufferedImage sprite, double width, double height, double x, double y) {
         Sprite = sprite;
-        if (sprite != null)
-            addFixture(Geometry.createRectangle(sprite.getWidth(), sprite.getHeight()));
+        addFixture(Geometry.createRectangle(width, height));
+        setMass(MassType.NORMAL);
+        translate(x, y);
+    }
+
+    public MyBody(double x, double y) {
         setMass(MassType.NORMAL);
         translate(x, y);
     }

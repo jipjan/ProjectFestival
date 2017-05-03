@@ -26,15 +26,11 @@ public class MapViewer extends JPanel implements ActionListener {
     private MyNpcWorld _world;
     private double _lastTime = 0;
     private BufferedImage _pathLayer;
-    private Grid2d _pathfinder;
 
     public MapViewer() {
-        _map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1 Test.json");
+        _map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1.json");
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
-
-        _pathfinder = new Grid2d(_map.getTileLayers().get(0), false);
-
         new Timer(16, this).start();
     }
 
@@ -47,7 +43,7 @@ public class MapViewer extends JPanel implements ActionListener {
 
     public void setPathlayerVisualization(boolean on) {
         if (on)
-            ;//_pathLayer = DebugDraw.drawPathLayer(_pathfinder.getPathfinderGrid(), _world.getWidth(), _world.getHeight());
+            _pathLayer = DebugDraw.drawPathLayer(_world.getPathfinderGrid(), _world.getWidth(), _world.getHeight());
         else
             _pathLayer = null;
     }
@@ -76,8 +72,10 @@ public class MapViewer extends JPanel implements ActionListener {
             Draw.drawGrid(this, _camera, g2d, 32);
 
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
+
         _map.drawMap(g2d);
         _world.drawWorld(g2d, _debug);
+
         g2d.drawImage(Draw.getHeapmap(), null, null);
         g2d.drawImage(_pathLayer, null, null);
     }

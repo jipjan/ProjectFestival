@@ -773,7 +773,7 @@
                  "gid":1025,
                  "height":32,
                  "id":99,
-                 "name":"",
+                 "name":"Toilet",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -1204,7 +1204,7 @@
         {
          "columns":32,
          "firstgid":1,
-         "image":"..\/Tiles\/terrain.png",
+         "image":"tiles\/terrain.png",
          "imageheight":1024,
          "imagewidth":1024,
          "margin":0,
@@ -1445,7 +1445,7 @@
         {
          "columns":1,
          "firstgid":1025,
-         "image":"..\/Tiles\/ToiletV2.png",
+         "image":"tiles\/ToiletV2.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -1458,7 +1458,7 @@
         {
          "columns":1,
          "firstgid":1026,
-         "image":"..\/Tiles\/Rood.png",
+         "image":"tiles\/Rood.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -1471,7 +1471,7 @@
         {
          "columns":1,
          "firstgid":1027,
-         "image":"..\/Tiles\/Groen.png",
+         "image":"tiles\/Groen.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -1484,7 +1484,7 @@
         {
          "columns":1,
          "firstgid":1028,
-         "image":"..\/Tiles\/Podium2.png",
+         "image":"tiles\/Podium2.png",
          "imageheight":160,
          "imagewidth":352,
          "margin":0,
@@ -1725,7 +1725,7 @@
         {
          "columns":1,
          "firstgid":1083,
-         "image":"..\/Tiles\/Podium3.png",
+         "image":"tiles\/Podium3.png",
          "imageheight":352,
          "imagewidth":160,
          "margin":0,

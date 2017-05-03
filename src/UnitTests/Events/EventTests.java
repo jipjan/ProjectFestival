@@ -4,11 +4,9 @@ package UnitTests.Events;
 import Events.Event;
 import Events.Time;
 import de.jaret.util.date.JaretDate;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.Assert.assertFalse;
 
 public class EventTests {
 
