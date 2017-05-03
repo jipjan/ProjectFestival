@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CurrentSetup {
-    public static int Podia = 3;
 
     public static Events Events = new Events(
         Arrays.asList(
@@ -29,4 +28,6 @@ public class CurrentSetup {
     public static TiledMapDrawer map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1.json");
 
     public static AILogicRunner aiLogicRunner = new AILogicRunner(map.getObjectLayers());
+
+    public static int Podia = aiLogicRunner.get_podia().size();
 }
