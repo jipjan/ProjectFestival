@@ -1,4 +1,4 @@
-package GUI.entertainerEditor;
+package GUI.EntertainerEditor;
 
 
 import Events.Time;

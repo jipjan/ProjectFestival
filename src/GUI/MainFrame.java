@@ -1,7 +1,7 @@
 package GUI;
 
 import GUI.Agenda.AgendaTabPanel;
-import GUI.entertainerEditor.*;
+import GUI.EntertainerEditor.*;
 import GUI.Simulation.SimulationTabPanel;
 import java.awt.*;
 import javax.swing.*;
