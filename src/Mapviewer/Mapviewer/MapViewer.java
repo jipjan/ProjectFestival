@@ -33,6 +33,7 @@ public class MapViewer extends JPanel implements ActionListener {
         _map = CurrentSetup.map;
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
+        CurrentSetup.world = _world;
         new Timer(16, this).start();
     }
 

@@ -4,6 +4,7 @@ import Events.*;
 import GUI.CurrentSetup;
 import Mapviewer.TiledMapReader.JsonClasses.ObjectLayer;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
+import NewAI.MyNpc;
 import de.jaret.util.date.JaretDate;
 
 import java.time.*;
@@ -23,7 +24,6 @@ public class AILogicRunner{
     private LocalTime _nextSecond;
     Events _currentOngoingEvents = new Events();
     private int _totalEventPopulairity;
-    private int _populairityCounter;
 
     public AILogicRunner(ArrayList<ObjectLayer> mapObjectLayers)
     {
@@ -79,6 +79,9 @@ public class AILogicRunner{
             _nextSecond = LocalTime.now().plusSeconds(1);
             _time = _time.plusSeconds(_TimeMiltiplier);
 
+            for (MyNpc myNpc: CurrentSetup.world.getNpcs())
+                myNpc.AddPee();
+
             _totalEventPopulairity = 0;
             _currentOngoingEvents.clear();
             for (Event event: _events)//todo fix for when events end goes past or events Begin goes before 12 O'clock
@@ -88,7 +91,7 @@ public class AILogicRunner{
                 if (_time.isAfter(eventBeginTime)&& _time.isBefore(eventEndTime))
                 {
                     _currentOngoingEvents.add(event);
-                    _totalEventPopulairity =+ event.getPopularity();
+                    _totalEventPopulairity += event.getPopularity();
                     if (debugOn) printEvent(event);
                 }
             }
@@ -102,18 +105,20 @@ public class AILogicRunner{
      */
     public TileObject giveActualEventDestination()
     {
-        int eventPopulairityTotal = 0;
+        int randomEventPop = (int) (Math.random()*_totalEventPopulairity);
+        int eventTotalChecked = 0;
         for (Event event: _currentOngoingEvents)
         {
-            eventPopulairityTotal += event.getPopularity();
-            if (_populairityCounter - eventPopulairityTotal<0)
-            {
-                if (_totalEventPopulairity!= 0)_populairityCounter = (_populairityCounter++) % _totalEventPopulairity;
-                else System.out.println("weird given actualeventdestination in AILogicRunner is ergens waar ik hem niet verwacht had");
+            if (event.getPodium()<1) {
+                System.out.println("asjemenou!!!!");
+                continue;
+            }
+            if (randomEventPop>=eventTotalChecked&&randomEventPop<eventTotalChecked+event.getPopularity()) {
                 return _podia.get(event.getPodium()-1);
             }
+            eventTotalChecked+= event.getPopularity();
         }
-        return null; //viableEvents.get(0);
+        return null;
     }
 
 

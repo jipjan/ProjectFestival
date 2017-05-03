@@ -21,7 +21,7 @@ public class MyNpc extends MyBody {
     private Thread _pathGen = new Thread();
     private final boolean _debugOn = false;
     private int _peedomiter;//pee meter peeDomiter aka how much does the npc want to pee
-    private static int _peedomiterMax = 1000000;
+    private static int _peedomiterMax = CurrentSetup.maxPee;
 
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
@@ -60,12 +60,14 @@ public class MyNpc extends MyBody {
             ObjectToGoTo = aiLogicRunner.giveActualEventDestination();
         }
 
-        if (ObjectToGoTo == null) return new MyPoint((int)Math.random()*100, (int)Math.random()*100);
+        if (ObjectToGoTo == null) return null;
         return new MyPoint(ObjectToGoTo.getX()/32, ObjectToGoTo.getY()/32);
     }
 
     private void generatePath() {
         MyPoint togoto = whereDoIWantToGo();
+        if (togoto == null)
+            return;
         if (inArea(togoto.x, togoto.y)) return;
 
         if (!_pathGen.isAlive()) {
@@ -80,8 +82,12 @@ public class MyNpc extends MyBody {
         }
     }
 
-    public void update() {
+    public void AddPee()
+    {
         _peedomiter++;
+    }
+
+    public void update() {
         if (_path == null|| _peedomiter > _peedomiterMax)//todo kijken of hier bugs ontstaan
             generatePath();
         else {

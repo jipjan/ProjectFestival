@@ -5,6 +5,7 @@ import Events.*;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.TiledMapReader.MyTiledJsonParser;
 import NewAI.AILogic.AILogicRunner;
+import NewAI.BaseClasses.MyNpcWorld;
 import de.jaret.util.date.JaretDate;
 
 import java.awt.geom.Point2D;
@@ -35,5 +36,9 @@ public class CurrentSetup {
 
     public static int Podia = aiLogicRunner.get_podia().size();
 
-    public static int npcCount = 25;
+    public static int npcCount = 300;
+
+    public static int maxPee = 100;
+
+    public static MyNpcWorld world;
 }
