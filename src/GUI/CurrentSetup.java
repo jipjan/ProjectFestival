@@ -30,4 +30,6 @@ public class CurrentSetup {
     public static AILogicRunner aiLogicRunner = new AILogicRunner(map.getObjectLayers());
 
     public static int Podia = aiLogicRunner.get_podia().size();
+
+    public static int npcCount = 25;
 }
