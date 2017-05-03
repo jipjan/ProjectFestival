@@ -20,7 +20,7 @@ public class MyNpc extends MyBody {
     private Grid2d _pathfinder;
     private Thread _pathGen = new Thread();
     private final boolean _debugOn = false;
-    private int _peedomiter;
+    private int _peedomiter;//pee meter peeDomiter aka how much does the npc want to pee
     private static int _peedomiterMax = 1000000;
 
 
@@ -51,7 +51,7 @@ public class MyNpc extends MyBody {
     private MyPoint whereDoIWantToGo() {
         if (_debugOn) System.out.println("updating whereDoIWantToGo");
         AILogicRunner aiLogicRunner = CurrentSetup.aiLogicRunner;
-        TileObject ObjectToGoTo = null;
+        TileObject ObjectToGoTo;
         if (_peedomiter > _peedomiterMax)
         {
             ObjectToGoTo = aiLogicRunner.returnRandomToilet();
