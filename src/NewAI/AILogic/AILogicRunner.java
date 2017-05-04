@@ -82,6 +82,7 @@ public class AILogicRunner{
             for (MyNpc myNpc: CurrentSetup.world.getNpcs())
                 myNpc.AddPee();
 
+            int oldOngoingEventsSize = _currentOngoingEvents.size();
             _totalEventPopulairity = 0;
             _currentOngoingEvents.clear();
             for (Event event: _events)//todo fix for when events end goes past or events Begin goes before 12 O'clock
@@ -96,6 +97,12 @@ public class AILogicRunner{
                     if (debugOn) printEvent(event);
                 }
             }
+            if (oldOngoingEventsSize != _currentOngoingEvents.size()){
+                for (MyNpc myNpc: CurrentSetup.world.getNpcs()) {
+                    myNpc.reconciderEvents = true;
+                }
+                if (debugOn) System.out.println("event scaguel changed");
+            }
             if (debugOn) System.out.println("h"+ _time.getHour()+ " m"+ _time.getMinute()+ "s "+ _time.getSecond());
         }
     }
@@ -104,7 +111,7 @@ public class AILogicRunner{
     /**
      * @return a tile object with a current event going on. if there is no event atm than returns null
      */
-    public TileObject giveActualEventDestination()
+    public Event giveActualEventDestination()
     {
         int randomEventPop = (int) (Math.random()*_totalEventPopulairity);
         int eventTotalChecked = 0;
@@ -115,7 +122,7 @@ public class AILogicRunner{
                 continue;
             }
             if (randomEventPop>=eventTotalChecked&&randomEventPop<eventTotalChecked+event.getPopularity()) {
-                return _podia.get(event.getPodium()-1);
+                return event;
             }
             eventTotalChecked+= event.getPopularity();
         }

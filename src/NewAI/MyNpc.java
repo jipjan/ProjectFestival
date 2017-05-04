@@ -1,5 +1,6 @@
 package NewAI;
 
+import Events.Event;
 import GUI.CurrentSetup;
 import Mapviewer.TiledMapReader.JsonClasses.TileObject;
 import NewAI.AILogic.AILogicRunner;
@@ -10,6 +11,7 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 
@@ -23,14 +25,19 @@ public class MyNpc extends MyBody {
     private int _peedomiter;//pee meter peeDomiter aka how much does the npc want to pee
     private static int _peedomiterMax = CurrentSetup.maxPee;
     private Random rand = new Random();
-
+    private LocalTime _timeStayingAtEvent;
+    private TileObject _objectToGoTo;
+    public boolean reconciderEvents;
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
         super(x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         _pathfinder = pathfinder;
 
-        _peedomiter = (int) (Math.random() + _peedomiterMax);
+        reconciderEvents = false;
+        _timeStayingAtEvent = LocalTime.of(0,0,0);
+
+        _peedomiter = (int) (Math.random() * _peedomiterMax);
 
         addFixture(Geometry.createCircle(Sprite.getWidth()));
         setMass(MassType.FIXED_ANGULAR_VELOCITY);
@@ -52,17 +59,24 @@ public class MyNpc extends MyBody {
     private MyPoint whereDoIWantToGo() {
         if (_debugOn) System.out.println("updating whereDoIWantToGo");
         AILogicRunner aiLogicRunner = CurrentSetup.aiLogicRunner;
-        TileObject ObjectToGoTo;
         if (_peedomiter > _peedomiterMax)
         {
-            ObjectToGoTo = aiLogicRunner.returnRandomToilet();
+            _objectToGoTo = aiLogicRunner.returnRandomToilet();
             _peedomiter = 0;
         } else {
-            ObjectToGoTo = aiLogicRunner.giveActualEventDestination();
+            boolean switchToNewEventChance = CurrentSetup.eventSwitchChance > Math.random();
+            if (CurrentSetup.aiLogicRunner._time.isAfter(_timeStayingAtEvent)||switchToNewEventChance||reconciderEvents) {
+                reconciderEvents = false;
+                Event eventToGoTo = aiLogicRunner.giveActualEventDestination();
+                if (eventToGoTo!=null){
+                    _timeStayingAtEvent = CurrentSetup.aiLogicRunner.jaredDateToLocalTime( eventToGoTo.getTime().getEndDate());
+                    _objectToGoTo = CurrentSetup.aiLogicRunner.get_podia().get(eventToGoTo.getPodium() - 1);
+                }
+            }
         }
 
-        if (ObjectToGoTo == null) return null;
-        return new MyPoint((ObjectToGoTo.getX() + rand.nextInt(ObjectToGoTo.getWidth()))/32, (ObjectToGoTo.getY() - rand.nextInt(ObjectToGoTo.getHeight()))/32);
+        if (_objectToGoTo == null) return null;
+        return new MyPoint((_objectToGoTo.getX() + rand.nextInt(_objectToGoTo.getWidth()))/32, (_objectToGoTo.getY() - rand.nextInt(_objectToGoTo.getHeight()))/32);
     }
 
     private void generatePath() {
