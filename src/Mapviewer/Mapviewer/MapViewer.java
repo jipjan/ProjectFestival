@@ -12,8 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Thijs on 20-2-2017.
@@ -82,6 +84,10 @@ public class MapViewer extends JPanel implements ActionListener {
         if (_grid)
             Draw.drawGrid(this, _camera, g2d, 32);
 
+
+
+        AffineTransform old = g2d.getTransform();
+
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
 
         _map.drawMap(g2d);
@@ -89,5 +95,8 @@ public class MapViewer extends JPanel implements ActionListener {
 
         g2d.drawImage(Draw.getHeapmap(), null, null);
         g2d.drawImage(_pathLayer, null, null);
+
+        g2d.setTransform(old);
+        g2d.drawString(CurrentSetup.aiLogicRunner._time.toString(), 50, 50);
     }
 }
