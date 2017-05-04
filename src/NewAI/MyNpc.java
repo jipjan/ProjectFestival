@@ -27,12 +27,14 @@ public class MyNpc extends MyBody {
     private Random rand = new Random();
     private LocalTime _timeStayingAtEvent;
     private TileObject _objectToGoTo;
+    public boolean reconciderEvents;
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
         super(x, y);
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         _pathfinder = pathfinder;
 
+        reconciderEvents = false;
         _timeStayingAtEvent = LocalTime.of(0,0,0);
 
         _peedomiter = (int) (Math.random() * _peedomiterMax);
@@ -63,7 +65,8 @@ public class MyNpc extends MyBody {
             _peedomiter = 0;
         } else {
             boolean switchToNewEventChance = CurrentSetup.eventSwitchChance > Math.random();
-            if (CurrentSetup.aiLogicRunner._time.isAfter(_timeStayingAtEvent)||switchToNewEventChance) {
+            if (CurrentSetup.aiLogicRunner._time.isAfter(_timeStayingAtEvent)||switchToNewEventChance||reconciderEvents) {
+                reconciderEvents = false;
                 Event eventToGoTo = aiLogicRunner.giveActualEventDestination();
                 if (eventToGoTo!=null){
                     _timeStayingAtEvent = CurrentSetup.aiLogicRunner.jaredDateToLocalTime( eventToGoTo.getTime().getEndDate());

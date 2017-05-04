@@ -82,6 +82,7 @@ public class AILogicRunner{
             for (MyNpc myNpc: CurrentSetup.world.getNpcs())
                 myNpc.AddPee();
 
+            int oldOngoingEventsSize = _currentOngoingEvents.size();
             _totalEventPopulairity = 0;
             _currentOngoingEvents.clear();
             for (Event event: _events)//todo fix for when events end goes past or events Begin goes before 12 O'clock
@@ -95,6 +96,12 @@ public class AILogicRunner{
                     _totalEventPopulairity += event.getPopularity();
                     if (debugOn) printEvent(event);
                 }
+            }
+            if (oldOngoingEventsSize != _currentOngoingEvents.size()){
+                for (MyNpc myNpc: CurrentSetup.world.getNpcs()) {
+                    myNpc.reconciderEvents = true;
+                }
+                if (debugOn) System.out.println("event scaguel changed");
             }
             if (debugOn) System.out.println("h"+ _time.getHour()+ " m"+ _time.getMinute()+ "s "+ _time.getSecond());
         }
