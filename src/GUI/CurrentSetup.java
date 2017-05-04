@@ -38,7 +38,7 @@ public class CurrentSetup {
 
     public static int npcCount = 300;
 
-    public static int maxPee = 100;
+    public static int maxPee = 500;
 
     public static MyNpcWorld world;
 

@@ -35,7 +35,7 @@ public class MyNpc extends MyBody {
 
         _timeStayingAtEvent = LocalTime.of(0,0,0);
 
-        _peedomiter = (int) (Math.random() + _peedomiterMax);
+        _peedomiter = (int) (Math.random() * _peedomiterMax);
 
         addFixture(Geometry.createCircle(Sprite.getWidth()));
         setMass(MassType.FIXED_ANGULAR_VELOCITY);
