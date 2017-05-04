@@ -17,6 +17,11 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     private double maxZoom;
     private double minZoom;
 
+    public Camera(JPanel panel)
+    {
+        this(panel, 1.0D, new Point2D.Double(0.0D, 0.0D));
+    }
+
     public Camera(JPanel panel, double zoom, Point2D centerPoint)
     {
         this.panel = panel;
@@ -72,6 +77,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     public void mouseWheelMoved(MouseWheelEvent e)
     {
         double z = zoom * (1.0F - e.getWheelRotation() / 25.0F);
+        System.out.println(z);
         if (z <= minZoom && z >= maxZoom) {
             zoom = z;
             repaint();

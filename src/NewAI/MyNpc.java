@@ -1,5 +1,8 @@
 package NewAI;
 
+import GUI.CurrentSetup;
+import Mapviewer.TiledMapReader.JsonClasses.TileObject;
+import NewAI.AILogic.AILogicRunner;
 import NewAI.BaseClasses.MyBody;
 import NewAI.NewPathfinding.Grid2d;
 import Sprites.Sprites;
@@ -16,6 +19,9 @@ public class MyNpc extends MyBody {
     private Grid2d.MapNode _cDestination;
     private Grid2d _pathfinder;
     private Thread _pathGen = new Thread();
+    private final boolean _debugOn = false;
+    private int _peedomiter;//pee meter peeDomiter aka how much does the npc want to pee
+    private static int _peedomiterMax = CurrentSetup.maxPee;
 
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
@@ -23,6 +29,7 @@ public class MyNpc extends MyBody {
         Sprite = Sprites.Bezoekers[new Random().nextInt(Sprites.Bezoekers.length)];
         _pathfinder = pathfinder;
 
+        _peedomiter = (int) (Math.random() + _peedomiterMax);
 
         addFixture(Geometry.createCircle(Sprite.getWidth()));
         setMass(MassType.FIXED_ANGULAR_VELOCITY);
@@ -42,11 +49,25 @@ public class MyNpc extends MyBody {
     }
 
     private MyPoint whereDoIWantToGo() {
-        return new MyPoint(22, 14);
+        if (_debugOn) System.out.println("updating whereDoIWantToGo");
+        AILogicRunner aiLogicRunner = CurrentSetup.aiLogicRunner;
+        TileObject ObjectToGoTo;
+        if (_peedomiter > _peedomiterMax)
+        {
+            ObjectToGoTo = aiLogicRunner.returnRandomToilet();
+            _peedomiter = 0;
+        } else {
+            ObjectToGoTo = aiLogicRunner.giveActualEventDestination();
+        }
+
+        if (ObjectToGoTo == null) return null;
+        return new MyPoint(ObjectToGoTo.getX()/32, ObjectToGoTo.getY()/32);
     }
 
     private void generatePath() {
         MyPoint togoto = whereDoIWantToGo();
+        if (togoto == null)
+            return;
         if (inArea(togoto.x, togoto.y)) return;
 
         if (!_pathGen.isAlive()) {
@@ -54,15 +75,20 @@ public class MyNpc extends MyBody {
                 int xStart = (int) getWorldCenter().x / 32;
                 int yStart = (int) getWorldCenter().y / 32;
                 _path = _pathfinder.findPath(xStart, yStart, togoto.x, togoto.y);
-                if (_path == null)
+                if (_path == null && _debugOn)
                     System.out.println("No path found");
             });
             _pathGen.start();
         }
     }
 
+    public void AddPee()
+    {
+        _peedomiter++;
+    }
+
     public void update() {
-        if (_path == null)
+        if (_path == null|| _peedomiter > _peedomiterMax)//todo kijken of hier bugs ontstaan
             generatePath();
         else {
             if (_cDestination == null)

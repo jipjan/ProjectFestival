@@ -1,11 +1,12 @@
 package Mapviewer.Mapviewer;
 
-import Mapviewer.Mapviewer.Drawers.DebugDraw;
-import Mapviewer.TiledMapReader.MyTiledJsonParser;
+import GUI.CurrentSetup;
 import Mapviewer.Mapviewer.Drawers.TiledMapDrawer;
 import Mapviewer.Mapviewer.Drawers.Draw;
+import Mapviewer.Mapviewer.Drawers.DebugDraw;
+import NewAI.AILogic.AILogicRunner;
+import NewAI.BaseClasses.MyCollisionListener;
 import NewAI.BaseClasses.MyNpcWorld;
-import NewAI.NewPathfinding.Grid2d;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ import java.awt.image.BufferedImage;
  * Created by Thijs on 20-2-2017.
  */
 public class MapViewer extends JPanel implements ActionListener {
-    private static final int NPCs = 1000;
+    private static final int NPCs = CurrentSetup.npcCount;
     private boolean _debug, _grid = false;
 
     private TiledMapDrawer _map;
@@ -26,12 +27,21 @@ public class MapViewer extends JPanel implements ActionListener {
     private MyNpcWorld _world;
     private double _lastTime = 0;
     private BufferedImage _pathLayer;
+    private MyCollisionListener _collision = new MyCollisionListener();
 
     public MapViewer() {
-        _map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1.json");
+        _map = CurrentSetup.map;
         _camera = new Camera(this, 1.0d, new Point2D.Double(_map.getWidth() / 2, _map.getHeight() / 2));
         _world = new MyNpcWorld(NPCs, _map);
+        CurrentSetup.world = _world;
         new Timer(16, this).start();
+    }
+
+    public void setCollision(boolean on) {
+        if (on)
+            _world.removeListener(_collision);
+        else
+            _world.addListener(_collision);
     }
 
     public void setHeatmap(boolean on) {
@@ -55,10 +65,11 @@ public class MapViewer extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         long time = System.nanoTime();
-        double elapsedTime = (time- _lastTime) / 1e9;
+        double elapsedTime = (time- _lastTime) ;
         _lastTime = time;
+        CurrentSetup.aiLogicRunner.updateTime();
         _world.updateNpcs();
-        _world.update(elapsedTime);
+        _world.update(elapsedTime/ 1e9);
         repaint();
     }
 

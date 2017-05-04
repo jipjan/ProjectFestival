@@ -162,8 +162,11 @@ public class SchedulingPanel extends ColoredJPanel {
         List<Interval> intervals = new ArrayList<Interval>(_tbv.getSelectionModel().getSelectedIntervals());
         for (Interval interval : intervals) {
             TimeBarRow row = _model.getRowForInterval(interval);
+            Event dick = (Event) interval;//sorry its late
+            dick.isScagueld = false;
             ((MyTimeBarRowModel)row).remInterval(interval);
         }
+
     }
     private void clearRow(TimeBarRow row) {
         List<Interval> intervals = new ArrayList<Interval>(row.getIntervals());
@@ -196,6 +199,7 @@ public class SchedulingPanel extends ColoredJPanel {
                         TimeBarRow overRow = tbv.getRowForXY(evt.getLocation().x, evt.getLocation().y);
                         if (overRow != null) {
                             for (Event Event : _draggedEvents) {
+                                Event.isScagueld = true;
                                 Event.setPodium(_model.getIndexForRow(overRow) + 1);
                                 ((MyTimeBarRowModel) overRow).addInterval(Event);
                             }

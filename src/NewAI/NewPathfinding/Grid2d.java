@@ -102,7 +102,7 @@ public class Grid2d {
 
     }
 
-    public Grid2d(TileLayer map, boolean allowDiagonal) {
+    public Grid2d(TileLayer map, boolean allowDiagonal) {//todo fix allow diagnal becouse its not listening AI goes only diagnal when true and toes both when falls
         this.map = new double[100][100];
         for (int x = 0; x < 100; x++)
             for (int y = 0; y < 100; y++)
