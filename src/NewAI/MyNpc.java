@@ -62,10 +62,13 @@ public class MyNpc extends MyBody {
             _objectToGoTo = aiLogicRunner.returnRandomToilet();
             _peedomiter = 0;
         } else {
-            if (CurrentSetup.aiLogicRunner._time.isAfter(_timeStayingAtEvent)) {
+            boolean switchToNewEventChance = CurrentSetup.eventSwitchChance > Math.random();
+            if (CurrentSetup.aiLogicRunner._time.isAfter(_timeStayingAtEvent)||switchToNewEventChance) {
                 Event eventToGoTo = aiLogicRunner.giveActualEventDestination();
-                _timeStayingAtEvent = CurrentSetup.aiLogicRunner.jaredDateToLocalTime( eventToGoTo.getEnd());
-                _objectToGoTo = CurrentSetup.aiLogicRunner.get_podia().get(eventToGoTo.getPodium() - 1);
+                if (eventToGoTo!=null){
+                    _timeStayingAtEvent = CurrentSetup.aiLogicRunner.jaredDateToLocalTime( eventToGoTo.getTime().getEndDate());
+                    _objectToGoTo = CurrentSetup.aiLogicRunner.get_podia().get(eventToGoTo.getPodium() - 1);
+                }
             }
         }
 

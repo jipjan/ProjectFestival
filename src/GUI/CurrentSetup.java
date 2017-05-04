@@ -41,4 +41,6 @@ public class CurrentSetup {
     public static int maxPee = 100;
 
     public static MyNpcWorld world;
+
+    public static double eventSwitchChance = 0.03;
 }
