@@ -22,6 +22,7 @@ public class MyNpc extends MyBody {
     private final boolean _debugOn = false;
     private int _peedomiter;//pee meter peeDomiter aka how much does the npc want to pee
     private static int _peedomiterMax = CurrentSetup.maxPee;
+    private Random rand = new Random();
 
 
     public MyNpc(double x, double y, Grid2d pathfinder) {
@@ -61,7 +62,7 @@ public class MyNpc extends MyBody {
         }
 
         if (ObjectToGoTo == null) return null;
-        return new MyPoint(ObjectToGoTo.getX()/32, ObjectToGoTo.getY()/32);
+        return new MyPoint((ObjectToGoTo.getX() + rand.nextInt(ObjectToGoTo.getWidth()))/32, (ObjectToGoTo.getY() - rand.nextInt(ObjectToGoTo.getHeight()))/32);
     }
 
     private void generatePath() {

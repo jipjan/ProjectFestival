@@ -12,8 +12,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Thijs on 20-2-2017.
@@ -21,6 +23,7 @@ import java.awt.image.BufferedImage;
 public class MapViewer extends JPanel implements ActionListener {
     private static final int NPCs = CurrentSetup.npcCount;
     private boolean _debug, _grid = false;
+    private boolean _running = false;
 
     private TiledMapDrawer _map;
     private Camera _camera;
@@ -61,9 +64,11 @@ public class MapViewer extends JPanel implements ActionListener {
     public void setDebug(boolean on) {
         _debug = on;
     }
+    public void setRunning(boolean on) { _running = on;  }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!_running) return;
         long time = System.nanoTime();
         double elapsedTime = (time- _lastTime) ;
         _lastTime = time;
@@ -82,6 +87,10 @@ public class MapViewer extends JPanel implements ActionListener {
         if (_grid)
             Draw.drawGrid(this, _camera, g2d, 32);
 
+
+
+        AffineTransform old = g2d.getTransform();
+
         g2d.setTransform(_camera.getTransform(getWidth(), getHeight()));
 
         _map.drawMap(g2d);
@@ -89,5 +98,10 @@ public class MapViewer extends JPanel implements ActionListener {
 
         g2d.drawImage(Draw.getHeapmap(), null, null);
         g2d.drawImage(_pathLayer, null, null);
+
+        g2d.setTransform(old);
+        g2d.setFont(g2d.getFont().deriveFont(32f));
+        g2d.setColor(Color.red);
+        g2d.drawString(CurrentSetup.aiLogicRunner._time.toString(), 50, 50);
     }
 }

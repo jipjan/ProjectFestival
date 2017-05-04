@@ -30,7 +30,7 @@ public class CurrentSetup {
         Events.clear();
     }
 
-    public static TiledMapDrawer map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V1.json");
+    public static TiledMapDrawer map = MyTiledJsonParser.jsonToTileMap("./resources/Festivalplanner Map V2.json");
 
     public static AILogicRunner aiLogicRunner = new AILogicRunner(map.getObjectLayers());
 
