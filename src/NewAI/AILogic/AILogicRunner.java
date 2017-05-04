@@ -104,7 +104,7 @@ public class AILogicRunner{
     /**
      * @return a tile object with a current event going on. if there is no event atm than returns null
      */
-    public TileObject giveActualEventDestination()
+    public Event giveActualEventDestination()
     {
         int randomEventPop = (int) (Math.random()*_totalEventPopulairity);
         int eventTotalChecked = 0;
@@ -115,7 +115,7 @@ public class AILogicRunner{
                 continue;
             }
             if (randomEventPop>=eventTotalChecked&&randomEventPop<eventTotalChecked+event.getPopularity()) {
-                return _podia.get(event.getPodium()-1);
+                return event;
             }
             eventTotalChecked+= event.getPopularity();
         }
