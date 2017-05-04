@@ -44,6 +44,15 @@ public class SimulationControlPanel extends ColoredJPanel {
         add(reset, c);
 
         JButton playpause = new JButton("Play");
+        playpause.addActionListener((e) -> {
+            if (playpause.getText() == "Play") {
+                viewer.setRunning(true);
+                playpause.setText("Pause");
+            } else {
+                viewer.setRunning(false);
+                playpause.setText("Play");
+            }
+        });
         c.gridx = 1;
         add(playpause, c);
 

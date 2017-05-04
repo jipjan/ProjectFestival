@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 public class MapViewer extends JPanel implements ActionListener {
     private static final int NPCs = CurrentSetup.npcCount;
     private boolean _debug, _grid = false;
+    private boolean _running = false;
 
     private TiledMapDrawer _map;
     private Camera _camera;
@@ -63,9 +64,11 @@ public class MapViewer extends JPanel implements ActionListener {
     public void setDebug(boolean on) {
         _debug = on;
     }
+    public void setRunning(boolean on) { _running = on;  }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!_running) return;
         long time = System.nanoTime();
         double elapsedTime = (time- _lastTime) ;
         _lastTime = time;
