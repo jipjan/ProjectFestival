@@ -100,6 +100,8 @@ public class MapViewer extends JPanel implements ActionListener {
         g2d.drawImage(_pathLayer, null, null);
 
         g2d.setTransform(old);
+        g2d.setFont(g2d.getFont().deriveFont(32f));
+        g2d.setColor(Color.red);
         g2d.drawString(CurrentSetup.aiLogicRunner._time.toString(), 50, 50);
     }
 }
